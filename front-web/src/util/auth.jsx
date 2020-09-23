@@ -1,15 +1,18 @@
 import React from 'react'
-import { verifyAuthenticatedUser, decryptPayloadJwtAndReturnObject, getInLocalStorage } from './functions'
+import { 
+    verifyAuthenticatedUser as verify, 
+    decryptPayloadJwtAndReturnObject as decrypt, 
+    getInLocalStorage } 
+from './functions'
 import { KEY_USER_JWT } from './constants'
 import { Route, Redirect } from 'react-router-dom'
 
-export default function RoutePermission(key, role){
+export default function RoutePermission(key, role, component){
 
-    const authenticatedUser = verifyAuthenticatedUser()
-    const roleJwt = decryptPayloadJwtAndReturnObject(getInLocalStorage(KEY_USER_JWT)).Role
+    const authenticatedUser = verify()
+    const roleJwt = decrypt(getInLocalStorage(KEY_USER_JWT)).Role
 
     const permission = ({ component: Component }) => {
-
         return (
             <Route 
                 key={key}
@@ -22,5 +25,5 @@ export default function RoutePermission(key, role){
         )
     }
 
-    return permission
+    return permission(component)
 }

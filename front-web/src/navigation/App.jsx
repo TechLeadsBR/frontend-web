@@ -18,7 +18,7 @@ function App() {
             <Switch>
                 <Route exact path={home.path} component={home.component} />
                 {/* {Pages.map((page, index) => <Route key={index} path={page.path} component={page.component} />)} */}
-                {Pages.map((page, index) => RoutePermission(index, page.role))}
+                {Pages.map((page, index) => RoutePermission(index, page.role, page.component))}
                 <Route component={notfound.component} />
             </Switch>
         </Router>
