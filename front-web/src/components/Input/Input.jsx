@@ -1,8 +1,7 @@
 import React from 'react'
 import './Input.css'
 
-export default function Input(props){
-    const { placeHolder, alt, type, onClick, onChange, labelText } = props
+export default function Input({ placeHolder, alt, type, onClick, onChange, labelText}){
 
     return (
         <div className={"root"}>

@@ -10,15 +10,14 @@ import {
     NotFoundPage as notfound, 
     Pages
 } from './Pages'
-import RoutePermission from './../util/auth'
+import RoutePermission from '../components/RoutePermission/RoutePermission'
 
 function App() {
     return (
         <Router>
             <Switch>
                 <Route exact path={home.path} component={home.component} />
-                {/* {Pages.map((page, index) => <Route key={index} path={page.path} component={page.component} />)} */}
-                {Pages.map((page, index) => RoutePermission(index, page.role, page.component))}
+                {Pages.map((page, index) => <RoutePermission path={page.path} key={index} component={page.component} role={page.role} />)}
                 <Route component={notfound.component} />
             </Switch>
         </Router>
