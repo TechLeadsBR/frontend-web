@@ -8,15 +8,17 @@ import {
 import { 
     HomePage as home, 
     NotFoundPage as notfound, 
-    Pages 
+    Pages
 } from './Pages'
+import RoutePermission from './../util/auth'
 
 function App() {
     return (
         <Router>
             <Switch>
                 <Route exact path={home.path} component={home.component} />
-                {Pages.map((page, index) => <Route key={index} path={page.path} component={page.component} />)}
+                {/* {Pages.map((page, index) => <Route key={index} path={page.path} component={page.component} />)} */}
+                {Pages.map((page, index) => RoutePermission(index, page.role))}
                 <Route component={notfound.component} />
             </Switch>
         </Router>

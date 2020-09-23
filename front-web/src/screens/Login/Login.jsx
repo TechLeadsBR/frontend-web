@@ -1,5 +1,5 @@
 import React from 'react'
-import InputAndLabel from '../../components/Input/InputAndLabel'
+import InputAndLabel from '../../components/Input/Input'
 
 export default function Login(){
     return (

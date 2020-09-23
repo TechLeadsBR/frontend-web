@@ -1,5 +1,13 @@
 import React from 'react'
+import './Input.css'
 
 export default function Input(props){
-    return <input placeholder={props.placeHolder}  alt={props.alt} type={props.type} onClick={props.onClick} onChange={props.onChange} />
+    const { placeHolder, alt, type, onClick, onChange, labelText } = props
+
+    return (
+        <div className={"root"}>
+            <label>{labelText}</label>
+            <input placeholder={placeHolder} alt={alt} type={type} onClick={onClick} onChange={onChange} />
+        </div>
+    )
 }

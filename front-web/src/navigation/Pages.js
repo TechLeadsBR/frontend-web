@@ -6,7 +6,8 @@ const Pages = [
     {
         name: "Login",
         path: "/login",
-        component: Login
+        component: Login,
+        role: 0
     }
 ]
 

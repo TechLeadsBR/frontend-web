@@ -1,3 +1,6 @@
+import { Route, Redirect } from 'react-router-dom'
+import { KEY_USER_JWT } from './constants'
+
 // função para salvar no localStorage
 export const saveInLocalStorage = (key, value) => localStorage.setItem(key, value)
 
@@ -9,3 +12,6 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
     const decryptedToken = atob(payload)
     return JSON.parse(decryptedToken)
 }
+
+export const verifyAuthenticatedUser = () => localStorage.getItem(KEY_USER_JWT) !== null
+
