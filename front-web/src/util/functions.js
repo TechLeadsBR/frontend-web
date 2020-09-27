@@ -7,7 +7,6 @@ export const saveInLocalStorage = (key, value) => localStorage.setItem(key, valu
 export const getInLocalStorage = (key) => localStorage.getItem(key)
 
 export const decryptPayloadJwtAndReturnObject = (token) => {
-    if(!token) return false
     const payload = String(token.split('base64,')).split('.')[1]
     const decryptedToken = atob(payload)
     return JSON.parse(decryptedToken)
