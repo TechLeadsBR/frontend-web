@@ -12,7 +12,6 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
         const decryptedToken = atob(payload)
         return JSON.parse(decryptedToken)
     } catch (error) {
-        removeInLocalStorage(KEY_USER_JWT)
         return false
     }
 }

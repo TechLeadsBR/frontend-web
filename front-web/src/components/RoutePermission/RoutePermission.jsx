@@ -2,7 +2,9 @@ import React from 'react'
 import { 
     verifyAuthenticatedUser as verify, 
     decryptPayloadJwtAndReturnObject as decrypt, 
-    getInLocalStorage } 
+    getInLocalStorage,
+    removeInLocalStorage
+} 
 from '../../util/functions'
 import { KEY_USER_JWT } from '../../util/constants'
 import { Route, Redirect } from 'react-router-dom'
@@ -10,7 +12,8 @@ import { Route, Redirect } from 'react-router-dom'
 export default function RoutePermission({ path, role, component: Component}){
 
     const authenticated = () => verify()
-    const roleJwt = () => decrypt(getInLocalStorage(KEY_USER_JWT)).Role 
+    const verifyToken = () => decrypt(getInLocalStorage(KEY_USER_JWT))
+    const roleJwt = () => verifyToken() ? verifyToken().Role : removeInLocalStorage(KEY_USER_JWT)
 
     return (
         <Route
