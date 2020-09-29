@@ -16,7 +16,7 @@ export default function RoutePermission({ path, role, component: Component}){
         <Route
             path={path}
             render={props => authenticated() ? ((roleJwt() === role) ? <Component {...props}/> : <Redirect to={{ pathname: "/" }}/>)
-            : role === 0 ? <Component {...props}/> : <Redirect to={{ pathname: "/" }}/>}
+            : role === 0 ? <Component {...props}/> : <Redirect to={{ pathname: "/" }}/>     }
         />
     )
 }

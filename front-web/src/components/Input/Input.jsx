@@ -1,12 +1,18 @@
 import React from 'react'
 import './Input.css'
 
-export default function Input({ placeHolder, alt, type, onClick, onChange, labelText}){
+export default function Input({ placeHolder, alt, type, onChange, labelText, styles}){
 
     return (
         <div className={"root"}>
             <label>{labelText}</label>
-            <input placeholder={placeHolder} alt={alt} type={type} onClick={onClick} onChange={onChange} />
+            <input 
+                style={styles}
+                placeholder={placeHolder} 
+                alt={alt} 
+                type={type} 
+                onChange={onChange} 
+            />
         </div>
     )
 }

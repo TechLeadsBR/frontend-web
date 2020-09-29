@@ -7,9 +7,16 @@ export const saveInLocalStorage = (key, value) => localStorage.setItem(key, valu
 export const getInLocalStorage = (key) => localStorage.getItem(key)
 
 export const decryptPayloadJwtAndReturnObject = (token) => {
-    const payload = String(token.split('base64,')).split('.')[1]
-    const decryptedToken = atob(payload)
-    return JSON.parse(decryptedToken)
+    try {
+        const payload = String(token.split('base64,')).split('.')[1]
+        const decryptedToken = atob(payload)
+        return JSON.parse(decryptedToken)
+    } catch (error) {
+        removeInLocalStorage(KEY_USER_JWT)
+        return false
+    }
 }
 
 export const verifyAuthenticatedUser = () => localStorage.getItem(KEY_USER_JWT) !== null
+
+export const removeInLocalStorage = (key) => localStorage.removeItem(key)
