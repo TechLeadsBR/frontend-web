@@ -1,0 +1,19 @@
+.root{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    align-items: flex-start;
+}
+
+.root > input {
+    background-color: #E9E9E9;
+    border: none;
+    width: 240px;
+    height: 45px;
+    border-radius: 8px;
+}
+
+.root > label {
+    font-weight: 600;
+    margin-bottom: 3px
+}
