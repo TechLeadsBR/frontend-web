@@ -46,7 +46,11 @@ div#companyStyle {
     justify-content: space-around;
 }
 
-/* list user logged */
+.userLogged p:nth-child(3) a,
+.userLogged p:nth-child(3) a:visited{
+    color: #8F0016;
+}
+
 .userLogged ul.administrator {
     width: 50%;
 }
@@ -61,9 +65,16 @@ div#companyStyle {
     width: 70px;
 }
 
+
 /* Responsivo */
-@media (max-width: 1069px){
-    .userLogged {
+@media (max-width: 768px){
+    .userLogged, .notLogged {
+        display: none;
+    }
+
+    div#studentStyle, 
+    div#companyStyle, 
+    div#administratorStyle {
         display: none;
     }
 }

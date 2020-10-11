@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
+import Header from './../../components/header/header'
 
 export default function Login(){
 
@@ -13,6 +14,7 @@ export default function Login(){
 
     return (
         <div>
+            <Header />
             <form onSubmit={(event) => requestApiLogin(event)}>
                 <Input 
                     type={"text"}

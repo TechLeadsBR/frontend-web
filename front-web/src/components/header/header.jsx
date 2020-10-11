@@ -6,10 +6,10 @@ import { KEY_USER_JWT } from './../../util/constants'
 import stylesCss from './header.module.css'
 import { Colors } from './../../util/constants'
 import { Link } from 'react-router-dom'
-import HamburgerMenu from '../hamburgerMenu/hamburgerMenu'
+import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 
 
-export default function Header({ logged, typeUser, srcImgUser }) {
+export default function Header({ logged=false, typeUser, srcImgUser }) {
 
     const listLinks = (
         typeUser === "student" ?
@@ -25,15 +25,13 @@ export default function Header({ logged, typeUser, srcImgUser }) {
                 </>
     )
 
-    const linksNavBarUserLogged = (
+    const userLogged = (
         <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
             <ul className={stylesCss[typeUser]}>{listLinks}</ul>
             <img src={srcImgUser} alt={"Foto usuario x"} />
             <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
         </div>
     )
-
-    const userLogged = linksNavBarUserLogged
 
     const notLogged = (
         <div className={stylesCss.notLogged}>
@@ -42,6 +40,7 @@ export default function Header({ logged, typeUser, srcImgUser }) {
                 textColor={Colors.white}
                 bgColor={Colors.red}
                 text={"Cadastre-se"}
+                onClick={() => console.log('Cadastre-se')}
             />
         </div>
     )
@@ -53,7 +52,7 @@ export default function Header({ logged, typeUser, srcImgUser }) {
                 <div>
                     <img src={logoVermelha} alt="" />
                 </div>
-                <HamburgerMenu
+                <MenuIconHeader
                     links={listLinks}
                 />
                 {logged ? userLogged : notLogged}

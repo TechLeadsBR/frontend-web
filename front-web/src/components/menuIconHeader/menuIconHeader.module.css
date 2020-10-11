@@ -1,0 +1,44 @@
+.menuIconHeader {
+    display: none;
+}
+
+@media (max-width: 768px){
+    .menuIconHeader img {
+        width: 40px;
+    }
+    
+    .rootNavigationLinksList a,
+    .rootNavigationLinksList li {
+        color: white;
+    }
+
+    .menuIconHeader {
+        display: block;
+    }
+
+    .rootNavigationLinksList {
+        width: 200px;
+        height: 100vh;
+        position: absolute;
+        background-color: #2A2E32;
+        line-height: 2.3em;
+        top: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rootNavigationLinksList > ul {
+        margin-top: 30px;
+        display: block;
+        list-style: none;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .rootNavigationLinksList > ul > li:nth-child(1) {
+        font-size: 35px;
+        margin-bottom: 20px;
+    }
+}
