@@ -1,0 +1,8 @@
+.hambugerMenuUserLogged {
+    display: block;
+    cursor: pointer;
+}
+
+.hambugerMenuUserLogged img {
+    width: 40px;
+}

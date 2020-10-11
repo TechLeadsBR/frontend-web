@@ -31,13 +31,12 @@
 }
 
 /* User Logged */
-
-.userLogged[typeUserStyle="administrator"] {
+div#administratorStyle {
     width: 50%;
 }
 
-.userLogged[typeUserStyle="student"], 
-.userLogged[typeUserStyle="company"] {
+div#studentStyle, 
+div#companyStyle {
     width: 30%;
 }
 
@@ -48,7 +47,7 @@
 }
 
 /* list user logged */
-.userLogged > ul[typeUserStyle="administrator"]{
+.userLogged ul.administrator {
     width: 50%;
 }
 
@@ -60,4 +59,11 @@
 
 .userLogged > img {
     width: 70px;
+}
+
+/* Responsivo */
+@media (max-width: 1069px){
+    .userLogged {
+        display: none;
+    }
 }

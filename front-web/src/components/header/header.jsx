@@ -1,31 +1,37 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
+import { removeInLocalStorage } from './../../util/functions'
+import { KEY_USER_JWT } from './../../util/constants'
 import stylesCss from './header.module.css'
 import { Colors } from './../../util/constants'
+import { Link } from 'react-router-dom'
+import HamburgerMenu from '../hamburgerMenu/hamburgerMenu'
+
 
 export default function Header({ logged, typeUser, srcImgUser }){
-
-    const history = useHistory()
 
     const linksNavBarUserLogged = () => {
         
         const listLinks = (
-            typeUser === "student" ? <li>Vagas</li> : 
-            typeUser === "company" ? <li>Gerenciar Vagas</li> :
+            typeUser === "student" ? 
+                <li><Link to="/">Vagas</Link></li> 
+            : 
+            typeUser === "company" ? 
+                <li><Link to="/">Gerenciar Vagas</Link></li> 
+            :
             <>
-                <li>Início</li>
-                <li>Candidatos</li>
-                <li>Empresas</li>
+                <li><Link to="/">Início</Link></li>
+                <li><Link to="/">Candidatos</Link></li>
+                <li><Link to="/">Empresas</Link></li>
             </>
         )
 
         return (
-            <div className={stylesCss.userLogged} typeUserStyle={typeUser}>
-                <ul typeUserStyle={typeUser}>{listLinks}</ul>
+            <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
+                <ul className={stylesCss[typeUser]}>{listLinks}</ul>
                 <img src={srcImgUser} alt={"Foto usuario x"}/>
-                <p>sair</p>
+                <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
             </div>
         )        
     }
@@ -34,7 +40,7 @@ export default function Header({ logged, typeUser, srcImgUser }){
         
     const notLogged = (
         <div className={stylesCss.notLogged}>
-            <b onClick={() => history.push("/login")}>Login</b>
+            <b><Link to="/login">Login</Link></b>
             <Button 
                 textColor={Colors.white}
                 bgColor={Colors.red}
@@ -43,12 +49,14 @@ export default function Header({ logged, typeUser, srcImgUser }){
         </div>
     )
 
+
     return (
         <header className={stylesCss.root}>
             <nav className={stylesCss.navBar}>
                 <div>
                     <img src={logoVermelha} alt=""/>
                 </div>
+                <HamburgerMenu />
                 {logged ? userLogged : notLogged}
             </nav>
         </header>
