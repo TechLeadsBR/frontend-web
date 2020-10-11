@@ -1,6 +1,6 @@
-import Home from './../screens/Home/Home'
-import Login from './../screens/Login/Login'
-import NotFound from './../screens/NotFound/NotFound'
+import Home from './../screens/home/home'
+import Login from './../screens/login/login'
+import NotFound from './../screens/notFound/notFound'
 
 const Pages = [
     {

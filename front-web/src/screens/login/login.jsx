@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Input from '../../components/Input/Input'
-import { requestApi } from './../../util/api'
-import Button from '../../components/Button/Button'
+import Input from './../../components/input/input'
+import Button from './../../components/button/button'
 
 export default function Login(){
 
@@ -19,16 +18,19 @@ export default function Login(){
                     type={"text"}
                     onChange={(e) => setUser({...user, email: e.target.value})}
                     labelText={"Email"}
+                    name={"email"}
                 />
                 <Input
                     type={"password"}
                     labelText={"Senha"}
                     onChange={(e) => setUser({...user, senha: e.target.value})}
+                    name={"password"}
                 />
                 <Button 
                     text={"Entrar"}
                     bgColor={"green"}
-                    colorText={"white"}
+                    textColor={"white"}
+                    onClick={() => null}
                 />
             </form>
         </div>
