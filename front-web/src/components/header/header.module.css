@@ -1,0 +1,80 @@
+.root {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navBar {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navBar > div:nth-child(1) > img {
+    width: 300px;
+}
+
+/* Not Logged */
+.notLogged {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notLogged > b {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* User Logged */
+div#administratorStyle {
+    width: 50%;
+}
+
+div#studentStyle, 
+div#companyStyle {
+    width: 30%;
+}
+
+.userLogged {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.userLogged p:nth-child(3) a,
+.userLogged p:nth-child(3) a:visited{
+    color: #8F0016;
+}
+
+.userLogged ul.administrator {
+    width: 50%;
+}
+
+.userLogged > ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.userLogged > img {
+    width: 70px;
+}
+
+
+/* Responsivo */
+@media (max-width: 768px){
+    .userLogged, .notLogged {
+        display: none;
+    }
+
+    div#studentStyle, 
+    div#companyStyle, 
+    div#administratorStyle {
+        display: none;
+    }
+}

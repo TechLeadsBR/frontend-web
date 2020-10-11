@@ -5,8 +5,8 @@ import {
     getInLocalStorage,
     removeInLocalStorage
 } 
-from '../../util/functions'
-import { KEY_USER_JWT } from '../../util/constants'
+from './../../util/functions'
+import { KEY_USER_JWT } from './../../util/constants'
 import { Route, Redirect } from 'react-router-dom'
 
 export default function RoutePermission({ path, role, component: Component}){
