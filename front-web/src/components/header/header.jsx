@@ -9,39 +9,36 @@ import { Link } from 'react-router-dom'
 import HamburgerMenu from '../hamburgerMenu/hamburgerMenu'
 
 
-export default function Header({ logged, typeUser, srcImgUser }){
+export default function Header({ logged, typeUser, srcImgUser }) {
 
-    const linksNavBarUserLogged = () => {
-        
-        const listLinks = (
-            typeUser === "student" ? 
-                <li><Link to="/">Vagas</Link></li> 
-            : 
-            typeUser === "company" ? 
-                <li><Link to="/">Gerenciar Vagas</Link></li> 
+    const listLinks = (
+        typeUser === "student" ?
+            <li><Link to="/">Vagas</Link></li>
             :
-            <>
-                <li><Link to="/">Início</Link></li>
-                <li><Link to="/">Candidatos</Link></li>
-                <li><Link to="/">Empresas</Link></li>
-            </>
-        )
+            typeUser === "company" ?
+                <li><Link to="/">Gerenciar Vagas</Link></li>
+                :
+                <>
+                    <li><Link to="/">Início</Link></li>
+                    <li><Link to="/">Candidatos</Link></li>
+                    <li><Link to="/">Empresas</Link></li>
+                </>
+    )
 
-        return (
-            <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
-                <ul className={stylesCss[typeUser]}>{listLinks}</ul>
-                <img src={srcImgUser} alt={"Foto usuario x"}/>
-                <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
-            </div>
-        )        
-    }
+    const linksNavBarUserLogged = (
+        <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
+            <ul className={stylesCss[typeUser]}>{listLinks}</ul>
+            <img src={srcImgUser} alt={"Foto usuario x"} />
+            <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
+        </div>
+    )
 
-    const userLogged = linksNavBarUserLogged()
-        
+    const userLogged = linksNavBarUserLogged
+
     const notLogged = (
         <div className={stylesCss.notLogged}>
             <b><Link to="/login">Login</Link></b>
-            <Button 
+            <Button
                 textColor={Colors.white}
                 bgColor={Colors.red}
                 text={"Cadastre-se"}
@@ -54,9 +51,11 @@ export default function Header({ logged, typeUser, srcImgUser }){
         <header className={stylesCss.root}>
             <nav className={stylesCss.navBar}>
                 <div>
-                    <img src={logoVermelha} alt=""/>
+                    <img src={logoVermelha} alt="" />
                 </div>
-                <HamburgerMenu />
+                <HamburgerMenu
+                    links={listLinks}
+                />
                 {logged ? userLogged : notLogged}
             </nav>
         </header>

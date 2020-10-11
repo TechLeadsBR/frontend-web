@@ -1,8 +1,18 @@
 .hambugerMenuUserLogged {
-    display: block;
+    display: none;
     cursor: pointer;
 }
 
 .hambugerMenuUserLogged img {
     width: 40px;
+}
+
+.screenWithLinks {
+    display: block;
+}
+
+@media (max-width: 1069px){
+    .hambugerMenuUserLogged {
+        display: block;
+    }   
 }
