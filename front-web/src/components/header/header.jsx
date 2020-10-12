@@ -37,8 +37,8 @@ export default function Header({ logged=false, typeUser, srcImgUser }) {
         <div className={stylesCss.notLogged}>
             <b><Link to="/login">Login</Link></b>
             <Button
-                textColor={Colors.white}
-                bgColor={Colors.red}
+                textColor={Colors.white.hexadecimal}
+                bgColor={Colors.red.hexadecimal}
                 text={"Cadastre-se"}
                 onClick={() => console.log('Cadastre-se')}
             />
@@ -50,7 +50,9 @@ export default function Header({ logged=false, typeUser, srcImgUser }) {
         <header className={stylesCss.root}>
             <nav className={stylesCss.navBar}>
                 <div>
-                    <img src={logoVermelha} alt="" />
+                    <Link to="/">
+                        <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
+                    </Link>
                 </div>
                 <MenuIconHeader
                     links={listLinks}
