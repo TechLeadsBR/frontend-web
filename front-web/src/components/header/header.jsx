@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 
 
-export default function Header({ logged=false, typeUser, srcImgUser }) {
+export default function Header({ logged = false, typeUser, srcImgUser }) {
 
     const listLinks = (
         typeUser === "student" ?

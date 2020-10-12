@@ -8,22 +8,17 @@ export default function FilmFrame({
             height 
         }, 
         srcImg, 
-        children, 
-        type="left" 
+        children 
 }){
     
-    const stylePropsTypeLeft = {
+    const stylePropsLeftAndFrame = {
         'background-image': `linear-gradient(rgba(${bgColorRgba}), rgba(${bgColorRgba})), url(${srcImg})`,
-        'width': width,
+        'width': width ? width : "100%",
         'height': height
     }
 
-    const stylePropsTypeFrame = {}
-
-    const styleProps = type === "left" ? stylePropsTypeLeft : stylePropsTypeFrame
-
     return (
-        <div className={stylesCss.root} style={styleProps}>
+        <div className={stylesCss.root} style={stylePropsLeftAndFrame}>
             {children}
         </div>
     )

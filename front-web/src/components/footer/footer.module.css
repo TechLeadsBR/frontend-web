@@ -1,0 +1,73 @@
+.root {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.root > div:nth-child(1) {
+    background-color: #2A2E32;  
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    flex-wrap: nowrap;
+}
+
+.root > div:nth-of-type(1) > div:nth-child(1) > img {
+    width: 300px;
+}
+
+
+/* Informations school */
+.root > div:nth-child(1) > div:nth-child(2) {
+    text-align: center; 
+}
+
+/* Nav itens images */
+.navItens {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.navItens b {
+    margin-bottom: 5px;
+}
+
+.navItens > div:nth-child(2) {
+    width: 215px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navItens img {
+    width: 40px;
+}
+
+/* Copyright */
+.root > div:nth-child(2) {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 850px){
+    .root > div:nth-child(1) > div:nth-child(1) {
+        display: none;
+    }
+    .root > div:nth-child(1) {
+        height: auto;
+        flex-direction: column;
+        padding: 30px 0px;
+        justify-content: space-between;
+    }
+    .root > div:nth-child(1) > div:nth-child(2){
+        margin-bottom: 20px;
+    }
+}
