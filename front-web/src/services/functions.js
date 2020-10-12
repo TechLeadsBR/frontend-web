@@ -6,6 +6,10 @@ export const saveInLocalStorage = (key, value) => localStorage.setItem(key, valu
 // função para pegar um valor no localStorage
 export const getInLocalStorage = (key) => localStorage.getItem(key)
 
+export const verifyAuthenticatedUser = () => getInLocalStorage(KEY_USER_JWT) !== null
+
+export const removeInLocalStorage = (key) => localStorage.removeItem(key)
+
 export const decryptPayloadJwtAndReturnObject = (token) => {
     try {
         const payload = String(token.split('base64,')).split('.')[1]
@@ -16,6 +20,3 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
     }
 }
 
-export const verifyAuthenticatedUser = () => localStorage.getItem(KEY_USER_JWT) !== null
-
-export const removeInLocalStorage = (key) => localStorage.removeItem(key)

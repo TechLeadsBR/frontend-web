@@ -4,6 +4,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-direction: column;
+    padding-bottom: 30px;
 }
 
 .navBar {
@@ -28,6 +30,7 @@
 .notLogged > b {
     font-size: 15px;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 /* User Logged */
@@ -63,6 +66,36 @@ div#companyStyle {
 
 .userLogged > img {
     width: 70px;
+}
+
+/* Student or Company  */
+.studentOrCompany{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.studentOrCompany > div:nth-child(1) {
+    width: 80%;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 10px;
+}
+
+.studentOrCompany > div:nth-child(1) > div:nth-child(1) {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.studentOrCompany p {
+    cursor: pointer;
+}
+
+.linkBolded {
+    font-weight: bold;
 }
 
 
