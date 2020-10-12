@@ -1,7 +1,7 @@
 import React from 'react'
 import stylesCss from './input.module.css'
 
-export default function Input({ placeHolder, alt, type, onChange, labelText, customStyles, name}){
+export default function Input({ placeHolder, type, onChange, labelText, customStyles, name}){
 
     return (
         <div className={stylesCss.root}>
@@ -10,8 +10,7 @@ export default function Input({ placeHolder, alt, type, onChange, labelText, cus
                 id={name}
                 style={customStyles}
                 placeholder={placeHolder} 
-                alt={alt} 
-                type={type} 
+                type={type}
                 onChange={onChange} 
             />
         </div>

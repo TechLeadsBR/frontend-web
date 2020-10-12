@@ -5,7 +5,6 @@ import facebookIcon from './../../assets/images/socialMedia/facebook.png'
 import linkedinIcon from './../../assets/images/socialMedia/linkedin.png'
 import youtubeIcon from './../../assets/images/socialMedia/youtube.png'
 import twitterIcon from './../../assets/images/socialMedia/twitter.png'
-import { Link } from 'react-router-dom'
 
 export default function Footer(){
 
