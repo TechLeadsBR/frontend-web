@@ -56,10 +56,7 @@ export default function Login(){
         <div>
             <Header />
             <div className={stylesCss.root}>
-                <Modal 
-                    width={"24%"}
-                    height={"50vh"}
-                >{childModal}</Modal>
+                <Modal>{childModal}</Modal>
             </div>
             <Footer />
         </div>

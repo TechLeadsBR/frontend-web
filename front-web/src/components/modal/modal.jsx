@@ -1,17 +1,12 @@
 import React from 'react'
 import stylesCss from './modal.module.css'
 
-export default function Modal({ width, height, children, fixed=false }){
-    
-    const stylesProps = {
-        width,
-        height
-    }
+export default function Modal({ styleProps: { width, height }=false, children, fixed=false }){
 
     return (
         <div className={stylesCss.modal} 
             style={{ position: fixed ? "fixed" : null }}>
-            <div style={stylesProps}>
+            <div style={{width, height}}>
                 {children}
             </div>
         </div>

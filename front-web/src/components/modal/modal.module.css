@@ -17,8 +17,14 @@
     align-items: center;
     justify-content: center;
     width: 25%;
-    height: 40vh;
+    height: 50%;
     background-color: white;
     border-radius: 20px;
     padding: 40px 50px;
+}
+
+@media (max-width: 800px){
+    .modal > div:nth-child(1) {
+        width: 50%;
+    }
 }

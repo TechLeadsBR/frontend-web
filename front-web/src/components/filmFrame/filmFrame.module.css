@@ -1,7 +1,7 @@
 .root {
     background-repeat: no-repeat;
     background-size: cover;
-    background-position-x: 40%;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
