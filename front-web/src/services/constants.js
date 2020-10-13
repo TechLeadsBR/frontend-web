@@ -26,5 +26,9 @@ export const Colors = {
     white: {
         hexadecimal: "#FFFFFF",
         rgb: "255, 255, 255"
+    },
+    defaultGray: {
+        hexadecimal: "#C4C4C4",
+        rgb: "196, 196, 196"
     }
 }
