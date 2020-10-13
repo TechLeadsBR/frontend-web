@@ -12,7 +12,7 @@ export default function FilmFrame({
 }){
     
     const stylePropsLeftAndFrame = {
-        'background-image': `linear-gradient(rgba(${bgColorRgba}), rgba(${bgColorRgba})), url(${srcImg})`,
+        'backgroundImage': `linear-gradient(rgba(${bgColorRgba}), rgba(${bgColorRgba})), url(${srcImg})`,
         'width': width ? width : "100%",
         'height': height
     }

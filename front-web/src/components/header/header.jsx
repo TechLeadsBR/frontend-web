@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
-import { removeInLocalStorage } from './../../util/functions'
-import { KEY_USER_JWT } from './../../util/constants'
+import { removeInLocalStorage } from './../../services/functions'
+import { KEY_USER_JWT } from './../../services/constants'
 import stylesCss from './header.module.css'
-import { Colors } from './../../util/constants'
+import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 
 
-export default function Header({ logged=false, typeUser, srcImgUser }) {
+export default function Header({ logged=false, typeUser, srcImgUser, home=false, callback }) {
+
+    const [typeRender, setTypeRender] = useState("student")
 
     const listLinks = (
         typeUser === "student" ?
@@ -45,9 +47,28 @@ export default function Header({ logged=false, typeUser, srcImgUser }) {
         </div>
     )
 
+    const alternatedRender = (type) => {
+        setTypeRender(type)
+        callback(type)
+    }
+
+    const classBolded = (type) => typeRender === type ? stylesCss.linkBolded : null
+
+    const studentOrCompany = (
+        <div className={stylesCss.studentOrCompany}>
+            <div>
+                <div>
+                    <p onClick={() => alternatedRender("student")} className={classBolded("student")}>Candidatos</p>
+                    <p onClick={() => alternatedRender("company")} className={classBolded("company")}>Empresas</p>
+                </div>
+            </div>
+        </div>
+    )
+
 
     return (
         <header className={stylesCss.root}>
+            {home ? studentOrCompany : null}
             <nav className={stylesCss.navBar}>
                 <div>
                     <Link to="/">

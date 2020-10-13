@@ -7,9 +7,7 @@ export default function Login(){
 
     const [user, setUser] = useState({email: null, senha: null})
 
-    const requestApiLogin = (event) => {
-        event.preventDefault()
-        console.log("event")
+    const requestApiLogin = async () => {
     }
 
     return (
@@ -32,7 +30,7 @@ export default function Login(){
                     text={"Entrar"}
                     bgColor={"green"}
                     textColor={"white"}
-                    onClick={() => null}
+                    onClick={() => requestApiLogin()}
                 />
             </form>
         </div>
