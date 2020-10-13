@@ -1,0 +1,44 @@
+.childFilmFrame {
+    text-align: center;
+}
+
+.childFilmFrame > h1 {
+    margin: 20px 0;
+    font-size: 2.5rem;
+}
+
+.childFilmFrame > h1,
+.childFilmFrame > hr {
+    color: white;
+}
+
+.partnerCompanies {
+    width: 100%;
+    margin: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.partnerCompanies > div {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.partnerCompanies img {
+    width: 200px;
+}
+
+/* Mobile responsive */
+@media(max-width: 768px){
+    .partnerCompanies > div {
+        flex-direction: column;
+        justify-content: space-between;
+        height: 300px;
+    }
+
+    .partnerCompanies img {
+        width: 120px;
+    }
+}

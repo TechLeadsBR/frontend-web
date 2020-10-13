@@ -18,7 +18,6 @@ async function requestAPI(method="get", path, body=null){
         }
 
         return await axios[method](pathURL, configRequest)
-        
 
     } catch(error){
         return error
