@@ -1,17 +1,24 @@
 import React from 'react'
 import stylesCss from './input.module.css'
 
-export default function Input({ placeHolder, type, onChange, labelText, customStyles, name}){
+export default function Input({ 
+    placeHolder, 
+    type, 
+    onChange, 
+    labelText, 
+    customStyles, 
+    name
+}){
 
     return (
         <div className={stylesCss.root}>
             <label htmlFor={name}>{labelText}</label>
-            <input 
+            <input
                 id={name}
                 style={customStyles}
                 placeholder={placeHolder} 
                 type={type}
-                onChange={onChange} 
+                onChange={onChange}
             />
         </div>
     )

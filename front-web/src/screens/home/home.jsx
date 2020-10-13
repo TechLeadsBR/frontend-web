@@ -90,12 +90,14 @@ export default function Home() {
                 home={true}
                 callback={(type) => setTypeRender(type)}
             />
-            <FilmFrame
-                styleProps={{ bgColorRgba: Colors.red.rgb + ", 0.6", height: "55vh", width: "100%" }}
-                srcImg={ambienteTrabalho}
-            >
-                {childFilmFrame}
-            </FilmFrame>
+            <div className={stylesCss.divFilmFrame}>
+                <FilmFrame
+                    styleProps={{ bgColorRgba: Colors.red.rgb + ", 0.6", height: "55vh", width: "100%" }}
+                    srcImg={ambienteTrabalho}
+                >
+                    {childFilmFrame}
+                </FilmFrame>
+            </div>
             {partnerCompaniesChild}
             {advantageOurPlatform}
             <Footer />
