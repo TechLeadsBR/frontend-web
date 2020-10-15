@@ -73,7 +73,7 @@ export default function Home() {
                 <div className={stylesCss.advantagesItens}>
                     {advantageOurPlatformArray.map((advantage, index) => {
                         return (
-                            <div className={stylesCss.advantageItem}>
+                            <div className={stylesCss.advantageItem} key={index}>
                                 <div>{index + 1}</div>
                                 <p>{advantage}</p>
                             </div>
