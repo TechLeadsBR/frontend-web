@@ -10,6 +10,7 @@ import logoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-sol
 import logoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
 import logoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
 import notebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
+import CardJob from './../../components/cardJob/cardJob'
 
 export default function Home() {
 
@@ -73,7 +74,7 @@ export default function Home() {
                 <div className={stylesCss.advantagesItens}>
                     {advantageOurPlatformArray.map((advantage, index) => {
                         return (
-                            <div className={stylesCss.advantageItem}>
+                            <div className={stylesCss.advantageItem} key={index}>
                                 <div>{index + 1}</div>
                                 <p>{advantage}</p>
                             </div>
@@ -103,6 +104,10 @@ export default function Home() {
             </div>
             {partnerCompaniesChild}
             {advantageOurPlatform}
+            <div style={{ width: "50%" }}>
+                <CardJob />
+
+            </div>
             <Footer />
         </div>
     )

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
+import stylesCss from './header.module.css'
+import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { removeInLocalStorage } from './../../services/functions'
 import { KEY_USER_JWT } from './../../services/constants'
-import stylesCss from './header.module.css'
 import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
-import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 
 
 export default function Header({ logged=false, typeUser, srcImgUser, home=false, callback }) {
@@ -68,7 +68,7 @@ export default function Header({ logged=false, typeUser, srcImgUser, home=false,
 
     return (
         <header className={stylesCss.root}>
-            {home ? studentOrCompany : null}
+            {home && studentOrCompany}
             <nav className={stylesCss.navBar}>
                 <div>
                     <Link to="/">
