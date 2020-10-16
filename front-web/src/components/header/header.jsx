@@ -3,7 +3,13 @@ import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import { removeInLocalStorage , verifyAuthenticatedUser, getInLocalStorage, decryptPayloadJwtAndReturnObject } from './../../services/functions'
+import { 
+    removeInLocalStorage , 
+    verifyAuthenticatedUser, 
+    getInLocalStorage, 
+    decryptPayloadJwtAndReturnObject,
+    getRoleInToken
+} from './../../services/functions'
 import { KEY_USER_JWT } from './../../services/constants'
 import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
@@ -70,9 +76,7 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
 
     const linkLogoHeader = () => {
         if (verifyAuthenticatedUser()) {
-            const token = getInLocalStorage(KEY_USER_JWT)
-            const roleUser = decryptPayloadJwtAndReturnObject(token).Role
-
+            const roleUser = getInLocalStorage()
             switch(roleUser){
                 case "1": return "/homeadm"
                 case "2": return "/vagas"
