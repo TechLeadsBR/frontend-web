@@ -73,12 +73,11 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
             const token = getInLocalStorage(KEY_USER_JWT)
             const roleUser = decryptPayloadJwtAndReturnObject(token).Role
 
-            if (roleUser === "1") return "/homeadm"
-            else if (roleUser === "2") return "/vagas"
-            else if (roleUser === "3") return "/gerenciarvagas"
-            else {
-                console.log(roleUser)
-                return "/"
+            switch(roleUser){
+                case "1": return "/homeadm"
+                case "2": return "/vagas"
+                case "3": return "/gerenciarVagas"
+                default: return "/"
             }
         } else {
             return "/"
