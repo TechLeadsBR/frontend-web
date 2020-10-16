@@ -3,33 +3,36 @@ import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import { removeInLocalStorage } from './../../services/functions'
+import { removeInLocalStorage , verifyAuthenticatedUser, getInLocalStorage, decryptPayloadJwtAndReturnObject } from './../../services/functions'
 import { KEY_USER_JWT } from './../../services/constants'
 import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
 
 
-export default function Header({ logged=false, typeUser, srcImgUser, home=false, callback }) {
+export default function Header({ typeUser=false, srcImgUser, home = false, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
 
-    const listLinks = (
-        typeUser === "student" ?
-            <li><Link to="/">Vagas</Link></li>
-            :
-            typeUser === "company" ?
-                <li><Link to="/">Gerenciar Vagas</Link></li>
-                :
-                <>
-                    <li><Link to="/">Início</Link></li>
-                    <li><Link to="/">Candidatos</Link></li>
-                    <li><Link to="/">Empresas</Link></li>
-                </>
-    )
+    const listLinks = () => {
+        switch (typeUser) {
+            case "student": return <li><Link to="/">Vagas</Link></li>
+            case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
+            case "administrator": {
+                return (
+                    <>
+                        <li><Link to="/">Início</Link></li>
+                        <li><Link to="/">Candidatos</Link></li>
+                        <li><Link to="/">Empresas</Link></li>
+                    </>
+                )
+            }
+            default: return <></>
+        }
+    }
 
     const userLogged = (
         <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
-            <ul className={stylesCss[typeUser]}>{listLinks}</ul>
+            <ul className={stylesCss[typeUser]}>{(listLinks())}</ul>
             <img src={srcImgUser} alt={"Foto usuario x"} />
             <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
         </div>
@@ -65,20 +68,36 @@ export default function Header({ logged=false, typeUser, srcImgUser, home=false,
         </div>
     )
 
+    const linkLogoHeader = () => {
+        if (verifyAuthenticatedUser()) {
+            const token = getInLocalStorage(KEY_USER_JWT)
+            const roleUser = decryptPayloadJwtAndReturnObject(token).Role
+
+            if (roleUser === "1") return "/homeadm"
+            else if (roleUser === "2") return "/vagas"
+            else if (roleUser === "3") return "/gerenciarvagas"
+            else {
+                console.log(roleUser)
+                return "/"
+            }
+        } else {
+            return "/"
+        }
+    }
 
     return (
         <header className={stylesCss.root}>
             {home && studentOrCompany}
             <nav className={stylesCss.navBar}>
                 <div>
-                    <Link to="/">
+                    <Link to={linkLogoHeader()}>
                         <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
                 <MenuIconHeader
-                    links={listLinks}
+                    links={listLinks()}
                 />
-                {logged ? userLogged : notLogged}
+                {typeUser ? userLogged : notLogged}
             </nav>
         </header>
     )
