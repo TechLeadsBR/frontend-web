@@ -6,9 +6,7 @@ import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { 
     removeInLocalStorage , 
     verifyAuthenticatedUser, 
-    getInLocalStorage, 
-    decryptPayloadJwtAndReturnObject,
-    getRoleInToken
+    getInLocalStorage
 } from './../../services/functions'
 import { KEY_USER_JWT } from './../../services/constants'
 import { Colors } from './../../services/constants'
