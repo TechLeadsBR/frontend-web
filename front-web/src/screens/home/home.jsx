@@ -5,11 +5,11 @@ import FilmFrame from '../../components/filmFrame/filmFrame'
 import ambienteTrabalho from './../../assets/images/universal/ambiente-de-trabalho-1.png'
 import ambienteTrabalhoCompanyRender from './../../assets/images/universal/ambiente-de-trabalho-produtividade.jpg'
 import Footer from './../../components/footer/footer'
-import { Colors } from './../../services/constants'
 import logoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-solutions.png'
 import logoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
 import logoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
 import notebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
+import { Colors } from './../../services/constants'
 
 export default function Home() {
 
@@ -90,7 +90,7 @@ export default function Home() {
     return (
         <div>
             <Header
-                typeHeader={"student"}
+                typeHeader={"home"}
                 callback={(type) => setTypeRender(type)}
             />
             <div className={stylesCss.divFilmFrame}>
@@ -103,9 +103,6 @@ export default function Home() {
             </div>
             {partnerCompaniesChild}
             {advantageOurPlatform}
-            <div style={{ width: "50%" }}>
-                {/* <CardJob /> */}
-            </div>
             <Footer />
         </div>
     )

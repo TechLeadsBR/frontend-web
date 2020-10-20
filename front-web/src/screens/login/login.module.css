@@ -11,15 +11,10 @@
     background-size: cover;
 }
 
-.root > div > img {
-    width: 220px;
-    margin-bottom: 15%;
-    position: fixed;
-}
 
 .childModal {
     width: 85%;
-    height: 70%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,6 +23,10 @@
 
 .childModal > b {
     font-size: 1.5rem;
+}
+
+.childModal > img {
+    width: 80%;
 }
 
 form {

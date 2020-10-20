@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import stylesCss from './login.module.css'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
@@ -7,26 +7,22 @@ import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import { Colors } from '../../services/constants'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useState } from 'react'
 
-export default function Login(){
+export default function Login(props){
 
+    const { isAdministrator } = useParams()
     const [login, setLogin] = useState({ email: null, password: null })
-    const [typeLogin, setTypeLogin] = useState(null)
 
     const loginFunction = () => {
         console.log('Enviou!')
         console.log('Agora vai fazer isso aqui')
     }
 
-    useEffect(() => {
-        console.log('Alterou')
-        console.log(login)
-    }, [login])
-
     const childModal = (
         <div className={stylesCss.childModal}>
+            <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
             <b>Acesse sua conta</b>
             <form>
                 <Input 
@@ -52,19 +48,13 @@ export default function Login(){
         </div>
     )
 
-    const chooseLogin = (
-        <div>
-
-        </div>
-    )
 
     return (
         <div>
             <Header />
             <div className={stylesCss.root}>
                 <Modal>
-                    <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
-                    {chooseLogin}
+                    {childModal}
                 </Modal>
             </div>
             <Footer />

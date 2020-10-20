@@ -4,6 +4,12 @@ import NotFound from './../screens/notFound/notFound'
 
 const Pages = [
     {
+        name: "LoginAdm",
+        path: "/login/:administrator",
+        component: Login,
+        role: 0
+    },
+    {
         name: "Login",
         path: "/login",
         component: Login,

@@ -3,9 +3,7 @@ import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import {
-    breakToken, getRoleInToken
-} from './../../services/functions'
+import { breakToken } from './../../services/functions'
 import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
 
