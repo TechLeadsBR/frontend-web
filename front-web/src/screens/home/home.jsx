@@ -90,7 +90,7 @@ export default function Home() {
     return (
         <div>
             <Header
-                typeHeader={"home"}
+                typeHeader={"administrator"}
                 callback={(type) => setTypeRender(type)}
                 srcImgUser={"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"}
             />
