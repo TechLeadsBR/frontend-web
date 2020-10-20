@@ -2,7 +2,9 @@
 
 * {
     padding: 0;
-    margin: 0
+    margin: 0;
+    border-style: none;
+    box-sizing: border-box;
 }
 
 body {
@@ -14,4 +16,9 @@ a:visited
 {
     text-decoration: none;
     color: black;
+}
+
+input {
+    box-shadow: 0 0 0 0;
+    outline: none;
 }

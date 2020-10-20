@@ -20,3 +20,8 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
     }
 }
 
+export const getRoleInToken = () => {
+    const token = getInLocalStorage(KEY_USER_JWT)
+    const payload = decryptPayloadJwtAndReturnObject(token)
+    return payload.Role
+}

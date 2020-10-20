@@ -1,0 +1,45 @@
+.root {
+    width: 100%;
+    height: 90vh;
+    background-image: linear-gradient(
+        rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+        url(./../../assets/images/universal/ambiente-de-trabalho-2.png);
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.childModal {
+    height: 86%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.childModal > b {
+    font-size: 1.5rem;
+}
+
+.childModal > img {
+    width: 80%;
+}
+
+form {
+    width: 90%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hasNoRegistration {
+    display: flex;
+}
+
+.hasNoRegistration > a {
+    margin-left: 5px;
+    color: #BE0024;
+}

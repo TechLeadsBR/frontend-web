@@ -11,7 +11,7 @@ async function requestAPI(method="get", path, body=null){
 
         const pathURL = BASE_URL_API + path
         const configRequest = {
-            data: body,
+            data: JSON.stringify(body),
             headers: {
                 "Authorization": authenticated() ? "Bearer" + getInLocalStorage(KEY_USER_JWT) : null
             }

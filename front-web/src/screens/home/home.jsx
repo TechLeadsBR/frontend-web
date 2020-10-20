@@ -3,12 +3,14 @@ import stylesCss from './home.module.css'
 import Header from './../../components/header/header'
 import FilmFrame from '../../components/filmFrame/filmFrame'
 import ambienteTrabalho from './../../assets/images/universal/ambiente-de-trabalho-1.png'
+import ambienteTrabalhoCompanyRender from './../../assets/images/universal/ambiente-de-trabalho-produtividade.jpg'
 import Footer from './../../components/footer/footer'
 import { Colors } from './../../services/constants'
 import logoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-solutions.png'
 import logoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
 import logoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
 import notebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
+import CardJob from './../../components/cardJob/cardJob'
 
 export default function Home() {
 
@@ -72,7 +74,7 @@ export default function Home() {
                 <div className={stylesCss.advantagesItens}>
                     {advantageOurPlatformArray.map((advantage, index) => {
                         return (
-                            <div className={stylesCss.advantageItem}>
+                            <div className={stylesCss.advantageItem} key={index}>
                                 <div>{index + 1}</div>
                                 <p>{advantage}</p>
                             </div>
@@ -84,20 +86,28 @@ export default function Home() {
         </div>
     )
 
+    const backgroundFilmFrame = typeRender === "student" ? Colors.red.rgb + ", 0.6" : Colors.matteBlack.rgb + ", 0.6"
+
     return (
         <div>
             <Header
                 home={true}
                 callback={(type) => setTypeRender(type)}
             />
-            <FilmFrame
-                styleProps={{ bgColorRgba: Colors.red.rgb + ", 0.6", height: "55vh", width: "100%" }}
-                srcImg={ambienteTrabalho}
-            >
-                {childFilmFrame}
-            </FilmFrame>
+            <div className={stylesCss.divFilmFrame}>
+                <FilmFrame
+                    styleProps={{ bgColorRgba: backgroundFilmFrame, height: "55vh", width: "100%" }}
+                    srcImg={typeRender === "student" ? ambienteTrabalho : ambienteTrabalhoCompanyRender}
+                >
+                    {childFilmFrame}
+                </FilmFrame>
+            </div>
             {partnerCompaniesChild}
             {advantageOurPlatform}
+            <div style={{ width: "50%" }}>
+                <CardJob />
+
+            </div>
             <Footer />
         </div>
     )
