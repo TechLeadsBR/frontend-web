@@ -13,12 +13,12 @@ import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
 
 
-export default function Header({ typeUser=false, srcImgUser, home = false, callback }) {
+export default function Header({ typeHeader=false, srcImgUser, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
 
     const listLinks = () => {
-        switch (typeUser) {
+        switch (typeHeader) {
             case "student": return <li><Link to="/">Vagas</Link></li>
             case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
             case "administrator": {
@@ -30,13 +30,20 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
                     </>
                 )
             }
+            case "home": 
+                return (
+                    <>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/cadastro">Cadastre-se</Link></li>
+                    </>
+                ) 
             default: return <></>
         }
     }
 
     const userLogged = (
-        <div className={stylesCss.userLogged} id={stylesCss[typeUser + "Style"]}>
-            <ul className={stylesCss[typeUser]}>{(listLinks())}</ul>
+        <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
+            <ul className={stylesCss[typeHeader]}>{(listLinks())}</ul>
             <img src={srcImgUser} alt={"Foto usuario x"} />
             <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
         </div>
@@ -60,8 +67,8 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
     }
 
     const classBolded = (type) => typeRender === type ? stylesCss.linkBolded : null
-
-    const studentOrCompany = (
+    
+    const studentOrCompanyRenderHome = (
         <div className={stylesCss.studentOrCompany}>
             <div>
                 <div>
@@ -86,9 +93,14 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
         }
     }
 
+    const typeLinksHeader = typeHeader === "home" ? notLogged : 
+        typeHeader !== "company" && 
+        typeHeader !== "student" && 
+        typeHeader !== "administrator" ? null : userLogged
+
     return (
         <header className={stylesCss.root}>
-            {home && studentOrCompany}
+            {typeHeader === "home" && studentOrCompanyRenderHome}
             <nav className={stylesCss.navBar}>
                 <div>
                     <Link to={linkLogoHeader()}>
@@ -96,9 +108,9 @@ export default function Header({ typeUser=false, srcImgUser, home = false, callb
                     </Link>
                 </div>
                 <MenuIconHeader
-                    links={listLinks()}
+                    typeHeader={typeRender}
                 />
-                {typeUser ? userLogged : notLogged}
+                {typeLinksHeader}
             </nav>
         </header>
     )

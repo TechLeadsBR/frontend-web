@@ -10,7 +10,6 @@ import logoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-sol
 import logoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
 import logoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
 import notebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
-import CardJob from './../../components/cardJob/cardJob'
 
 export default function Home() {
 
@@ -91,8 +90,9 @@ export default function Home() {
     return (
         <div>
             <Header
-                home={true}
+                typeHeader={"home"}
                 callback={(type) => setTypeRender(type)}
+                srcImgUser={"https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png"}
             />
             <div className={stylesCss.divFilmFrame}>
                 <FilmFrame
@@ -105,7 +105,7 @@ export default function Home() {
             {partnerCompaniesChild}
             {advantageOurPlatform}
             <div style={{ width: "50%" }}>
-                <CardJob />
+                {/* <CardJob /> */}
 
             </div>
             <Footer />

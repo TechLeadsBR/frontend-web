@@ -13,7 +13,7 @@ async function requestAPI(method="get", path, body=null){
         const configRequest = {
             data: JSON.stringify(body),
             headers: {
-                "Authorization": authenticated() ? "Bearer" + getInLocalStorage(KEY_USER_JWT) : null
+                "Authorization": authenticated() ? "Bearer " + getInLocalStorage(KEY_USER_JWT) : null
             }
         }
 
