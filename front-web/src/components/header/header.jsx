@@ -107,9 +107,7 @@ export default function Header({ typeHeader=false, srcImgUser, callback }) {
                         <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
-                <MenuIconHeader
-                    typeHeader={typeRender}
-                />
+                {typeHeader && <MenuIconHeader typeHeader={typeRender} />}
                 {typeLinksHeader}
             </nav>
         </header>

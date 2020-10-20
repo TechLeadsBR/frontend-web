@@ -13,6 +13,7 @@ import { useState } from 'react'
 export default function Login(){
 
     const [login, setLogin] = useState({ email: null, password: null })
+    const [typeLogin, setTypeLogin] = useState(null)
 
     const loginFunction = () => {
         console.log('Enviou!')
@@ -26,7 +27,6 @@ export default function Login(){
 
     const childModal = (
         <div className={stylesCss.childModal}>
-            <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
             <b>Acesse sua conta</b>
             <form>
                 <Input 
@@ -52,11 +52,20 @@ export default function Login(){
         </div>
     )
 
+    const chooseLogin = (
+        <div>
+
+        </div>
+    )
+
     return (
         <div>
             <Header />
             <div className={stylesCss.root}>
-                <Modal>{childModal}</Modal>
+                <Modal>
+                    <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
+                    {chooseLogin}
+                </Modal>
             </div>
             <Footer />
         </div>
