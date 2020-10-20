@@ -3,12 +3,12 @@ import stylesCss from './menuIconHeader.module.css'
 import iconUser from './../../assets/images/icons/user.png'
 import { Link } from 'react-router-dom'
 
-export default function MenuIconHeader({ typeUser }) {
+export default function MenuIconHeader({ typeHeader }) {
 
     const [stateNavigationLinksList, setStateNavigationLinksList] = useState(false)
 
     const listLinks = () => {
-        switch (typeUser) {
+        switch (typeHeader) {
             case "student": return <li><Link to="/">Vagas</Link></li>
             case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
             case "administrator": {
@@ -20,6 +20,13 @@ export default function MenuIconHeader({ typeUser }) {
                     </>
                 )
             }
+            case "home": 
+                return (
+                    <>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/cadastro">Cadastre-se</Link></li>
+                    </>
+                ) 
             default: return <></>
         }
     }

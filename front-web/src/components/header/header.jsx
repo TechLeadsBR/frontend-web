@@ -3,22 +3,19 @@ import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import { 
-    removeInLocalStorage , 
-    verifyAuthenticatedUser, 
-    getInLocalStorage
+import {
+    breakToken, getRoleInToken
 } from './../../services/functions'
-import { KEY_USER_JWT } from './../../services/constants'
 import { Colors } from './../../services/constants'
 import { Link } from 'react-router-dom'
 
 
-export default function Header({ typeHeader=false, srcImgUser, callback }) {
+export default function Header({ typeHeader = false, srcImgUser, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
 
-    const listLinks = () => {
-        switch (typeHeader) {
+    const listLinks = (type) => {
+        switch (type) {
             case "student": return <li><Link to="/">Vagas</Link></li>
             case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
             case "administrator": {
@@ -30,22 +27,23 @@ export default function Header({ typeHeader=false, srcImgUser, callback }) {
                     </>
                 )
             }
-            case "home": 
+            case "home":
                 return (
                     <>
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/cadastro">Cadastre-se</Link></li>
                     </>
-                ) 
+                )
             default: return <></>
         }
     }
 
-    const userLogged = (
+
+    const userLogged = (type) => (
         <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
-            <ul className={stylesCss[typeHeader]}>{(listLinks())}</ul>
+            <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
             <img src={srcImgUser} alt={"Foto usuario x"} />
-            <p onClick={() => removeInLocalStorage(KEY_USER_JWT)}><Link to="/">sair</Link></p>
+            <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
         </div>
     )
 
@@ -61,13 +59,31 @@ export default function Header({ typeHeader=false, srcImgUser, callback }) {
         </div>
     )
 
+    const linkRedirectLogoHeader = () => {
+        switch (typeHeader) {
+            case "student": return "/vagas"
+            case "company": return "/gerenciarVagas"
+            case "administrator": return "/homeadm"
+            case "home": return "/"
+            default: return "/"
+        }
+
+    }
+
+    const navLinksHeader = () => {
+        if (typeHeader === "home") return notLogged
+        else if (typeHeader === "company" || typeHeader === "student" || typeHeader === "administrator") return userLogged(typeHeader)
+        else return <></>
+    }
+
+    //#region Relacionado ao tipo de renderização na home
     const alternatedRender = (type) => {
         setTypeRender(type)
         callback(type)
     }
 
     const classBolded = (type) => typeRender === type ? stylesCss.linkBolded : null
-    
+
     const studentOrCompanyRenderHome = (
         <div className={stylesCss.studentOrCompany}>
             <div>
@@ -78,37 +94,19 @@ export default function Header({ typeHeader=false, srcImgUser, callback }) {
             </div>
         </div>
     )
-
-    const linkLogoHeader = () => {
-        if (verifyAuthenticatedUser()) {
-            const roleUser = getInLocalStorage()
-            switch(roleUser){
-                case "1": return "/homeadm"
-                case "2": return "/vagas"
-                case "3": return "/gerenciarVagas"
-                default: return "/"
-            }
-        } else {
-            return "/"
-        }
-    }
-
-    const typeLinksHeader = typeHeader === "home" ? notLogged : 
-        typeHeader !== "company" && 
-        typeHeader !== "student" && 
-        typeHeader !== "administrator" ? null : userLogged
+    //#endregion
 
     return (
         <header className={stylesCss.root}>
             {typeHeader === "home" && studentOrCompanyRenderHome}
             <nav className={stylesCss.navBar}>
                 <div>
-                    <Link to={linkLogoHeader()}>
+                    <Link to={linkRedirectLogoHeader()}>
                         <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
-                {typeHeader && <MenuIconHeader typeHeader={typeRender} />}
-                {typeLinksHeader}
+                {typeHeader && <MenuIconHeader typeHeader={typeHeader} />}
+                {navLinksHeader()}
             </nav>
         </header>
     )

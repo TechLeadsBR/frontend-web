@@ -90,7 +90,7 @@ export default function Home() {
     return (
         <div>
             <Header
-                typeHeader={"home"}
+                typeHeader={"student"}
                 callback={(type) => setTypeRender(type)}
             />
             <div className={stylesCss.divFilmFrame}>
@@ -105,7 +105,6 @@ export default function Home() {
             {advantageOurPlatform}
             <div style={{ width: "50%" }}>
                 {/* <CardJob /> */}
-
             </div>
             <Footer />
         </div>
