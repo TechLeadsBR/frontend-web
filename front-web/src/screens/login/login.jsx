@@ -6,7 +6,7 @@ import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
-import { Colors } from '../../services/constants'
+import { Colors } from '../../services/constants/constants'
 import { Link, useParams } from 'react-router-dom'
 import { useState } from 'react'
 

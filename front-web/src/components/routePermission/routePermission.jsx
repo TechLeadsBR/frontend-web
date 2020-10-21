@@ -7,7 +7,7 @@ import {
     getRoleInToken
 }
     from './../../services/functions'
-import { KEY_USER_JWT } from './../../services/constants'
+import { KEY_USER_JWT } from './../../services/constants/constants'
 import { Route, Redirect } from 'react-router-dom'
 
 export default function RoutePermission({ path, role, component: Component }) {

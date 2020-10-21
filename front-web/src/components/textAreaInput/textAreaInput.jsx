@@ -21,6 +21,8 @@ export default function TextInput({
 
         // Se o valor atual da mudança for menor que o valor atual então nós adicionamos 1 no display do maxlenght
         if (lengthValue < currentValueInput) setMaxLength(maxLength + 1)
+
+        onChange(value)
     }
 
     return (
