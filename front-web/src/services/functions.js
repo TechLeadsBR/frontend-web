@@ -1,4 +1,4 @@
-import { KEY_USER_JWT } from './constants'
+import { KEY_USER_JWT } from './constants/constants'
 
 // função para salvar no localStorage
 export const saveInLocalStorage = (key, value) => localStorage.setItem(key, value)
@@ -30,3 +30,5 @@ export const getRoleInToken = () => {
 export const breakToken = () => {
     removeInLocalStorage(KEY_USER_JWT)
 }
+
+export const setFormState = (initialState, setState , key, value) => setState({...initialState, [key]: value})

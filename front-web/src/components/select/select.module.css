@@ -1,0 +1,21 @@
+.root {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.root > select {
+    background-color: #E9E9E9;
+    border: 1px solid #c7c7c7c7;
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    padding-left: 0.6rem;
+    font-size: large;
+}
+
+.root > label {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 5px
+}

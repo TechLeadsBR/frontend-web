@@ -1,0 +1,28 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+.root > textarea {
+    background-color: #E9E9E9;
+    border: 1px solid #c7c7c7;
+    font-size: large;
+    width: 100%;
+    border-radius: 10px;
+    padding-left: 0.6rem;
+    padding: 10px 0.6rem;
+    resize: none;
+}
+
+.root > div:nth-child(1) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.root > div > label {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 5px
+}

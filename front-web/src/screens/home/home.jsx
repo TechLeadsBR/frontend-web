@@ -9,7 +9,7 @@ import logoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-sol
 import logoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
 import logoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
 import notebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
-import { Colors } from './../../services/constants'
+import { Colors } from '../../services/constants/constants'
 
 export default function Home() {
 
