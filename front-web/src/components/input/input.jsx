@@ -1,8 +1,7 @@
 import React from 'react'
 import stylesCss from './input.module.css'
 
-export default function Input({ 
-    placeHolder, 
+export default function Input({  
     type, 
     onChange, 
     labelText, 
@@ -16,7 +15,6 @@ export default function Input({
             <input
                 id={name}
                 style={customStyles}
-                placeholder={placeHolder} 
                 type={type}
                 onChange={onChange}
             />

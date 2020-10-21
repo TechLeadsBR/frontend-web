@@ -57,20 +57,20 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
         </div>
     )
 
-    const linkRedirectLogoHeader = () => {
-        switch (typeHeader) {
+    const linkRedirectLogoHeader = (type) => {
+        switch (type) {
             case "student": return "/vagas"
-            case "company": return "/gerenciarVagas"
-            case "administrator": return "/homeadm"
+            case "company": return "/gerenciar-vagas"
+            case "administrator": return "/home-adm"
             case "home": return "/"
             default: return "/"
         }
 
     }
 
-    const navLinksHeader = () => {
-        if (typeHeader === "home") return notLogged
-        else if (typeHeader === "company" || typeHeader === "student" || typeHeader === "administrator") return userLogged(typeHeader)
+    const navLinksHeader = (type) => {
+        if (type === "home") return notLogged
+        else if (type === "company" || type === "student" || type === "administrator") return userLogged(type)
         else return <></>
     }
 
@@ -99,12 +99,12 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
             {typeHeader === "home" && studentOrCompanyRenderHome}
             <nav className={stylesCss.navBar}>
                 <div>
-                    <Link to={linkRedirectLogoHeader()}>
+                    <Link to={linkRedirectLogoHeader(typeHeader)}>
                         <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
                 {typeHeader && <MenuIconHeader typeHeader={typeHeader} />}
-                {navLinksHeader()}
+                {navLinksHeader(typeHeader)}
             </nav>
         </header>
     )

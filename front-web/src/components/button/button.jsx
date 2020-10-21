@@ -11,7 +11,7 @@ export default function Button({ text, bgColor, textColor, onClick, customStyles
 
     const onclick = (event) => {
         event.preventDefault()
-        onClick(event)
+        if(onClick) onClick(event)
     }
 
     return (
