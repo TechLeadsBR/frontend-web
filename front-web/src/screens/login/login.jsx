@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import stylesCss from './login.module.css'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
@@ -6,23 +6,19 @@ import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
-import { Colors } from '../../services/constants'
-import { Link } from 'react-router-dom'
+import { Colors } from '../../services/constants/constants'
+import { Link, useParams } from 'react-router-dom'
 import { useState } from 'react'
 
-export default function Login(){
+export default function Login(props){
 
+    const { isAdministrator } = useParams()
     const [login, setLogin] = useState({ email: null, password: null })
 
     const loginFunction = () => {
         console.log('Enviou!')
         console.log('Agora vai fazer isso aqui')
     }
-
-    useEffect(() => {
-        console.log('Alterou')
-        console.log(login)
-    }, [login])
 
     const childModal = (
         <div className={stylesCss.childModal}>
@@ -52,11 +48,14 @@ export default function Login(){
         </div>
     )
 
+
     return (
         <div>
             <Header />
             <div className={stylesCss.root}>
-                <Modal>{childModal}</Modal>
+                <Modal>
+                    {childModal}
+                </Modal>
             </div>
             <Footer />
         </div>

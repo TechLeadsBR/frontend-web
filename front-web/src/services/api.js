@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { BASE_URL_API } from './constants'
+import { BASE_URL_API } from './constants/constants'
 import { verifyAuthenticatedUser as authenticated, getInLocalStorage } from './functions'
-import { KEY_USER_JWT } from './constants'
+import { KEY_USER_JWT } from './constants/constants'
 
 async function requestAPI(method="get", path, body=null){
 
@@ -13,7 +13,7 @@ async function requestAPI(method="get", path, body=null){
         const configRequest = {
             data: JSON.stringify(body),
             headers: {
-                "Authorization": authenticated() ? "Bearer" + getInLocalStorage(KEY_USER_JWT) : null
+                "Authorization": authenticated() ? "Bearer " + getInLocalStorage(KEY_USER_JWT) : null
             }
         }
 

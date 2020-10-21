@@ -1,4 +1,4 @@
-import { KEY_USER_JWT } from './constants'
+import { KEY_USER_JWT } from './constants/constants'
 
 // função para salvar no localStorage
 export const saveInLocalStorage = (key, value) => localStorage.setItem(key, value)
@@ -23,5 +23,12 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
 export const getRoleInToken = () => {
     const token = getInLocalStorage(KEY_USER_JWT)
     const payload = decryptPayloadJwtAndReturnObject(token)
+    console.log(payload.Role)
     return payload.Role
 }
+
+export const breakToken = () => {
+    removeInLocalStorage(KEY_USER_JWT)
+}
+
+export const setFormState = (initialState, setState , key, value) => setState({...initialState, [key]: value})
