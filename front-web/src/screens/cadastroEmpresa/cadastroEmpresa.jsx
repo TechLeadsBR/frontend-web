@@ -5,14 +5,13 @@ import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
-import { setFormState } from './../../services/functions'
 import { Colors } from './../../services/constants/constants'
 
 export default function CadastroEmpresa(){
 
     const [newCompany, setNewCompany] = useState({})
 
-    const internSetStateForm = (key, value) => setFormState(newCompany, setNewCompany, key, value)
+    const internSetStateForm = (key, value) => setNewCompany({...newCompany, [key]: value})
 
     const formRegisterCompany = (
         <div className={stylesCss.formRegisterCompany}>
