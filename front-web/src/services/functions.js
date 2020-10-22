@@ -30,5 +30,3 @@ export const getRoleInToken = () => {
 export const breakToken = () => {
     removeInLocalStorage(KEY_USER_JWT)
 }
-
-export const setFormState = (initialState, setState , key, value) => setState({...initialState, [key]: value})

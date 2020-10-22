@@ -2,6 +2,7 @@ import Home from './../screens/home/home'
 import Login from './../screens/login/login'
 import NotFound from './../screens/notFound/notFound'
 import CadastroVaga from './../screens/cadastroVaga/cadastroVaga'
+import CadastroEmpresa from './../screens/cadastroEmpresa/cadastroEmpresa'
 
 const Pages = [
     {
@@ -20,6 +21,12 @@ const Pages = [
         name: "Cadastro Vaga",
         path: "/cadastro-vaga",
         component: CadastroVaga,
+        role: 0
+    },
+    {
+        name: "Cadastro Empresa",
+        path: "/cadastro-empresa",
+        component: CadastroEmpresa,
         role: 0
     }
 ]
