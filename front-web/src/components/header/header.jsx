@@ -77,7 +77,7 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
     //#region Relacionado ao tipo de renderização na home
     const alternatedRender = (type) => {
         setTypeRender(type)
-        callback(type)
+        if(callback) callback(type)
     }
 
     const classBolded = (type) => typeRender === type ? stylesCss.linkBolded : null

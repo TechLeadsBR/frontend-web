@@ -67,17 +67,17 @@ export default function CadastroVaga() {
                     <TextAreaInput
                         name={"description"}
                         labelText={"Descrição"}
-                        onChange={(value) => internSetStateForm("descricaoVaga", value)}
+                        callbackChangedValue={(value) => internSetStateForm("descricaoVaga", value)}
                     />
                     <TextAreaInput
                         name={"skills"}
                         labelText={"Habilidades"}
-                        onChange={(value) => internSetStateForm("habilidade", value)}
+                        callbackChangedValue={(value) => internSetStateForm("habilidade", value)}
                     />
                     <TextAreaInput
                         name={"remunerationAndBenefits"}
                         labelText={"Remuneração e benefícios"}
-                        onChange={(value) => internSetStateForm("remuneracaoBeneficio", value)}
+                        callbackChangedValue={(value) => internSetStateForm("remuneracaoBeneficio", value)}
                     />
                 </div>
                 <div className={stylesCss.divButton}>
@@ -88,7 +88,6 @@ export default function CadastroVaga() {
                         onClick={() => requestApiNewJob()}
                     />
                 </div>
-
             </form>
         </div>
     )
