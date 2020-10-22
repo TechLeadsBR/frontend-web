@@ -19,7 +19,7 @@ export default function RoutePermission({ path, role, component: Component }) {
         if(authenticated()){
             return roleUser() === role ? <Component {...props}/> : <Redirect to="/" />
         } else {
-            return role === 0 ? <Component {...props}/> : <Redirect to="/" />
+            return role === "0" ? <Component {...props}/> : <Redirect to="/" />
         }
     }
 

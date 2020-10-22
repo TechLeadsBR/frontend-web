@@ -9,13 +9,13 @@ const Pages = [
         name: "LoginAdm",
         path: "/login/:administrator",
         component: Login,
-        role: 0
+        role: "0"
     },
     {
         name: "Login",
         path: "/login",
         component: Login,
-        role: 0
+        role: "0"
     },
     {
         name: "Cadastro Vaga",
@@ -27,7 +27,7 @@ const Pages = [
         name: "Cadastro Empresa",
         path: "/cadastro-empresa",
         component: CadastroEmpresa,
-        role: 0
+        role: "0"
     }
 ]
 

@@ -22,28 +22,24 @@ export default function CadastroVaga() {
 
     const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
-    const [toasProps, setToastProps] = useState({text: null, visible: false, status: null})
+    const [toastProps, setToastProps] = useState({text: null, visible: false, status: null})
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
 
     const requestApiNewJob = async () => {
         try {
             await requestAPI("post", "/vagaemprego", newJob)
+            
             setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
-            // history.push("/gerenciar-vagas")
-            history.push("/")
+            
+            setTimeout(() => {
+                history.push("/gerenciar-vagas")
+            }, 2000)
+            
         } catch (error) {
             setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
         }
-        setToastProps({visible: false, text: null, status: false})
     }
-
-    useEffect(() => {
-        return () => {
-            setNewJob(null)
-            setToastProps(null)
-        }
-    }, [])
 
     const formJobRegister = (
         <div className={stylesCss.formJobRegister}>
@@ -112,9 +108,9 @@ export default function CadastroVaga() {
             {formJobRegister}
             <Footer />
             <ReactToast
-                visible={toasProps.visible}
-                textToast={toasProps.text}
-                status={toasProps.status}
+                visible={toastProps.visible}
+                textToast={toastProps.text}
+                status={toastProps.status}
             />
         </div>
     )
