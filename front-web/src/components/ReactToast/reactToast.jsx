@@ -3,18 +3,18 @@ import { ToastContainer, toast } from 'react-toastify'
 import { Colors } from './../../services/constants/constants'
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ReactToast({ activated=false, textToast, status }){
+export default function ReactToast({ visible = false, textToast, status }) {
 
-    if(activated) toast(textToast)
+    const text = status === "success" ? "✅ " + textToast : "❌ " + textToast
 
-    const progressStyle = status === "error" ? Colors : 
-    
-    return (
-        <div>
-            <ToastContainer 
-                progressStyle={{ background: Colors.red.hexadecimal }}
-                bodyStyle={{ color: Colors.white.hexadecimal }}
-            />
-        </div>
-    )
+    if (visible) toast(text)
+
+    const progressStyleProps = status === "success" ? Colors.green.hexadecimal : Colors.red.hexadecimal
+
+    return <ToastContainer
+        autoClose={2000}
+        progressStyle={{ background: progressStyleProps }}
+        bodyStyle={{ color: "black" }}
+    />
+
 }

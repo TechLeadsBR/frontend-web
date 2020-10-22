@@ -20,7 +20,7 @@ async function requestAPI(method="get", path, body=null){
         return await axios[method](pathURL, data, configRequest)
 
     } catch(error){
-        return error
+        throw new Error(error)
     }
 }
 
