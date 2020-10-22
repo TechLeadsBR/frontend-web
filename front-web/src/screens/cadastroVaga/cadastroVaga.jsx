@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import stylesCss from './cadastroVaga.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -6,9 +6,9 @@ import Input from './../../components/input/input'
 import Select from './../../components/select/select'
 import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import Button from './../../components/button/button'
+import ReactToast from './../../components/ReactToast/reactToast'
 import { Colors } from '../../services/constants/constants'
 import {
-    Positions,
     Levels,
     UF,
     TypeContracts
@@ -19,11 +19,18 @@ import { requestAPI } from './../../services/api'
 export default function CadastroVaga() {
 
     const [newJob, setNewJob] = useState(formNewJob)
+    const [statusToast, setStatusToast] = useState(false)
 
     const internSetStateForm = (key, value) => setNewJob({...newJob, [key]: value})
 
-    const requestApiNewJob = () => {
-        requestAPI("post", "/cadastrarvaga", newJob)
+    const requestApiNewJob = async () => {
+        try {
+            // const request = await requestAPI("post", "/vagaemprego", newJob)
+            // console.log(request)
+            setStatusToast(true)
+        } catch(error){
+            console.log(error)
+        }
     }
 
     const formJobRegister = (
@@ -92,6 +99,10 @@ export default function CadastroVaga() {
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
             <Footer />
+            <ReactToast 
+                activated={statusToast}
+                textToast={"Vaga cadastrada"}
+            />
         </div>
     )
 }
