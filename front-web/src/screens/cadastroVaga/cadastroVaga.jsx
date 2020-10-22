@@ -13,7 +13,6 @@ import {
     UF,
     TypeContracts
 } from '../../services/constants/data'
-import { setFormState } from './../../services/functions'
 import { formNewJob } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 
@@ -21,7 +20,7 @@ export default function CadastroVaga() {
 
     const [newJob, setNewJob] = useState(formNewJob)
 
-    const internSetStateForm = (key, value) => setFormState(newJob, setNewJob, key, value)
+    const internSetStateForm = (key, value) => setNewJob({...newJob, [key]: value})
 
     const requestApiNewJob = () => {
         requestAPI("post", "/cadastrarvaga", newJob)
@@ -35,20 +34,12 @@ export default function CadastroVaga() {
                     name={"titleJob"}
                     onChange={event => internSetStateForm("titulo", event.target.value)}
                 />
-                <div className={stylesCss.rowForm}>
-                    <Select
-                        name={"office"}
-                        labelText={"Cargo"}
-                        options={Positions}
-                        callbackChangedValue={(value) => internSetStateForm("cargo", value)}
-                    />
-                    <Select
-                        name={"level"}
-                        labelText={"Nível"}
-                        options={Levels}
-                        callbackChangedValue={(value) => internSetStateForm("nivel", value)}
-                    />
-                </div>
+                <Select
+                    name={"level"}
+                    labelText={"Nível"}
+                    options={Levels}
+                    callbackChangedValue={(value) => internSetStateForm("nivel", value)}
+                />
                 <div className={stylesCss.rowForm}>
                     <Select
                         name={"city"}
@@ -67,17 +58,17 @@ export default function CadastroVaga() {
                     <TextAreaInput
                         name={"description"}
                         labelText={"Descrição"}
-                        onChange={(value) => internSetStateForm("descricaoVaga", value)}
+                        callbackChangedValue={(value) => internSetStateForm("descricaoVaga", value)}
                     />
                     <TextAreaInput
                         name={"skills"}
                         labelText={"Habilidades"}
-                        onChange={(value) => internSetStateForm("habilidade", value)}
+                        callbackChangedValue={(value) => internSetStateForm("habilidade", value)}
                     />
                     <TextAreaInput
                         name={"remunerationAndBenefits"}
                         labelText={"Remuneração e benefícios"}
-                        onChange={(value) => internSetStateForm("remuneracaoBeneficio", value)}
+                        callbackChangedValue={(value) => internSetStateForm("remuneracaoBeneficio", value)}
                     />
                 </div>
                 <div className={stylesCss.divButton}>
@@ -88,7 +79,6 @@ export default function CadastroVaga() {
                         onClick={() => requestApiNewJob()}
                     />
                 </div>
-
             </form>
         </div>
     )
