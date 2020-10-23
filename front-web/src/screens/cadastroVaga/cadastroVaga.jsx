@@ -16,7 +16,6 @@ import {
     UF,
     TypeContracts
 } from '../../services/constants/data'
-import { useEffect } from 'react'
 
 export default function CadastroVaga() {
 

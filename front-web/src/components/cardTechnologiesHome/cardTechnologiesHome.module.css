@@ -13,7 +13,7 @@
     border-radius: 5px;
 }
 
-span {
+.root > span {
     width: 80%;
     word-wrap: break-word;
 }
