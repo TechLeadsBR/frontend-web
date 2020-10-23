@@ -1,29 +1,44 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import stylesCss from './cadastroVaga.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Input from './../../components/input/input'
 import Select from './../../components/select/select'
 import TextAreaInput from './../../components/textAreaInput/textAreaInput'
+import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
+import { useHistory } from 'react-router-dom'
 import { Colors } from '../../services/constants/constants'
+import { formNewJob } from './../../services/constants/templates'
+import { requestAPI } from './../../services/api'
 import {
-    Positions,
     Levels,
     UF,
     TypeContracts
 } from '../../services/constants/data'
-import { formNewJob } from './../../services/constants/templates'
-import { requestAPI } from './../../services/api'
+import { useEffect } from 'react'
 
 export default function CadastroVaga() {
 
+    const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
+    const [toastProps, setToastProps] = useState({text: null, visible: false, status: null})
 
-    const internSetStateForm = (key, value) => setNewJob({...newJob, [key]: value})
+    const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
 
-    const requestApiNewJob = () => {
-        requestAPI("post", "/cadastrarvaga", newJob)
+    const requestApiNewJob = async () => {
+        try {
+            await requestAPI("post", "/vagaemprego", newJob)
+            
+            setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
+            
+            setTimeout(() => {
+                history.push("/gerenciar-vagas")
+            }, 2000)
+            
+        } catch (error) {
+            setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
+        }
     }
 
     const formJobRegister = (
@@ -82,7 +97,7 @@ export default function CadastroVaga() {
             </form>
         </div>
     )
-
+    
     return (
         <div className={stylesCss.root}>
             <Header
@@ -92,6 +107,11 @@ export default function CadastroVaga() {
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
             <Footer />
+            <ReactToast
+                visible={toastProps.visible}
+                textToast={toastProps.text}
+                status={toastProps.status}
+            />
         </div>
     )
 }

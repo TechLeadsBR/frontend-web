@@ -30,5 +30,9 @@ export const Colors = {
     defaultGray: {
         hexadecimal: "#C4C4C4",
         rgb: "196, 196, 196"
+    },
+    green: {
+        hexadecimal: "#4CB944",
+        rgb: "76, 185, 68"
     }
 }
