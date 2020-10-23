@@ -1,0 +1,21 @@
+.root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formRegisterStudent {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rowForm {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
