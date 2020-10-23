@@ -3,7 +3,6 @@ import stylesCss from './cadastroEmpresa.module.css'
 import Header from './../../components/header/header'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
-import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
 import { Colors } from './../../services/constants/constants'
 

@@ -36,7 +36,6 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
         }
     }
 
-
     const userLogged = (type) => (
         <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
             <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
