@@ -1,0 +1,23 @@
+.root {
+    display: flex;
+    flex-flow: column;
+    background-color: yellow;
+    min-width: 300px;
+}
+
+.root > span {
+    margin-bottom: 20px;
+}
+
+.root > div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+}
+
+.optionRadioInput {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+}

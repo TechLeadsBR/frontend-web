@@ -1,0 +1,3 @@
+.root > input[type="file"] {
+    display: none;
+}
