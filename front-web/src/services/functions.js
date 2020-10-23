@@ -23,10 +23,15 @@ export const decryptPayloadJwtAndReturnObject = (token) => {
 export const getRoleInToken = () => {
     const token = getInLocalStorage(KEY_USER_JWT)
     const payload = decryptPayloadJwtAndReturnObject(token)
-    console.log(payload.Role)
-    return payload.Role
+    return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 }
 
 export const breakToken = () => {
     removeInLocalStorage(KEY_USER_JWT)
+}
+
+export const getJtiUserInToken = () => {
+    const token = getInLocalStorage(KEY_USER_JWT)
+    const payload = decryptPayloadJwtAndReturnObject(token)
+    return payload["jti"]
 }
