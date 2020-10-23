@@ -1,0 +1,136 @@
+.childFilmFrame {
+    text-align: center;
+}
+
+.childFilmFrame > h1 {
+    color: white;
+    margin: 20px 0;
+    font-size: 2.5rem;
+}
+
+.childFilmFrame div {
+    border: 1px solid WHITE
+}
+
+.partnerCompanies {
+    width: 100%;
+    margin: 50px 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.partnerCompanies > h2,
+.rootAdvantageOurPlatform > h2 {
+    font-size: 25px;
+    margin: 10px 0px 40px 0px;
+    color: #2A2E32;
+    font-weight: 500;
+}
+
+.partnerCompanies > div {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Advantage our plataform */
+.rootAdvantageOurPlatform {
+    text-align: center;
+    width: 100%;
+    margin: 100px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.advantageOurPlatform {
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.rootAdvantageOurPlatform img {
+    width: 500px;
+}
+
+.advantagesItens {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 200px;
+}
+
+/* Advantage item */
+.advantageItem {
+    display: flex;
+    align-items: center;
+    width: 34vw;
+    font-size: 1.5rem;
+}
+
+.advantageItem > div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #C4C4C4;
+    border-radius: 50%;
+    margin-right: 50px;
+}
+
+
+@media (max-width: 930px) {
+    .advantageOurPlatform {
+        flex-direction: column-reverse;
+        height: 95vh;
+        width: 100%;
+    }
+
+    .rootAdvantageOurPlatform > h2 {
+        margin-bottom: 70px;
+    }
+
+    .advantageItem > div {
+        margin: 0;
+    }
+
+    .advantagesItens {
+        margin-bottom: 40px;
+        height: 40vh;
+    }
+
+    .advantageItem {
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .advantageOurPlatform > img {
+        width: 60%;
+    }
+}
+
+/* Mobile responsive */
+@media(max-width: 768px){
+    .partnerCompanies {
+        height: 60vh;
+    }
+    .partnerCompanies > div {
+        flex-direction: column;
+        justify-content: space-between;
+        height: 40vh;
+    }
+
+    .partnerCompanies img {
+        margin-bottom: 30px;
+    }
+
+    .rootAdvantageOurPlatform{
+        margin: 24px 0;
+    }
+}
+

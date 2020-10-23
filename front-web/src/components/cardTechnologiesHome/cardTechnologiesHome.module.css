@@ -1,0 +1,26 @@
+.root {
+    width: 35%;
+    height: 200px;
+    background-size: cover;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-wrap: nowrap;
+    text-align: center;
+    border-radius: 5px;
+}
+
+span {
+    width: 80%;
+    word-wrap: break-word;
+}
+
+@media (max-width: 768px){
+    .root {
+        width: 80%;
+        margin: 30px 0;
+    }
+}
