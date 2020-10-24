@@ -12,19 +12,22 @@ export default function Table({
 
     const actionColumn = {
         element: action && <th>Ação</th>,
-        imgIcon: action && <td>
+        imgIcon: (rowData) => action && <td>
             <img
                 className={stylesCss.iconPenActionStyle}
                 src={iconPenAction}
                 alt={"Icon pen action"}
-                onClick={() => callbackAction(true)}
+                onClick={() => {
+                    if(callbackAction) callbackAction(true)
+                    console.log(rowData)
+                }}
             />
         </td>
     }
 
     const headTable = (
         columnsTable && (
-            <thead>
+            <thead className={stylesCss.theadTable}>
                 <tr>
                     {actionColumn.element}
                     {columnsTable.map((column, index) => <th key={index}>{column}</th>)}
@@ -35,11 +38,11 @@ export default function Table({
 
     const bodyTable = (
         dataTable && (
-            <tbody>
+            <tbody className={stylesCss.tbodyTable}>
                 {dataTable.map((d, i) => {
                     return (
                         <tr key={i}>
-                            {actionColumn.imgIcon}
+                            {actionColumn.imgIcon(d)}
                             {Object.values(d).map((v, i) => <td key={i}>{v}</td>)}
                         </tr>
                     )
