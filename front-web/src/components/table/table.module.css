@@ -1,0 +1,14 @@
+.root > h2 {
+    color: #BE0024;
+}
+
+.iconPenActionStyle {
+    width: 20px;
+    cursor: pointer;
+}
+
+.table {
+    min-width: 80vh;
+    background-color: yellow;
+    text-align: center;
+}
