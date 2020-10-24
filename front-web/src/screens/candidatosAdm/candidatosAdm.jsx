@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../../components/header/header'
 import Footer from '../../components/footer/footer'
 import Table from './../../components/table/table'
+import Modal from './../../components/modal/modal'
 import stylesCss from './candidatosAdm.module.css'
 
-const columnsTable =["ID", "Nome", "Sobrenome", "Idade", "Genero"]
+const columnsTable = ["ID", "Nome", "Sobrenome", "Idade", "Genero"]
 
 const mockedData = [
     {
@@ -44,26 +45,43 @@ const mockedData = [
     }
 ]
 
-export default function CandidatosAdm(){
+export default function CandidatosAdm() {
+
+    const [showModal, setShowModal] = useState(false)
+    const [dataForChanges, setDataForChanges] = useState({})
+
     return (
         <div className={stylesCss.root}>
-            <Header 
+            <Header
                 typeHeader={"administrator"}
             />
             <div className={stylesCss.content}>
-                <Table 
+                <Table
                     title={"Candidatos Cadastrados"}
                     columnsTable={columnsTable}
                     dataTable={mockedData}
                     action={true}
+                    callbackAction={value => setShowModal(value)}
+                    rowSelected={(row) => console.log(row)}
                 />
-                <Table 
+                <Table
                     title={"Ex-alunos"}
                     columnsTable={columnsTable}
                     dataTable={mockedData}
+                    callbackAction={value => setShowModal(value)}
                     action={true}
+                    rowSelected={(data) => setDataForChanges(data)}
                 />
             </div>
+            {
+                showModal && (
+                    <div className={stylesCss.modalEditData}>
+                        <Modal styleProps={{ width: "50%" }}>
+                            <h2>Editar: {dataForChanges.nome}</h2>
+                        </Modal>
+                    </div>
+                )
+            }
             <Footer />
         </div>
     )

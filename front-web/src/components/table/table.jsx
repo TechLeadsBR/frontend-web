@@ -7,19 +7,20 @@ export default function Table({
     dataTable, 
     action = false, 
     callbackAction,
-    title
+    title,
+    rowSelected
 }) {
 
     const actionColumn = {
         element: action && <th>Ação</th>,
-        imgIcon: (rowData) => action && <td>
+        imgIcon: (dataRow) => action && <td>
             <img
                 className={stylesCss.iconPenActionStyle}
                 src={iconPenAction}
                 alt={"Icon pen action"}
                 onClick={() => {
                     if(callbackAction) callbackAction(true)
-                    console.log(rowData)
+                    if(rowSelected) rowSelected(dataRow)
                 }}
             />
         </td>

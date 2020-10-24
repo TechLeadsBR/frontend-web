@@ -13,3 +13,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.modalEditData {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
