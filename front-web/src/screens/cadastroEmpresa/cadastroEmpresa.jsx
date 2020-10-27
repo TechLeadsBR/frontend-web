@@ -45,15 +45,19 @@ export default function CadastroEmpresa(){
                         type={"number"}
                     />
                 </div>
+
                 <TextArea 
                     labelText={"Descrição Empresa"}
                 />
-                <Button
-                    bgColor={Colors.red.hexadecimal}
-                    text={"Concluir Cadastro"}
-                    textColor={Colors.white.hexadecimal}
-                    onClick={() => console.log(newCompany)}
-                />
+
+                <div className={stylesCss.divButton}>
+                    <Button
+                        bgColor={Colors.red.hexadecimal}
+                        text={"Concluir Cadastro"}
+                        textColor={Colors.white.hexadecimal}
+                        onClick={() => console.log(newCompany)}
+                    />
+                </div>
             </form>
         </div>
     )
