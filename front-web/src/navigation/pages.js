@@ -22,7 +22,7 @@ const Pages = [
         name: "Cadastro Vaga",
         path: "/cadastro-vaga",
         component: CadastroVaga,
-        role: "0"
+        role: "3"
     },
     {
         name: "Cadastro Empresa",
@@ -34,7 +34,7 @@ const Pages = [
         name: "Candidatos administrador",
         path: "/candidatos-adm",
         component: CandidatosAdm,
-        role: "0"
+        role: "1"
     }
 ]
 

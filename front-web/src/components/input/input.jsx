@@ -6,7 +6,8 @@ export default function Input({
     onChange, 
     labelText, 
     customStyles, 
-    name
+    name,
+    currentValue
 }){
 
     return (
@@ -17,6 +18,7 @@ export default function Input({
                 style={customStyles}
                 type={type}
                 onChange={onChange}
+                value={currentValue}
             />
         </div>
     )
