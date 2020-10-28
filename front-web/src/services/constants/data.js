@@ -49,3 +49,10 @@ export const TypeContracts = [
     "CLT",
     "Estágio"
 ]
+
+export const Profile = [
+    "Lobo",
+    "Gato",
+    "Tubarão",
+    "Águia"
+]

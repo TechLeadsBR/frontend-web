@@ -22,7 +22,6 @@ import imgCurriculoIcon from './../../assets/images/icons/curriculo.png'
 import studentStylesCss from './homeStudent.module.css'
 import companyStylesCss from './homeCompany.module.css'
 
-
 //#region Student constants
 const partnerCompaniesArray = [
     {
@@ -129,12 +128,12 @@ export default function Home() {
                 <div className={companyStylesCss.cardGreyBackground}>
                     <img src={imgCurriculoIcon} alt="" />
                     <span>Publique vagas</span>
-                    <p>Publíque aqui as vagas disponiveis<br/>em sua empresa para os nossos<br/> jovens talentos.</p>
+                    <p>Publíque aqui as vagas disponiveis<br />em sua empresa para os nossos<br /> jovens talentos.</p>
                 </div>
                 <div className={companyStylesCss.cardGreyBackground}>
                     <img src={imgGroupIcon} alt="" />
                     <span>Recrute Talentos</span>
-                    <p>Aqui você encontrara os<br/>melhores alunos da nossa<br/>instituição Senai</p>
+                    <p>Aqui você encontrara os<br />melhores alunos da nossa<br />instituição Senai</p>
                 </div>
             </div>
         </div>

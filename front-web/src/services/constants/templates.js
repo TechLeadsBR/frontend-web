@@ -10,3 +10,7 @@ export const formNewJob = {
     tipoContrato: null,
     idEmpresa: getJtiUserInToken()
 }
+
+export const formNewStudent = {
+    
+}
