@@ -16,17 +16,23 @@ export default function RoutePermission({ path, role, component: Component }) {
     const roleUser = () => token() ? getRoleInToken() : removeInLocalStorage(KEY_USER_JWT)
 
     const verificationUserToRoute = (props) => {
-        if(authenticated()){
-            return roleUser() === role ? <Component {...props}/> : <Redirect to="/" />
+        if (authenticated()) {
+            return roleUser() === role ? <Component {...props} /> : <Redirect to="/" />
         } else {
-            return role === "0" ? <Component {...props}/> : <Redirect to="/" />
+            return role === "0" ? <Component {...props} /> : <Redirect to="/" />
         }
     }
 
     return (
-        <Route
-            path={path}
-            render={props => verificationUserToRoute(props)}
-        />
+        <>
+            <Route
+                path={path}
+                render={props => {
+                    return <>
+                        {verificationUserToRoute(props)}
+                    </>
+                }}
+            />
+        </>
     )
 }

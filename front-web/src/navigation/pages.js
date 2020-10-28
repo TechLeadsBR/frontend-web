@@ -4,6 +4,8 @@ import NotFound from './../screens/notFound/notFound'
 import CadastroVaga from './../screens/cadastroVaga/cadastroVaga'
 import CadastroEmpresa from './../screens/cadastroEmpresa/cadastroEmpresa'
 import PerfilAluno from './../screens/perfilAluno/perfilAluno'
+import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
+import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 
 const Pages = [
     {
@@ -22,7 +24,7 @@ const Pages = [
         name: "Cadastro Vaga",
         path: "/cadastro-vaga",
         component: CadastroVaga,
-        role: "3"
+        role: "0"
     },
     {
         name: "Cadastro Empresa",
@@ -34,6 +36,17 @@ const Pages = [
         name: "Perfil Aluno",
         path: "/perfil-aluno",
         component: PerfilAluno,
+        role: "2"
+    },{
+        name: "Cadastro Aluno",
+        path: "/cadastro-aluno",
+        component: CadastroAluno,
+        role: "0"
+    },
+    {
+        name: "Candidatos administrador",
+        path: "/candidatos-adm",
+        component: CandidatosAdm,
         role: "0"
     }
 ]

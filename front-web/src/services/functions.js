@@ -35,3 +35,9 @@ export const getJtiUserInToken = () => {
     const payload = decryptPayloadJwtAndReturnObject(token)
     return payload["jti"]
 }
+
+export const formatData = (dateTime) => {
+    const date = dateTime.split('T')[0]
+    const splitted = date.split('-')
+    return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
+}

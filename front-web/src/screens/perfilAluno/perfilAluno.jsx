@@ -1,35 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/header'
 import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
 import fotoUsuario from './../../assets/images/universal/fotoUsuario.jpg'
-import imgIconAnimal from './../../assets/images/icons/iconAnimal.png'
 import { requestAPI } from './../../services/api'
-    
+import { getJtiUserInToken } from './../../services/functions'
+import { BehavioralProfiles } from './../../services/constants/data'
+
 export default function PerfilAluno() {
 
+    const [dataStudent, setDataStudent] = useState({})
 
-    const childGrayBackground = (
-        <div className={stylesCss.childGrayBackground}>
-            <div className={stylesCss.userData}>
-                <p>Dados Pessoais</p>
-                <p>Nome: Pedro</p>
-                <p>E-mail: Pedro@gmail.com</p>
-                <p>Telefone: (11)9999-9999</p>
-            </div>
+    useEffect(() => {
+        getInformationsUser()
+    }, [])
 
-            <div className={stylesCss.behavioralProfile}>
-                <div>
-                    <img className={stylesCss.icon} src={imgIconAnimal} alt="Icone Animal do Perfil Comportamental" />
+    const getInformationsUser = async () => {
+        try {
+            const request = await requestAPI("get", `/aluno/${getJtiUserInToken()}`)
+            console.log(request.data)
+            if (request.status === 200) {
+                setDataStudent(request.data)
+            } else {
+                console.log("Deu ruim")
+                console.log(request)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const studentAnimalProfile = BehavioralProfiles[dataStudent.perfilComportamental]
+
+    const childUserInformations = () => {
+        const { nome, email, telefone } = dataStudent
+
+        return (
+            <div className={stylesCss.childUserInformations}>
+                <div className={stylesCss.userData}>
+                    <p>Dados Pessoais</p>
+                    <p>Nome: {nome}</p>
+                    <p>E-mail: {email}</p>
+                    <p>Telefone: {telefone}</p>
                 </div>
-                <div>
-                    <p>Perfil Comportamental</p>
-                    <p>Visualizar |</p>
-                    <p>Editar</p>
+
+                <div className={stylesCss.behavioralProfile}>
+                    <div>
+                        <img 
+                            className={stylesCss.icon} 
+                            src={BehavioralProfiles.Aguia.SrcImgIcon} 
+                            alt={`Icone ${dataStudent.perfilComportamental}`} />
+                    </div>
+                    <div>
+                        <p>Perfil Comportamental</p>
+                        <p>Visualizar |</p>
+                        <p>Editar</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 
     return (
         <div>
@@ -37,7 +68,7 @@ export default function PerfilAluno() {
                 typeHeader={"student"}
             />
             <GrayBackgroundProfile srcImgUser={fotoUsuario}>
-                {childGrayBackground}
+                {childUserInformations()}
             </GrayBackgroundProfile>
         </div>
     )

@@ -20,7 +20,7 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
                 return (
                     <>
                         <li><Link to="/">Início</Link></li>
-                        <li><Link to="/">Candidatos</Link></li>
+                        <li><Link to="/candidatos-adm">Candidatos</Link></li>
                         <li><Link to="/">Empresas</Link></li>
                     </>
                 )
@@ -35,7 +35,6 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
             default: return <></>
         }
     }
-
 
     const userLogged = (type) => (
         <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>

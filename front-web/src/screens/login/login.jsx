@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import stylesCss from './login.module.css'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
@@ -7,39 +7,46 @@ import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import { Colors } from '../../services/constants/constants'
-import { Link, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, useParams, useHistory } from 'react-router-dom'
+import { requestAPI } from './../../services/api'
 
-export default function Login(props){
+export default function Login() {
 
-    const { isAdministrator } = useParams()
+    const history = useHistory()
+    const { administrator } = useParams()
     const [login, setLogin] = useState({ email: null, password: null })
+    
+    useEffect(() => {
+        if(administrator !== undefined && administrator !== "administrator") history.push("/")
+    })
 
-    const loginFunction = () => {
-        console.log('Enviou!')
-        console.log('Agora vai fazer isso aqui')
+    const isAdministrator = administrator === "administrator"
+
+    const requestApiLogin = async () => {
+        await requestAPI("/login")
+        
     }
 
-    const childModal = (
-        <div className={stylesCss.childModal}>
+    const childModalFormLogin = (
+        <div className={stylesCss.childModalFormLogin}>
             <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
             <b>Acesse sua conta</b>
             <form>
-                <Input 
+                <Input
                     labelText={"E-mail"}
                     type={"email"}
-                    onChange={(event) => setLogin({...login, email: event.target.value})}
+                    onChange={(event) => setLogin({ ...login, email: event.target.value })}
                 />
-                <Input 
+                <Input
                     labelText={"Senha"}
                     type={"password"}
-                    onChange={(event) => setLogin({...login, password: event.target.value})}
+                    onChange={(event) => setLogin({ ...login, password: event.target.value })}
                 />
-                <Button 
+                <Button
                     bgColor={Colors.red.hexadecimal}
                     text={"Entrar"}
                     textColor={Colors.white.hexadecimal}
-                    onClick={() => loginFunction()}
+                    onClick={() => requestApiLogin()}
                 />
             </form>
             <div className={stylesCss.hasNoRegistration}>
@@ -52,9 +59,9 @@ export default function Login(props){
     return (
         <div>
             <Header />
-            <div className={stylesCss.root}>
+            <div className={stylesCss.root} id={isAdministrator ? stylesCss.administrator : null}>
                 <Modal>
-                    {childModal}
+                    {childModalFormLogin}
                 </Modal>
             </div>
             <Footer />

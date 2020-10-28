@@ -11,8 +11,13 @@
     background-size: cover;
 }
 
+div#administrator {
+    background-image: linear-gradient(
+        rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+        url(./../../assets/images/universal/ambiente-de-trabalho-3.png);
+}
 
-.childModal {
+.childModalFormLogin {
     width: 85%;
     height: 90%;
     display: flex;
@@ -21,11 +26,11 @@
     justify-content: space-between;
 }
 
-.childModal > b {
+.childModalFormLogin > b {
     font-size: 1.5rem;
 }
 
-.childModal > img {
+.childModalFormLogin > img {
     width: 80%;
 }
 

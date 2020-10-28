@@ -11,10 +11,12 @@ export default function ReactToast({ visible = false, textToast, status }) {
 
     const progressStyleProps = status === "success" ? Colors.green.hexadecimal : Colors.red.hexadecimal
 
-    return <ToastContainer
-        autoClose={2000}
-        progressStyle={{ background: progressStyleProps }}
-        bodyStyle={{ color: "black" }}
-    />
+    return (
+        <ToastContainer
+            autoClose={2000}
+            progressStyle={{ background: progressStyleProps }}
+            bodyStyle={{ color: "black" }}
+        />
+    )
 
 }
