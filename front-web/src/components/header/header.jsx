@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Button from './../../components/button/button'
-import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
+import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'

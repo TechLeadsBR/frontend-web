@@ -41,3 +41,7 @@ export const formatData = (dateTime) => {
     const splitted = date.split('-')
     return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
 }
+
+export const saveInSessionStorage = (key, value) => sessionStorage.setItem(key, value)
+
+export const getInSessionStorage = (key) => sessionStorage.getItem(key)
