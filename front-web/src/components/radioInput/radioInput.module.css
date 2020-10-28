@@ -2,9 +2,12 @@
     display: flex;
     flex-flow: column;
     min-width: 300px;
+    margin: 12px 0;
 }
 
 .root > span {
+    font-size: 16px;
+    font-weight: 500;
     margin-bottom: 20px;
 }
 
@@ -16,7 +19,7 @@
 .optionRadioInput {
     width: 30%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row-reverse;
     align-items: center;
 }
