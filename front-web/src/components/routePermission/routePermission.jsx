@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import LoadingPage from './../loadingPage/loadingPage'
+import React from 'react'
 import {
     verifyAuthenticatedUser as authenticated,
     decryptPayloadJwtAndReturnObject as decrypt,
@@ -13,7 +12,6 @@ import { Route, Redirect } from 'react-router-dom'
 
 export default function RoutePermission({ path, role, component: Component }) {
 
-    const [iconLoading, setIconLoading] = useState(false)
     const token = () => decrypt(getInLocalStorage(KEY_USER_JWT))
     const roleUser = () => token() ? getRoleInToken() : removeInLocalStorage(KEY_USER_JWT)
 
@@ -24,17 +22,6 @@ export default function RoutePermission({ path, role, component: Component }) {
             return role === "0" ? <Component {...props} /> : <Redirect to="/" />
         }
     }
-
-    const falseIconLoading = () => {
-        setTimeout(() => {
-            setIconLoading(false)
-        }, 2000);
-    }
-
-    useEffect(() => {
-        setIconLoading(true)
-        falseIconLoading()
-    }, [])
 
     return (
         <>
