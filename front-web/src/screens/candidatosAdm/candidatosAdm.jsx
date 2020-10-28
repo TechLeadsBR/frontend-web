@@ -5,6 +5,7 @@ import Table from './../../components/table/table'
 import Modal from './../../components/modal/modal'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
+import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
 import { requestAPI } from './../../services/api'
 import { formatData } from './../../services/functions'
@@ -24,6 +25,8 @@ export default function CandidatosAdm() {
     // Linha selecionada que a tabela retorna para fazer as alterações
     const [rowSelectedForChanges, setRowSelectedForChanges] = useState({})
 
+    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
+
     // Dados alterados
     const [changedData, setChangedData] = useState({
         email: null,
@@ -32,7 +35,7 @@ export default function CandidatosAdm() {
 
     useEffect(() => {
         getCandidatesInDataBase()
-    }, [])
+    })
 
     const createObjectForDataTable = (data) => {
         //commitar back, modificado metodo de listar aluno
@@ -62,12 +65,16 @@ export default function CandidatosAdm() {
     const changeCandidateData = async () => {
         try {
             const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changedData)
-            if(request.status === 200) {
-                console.log("Deu bom")
+            if (request.status === 200) {
+                setToastProps({ status: "success", text: "Candidatos alterado com sucesso", visible: true })
+                setShowModal(false)
+            } else {
+                setToastProps({ status: "error", text: "Ocorreu um erro ao atualizar", visible: true })
             }
         } catch (error) {
             console.log(error)
         }
+
     }
     //#endregion
 
@@ -90,7 +97,7 @@ export default function CandidatosAdm() {
                             name={"Telefone"}
                             type={"number"}
                             onChange={(event) => setChangedData({ ...changedData, telefone: event.target.value })}
-                            currentValue={rowSelectedForChanges.telefone}
+                            currentValue={changedData.telefone}
                         />
                         <Button
                             bgColor={Colors.red.hexadecimal}
@@ -130,6 +137,11 @@ export default function CandidatosAdm() {
                 />
             </div>
             {showModal && contentModalForChanges}
+            <ReactToast
+                status={toastProps.status}
+                textToast={toastProps.text}
+                visible={toastProps.visible}
+            />
             <Footer />
         </div>
     )

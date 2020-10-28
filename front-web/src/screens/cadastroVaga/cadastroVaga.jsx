@@ -27,13 +27,17 @@ export default function CadastroVaga() {
 
     const requestApiNewJob = async () => {
         try {
-            await requestAPI("post", "/vagaemprego", newJob)
-            
-            setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
-            
-            setTimeout(() => {
-                history.push("/gerenciar-vagas")
-            }, 2000)
+            const request = await requestAPI("post", "/vagaemprego", newJob)
+
+            if(request.status === 200){
+                setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
+                
+                setTimeout(() => {
+                    history.push("/gerenciar-vagas")
+                }, 2000)
+            }else {
+                setToastProps({ status: "error", text: "Ocorreu um erro ao cadastrar vaga", visible: true})
+            }
             
         } catch (error) {
             setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
@@ -105,12 +109,12 @@ export default function CadastroVaga() {
             />
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
-            <Footer />
             <ReactToast
                 visible={toastProps.visible}
                 textToast={toastProps.text}
                 status={toastProps.status}
             />
+            <Footer />
         </div>
     )
 }
