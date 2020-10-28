@@ -27,7 +27,12 @@ export default function RoutePermission({ path, role, component: Component }) {
         <>
             <Route
                 path={path}
-                render={props => verificationUserToRoute(props)}
+                render={props => {
+                    return <>
+                        {iconLoading && <LoadingPage />}
+                        {verificationUserToRoute(props)}
+                    </>
+                }}
             />
         </>
     )
