@@ -124,7 +124,7 @@ export default function CandidatosAdm() {
                 <Table
                     title={"Ex-alunos"}
                     columnsTable={columnsTable}
-                    dataTable={mockedData}
+                    dataTable={[]}
                     callbackAction={value => setShowModal(value)}
                     action={true}
                 />
