@@ -4,11 +4,11 @@ import iconEagleProfile from './../../assets/images/icons/eagleProfile.png'
 import iconWolfProfile from './../../assets/images/icons/wolfProfile.png'
 
 export const Positions = [
-    "Gestor", 
-    "Gerente", 
-    "Estagiário", 
-    "Supervisor", 
-    "Diretor", 
+    "Gestor",
+    "Gerente",
+    "Estagiário",
+    "Supervisor",
+    "Diretor",
     "Coordenador",
     "Consultor",
     "Executivo",
@@ -16,23 +16,23 @@ export const Positions = [
     "Auxiliar"
 ]
 
-export const Levels = ["Junior", "Pleno" , "Senior"]
+export const Levels = ["Junior", "Pleno", "Senior"]
 
 export const UF = [
-    "MG", 
-    "SP", 
-    "RJ", 
-    "RO", 
-    "AC", 
-    "AM", 
-    "RR", 
-    "PA", 
-    "AP", 
-    "TO", 
-    "MA", 
-    "PI", 
-    "CE", 
-    "RN", 
+    "MG",
+    "SP",
+    "RJ",
+    "RO",
+    "AC",
+    "AM",
+    "RR",
+    "PA",
+    "AP",
+    "TO",
+    "MA",
+    "PI",
+    "CE",
+    "RN",
     "PB",
     "PE",
     "AL",
@@ -57,7 +57,7 @@ export const TypeContracts = [
 
 export const BehavioralProfiles = {
     Lobo: {
-        Description: "Analisa, quantifica, é lógico, é crítico, é realista, gosta de números, entende de dinheiro, sabe como as coisas funcionam. Gosta de trabalhar sozinho, realizar, analisar dados, lidar com aspectos financeiros, montar as coisas, fazer algo funcionar, resolver problemas difíceis. Como são pessoas muito objetivas, são perfeitas para atividades de execução, com escopo e prazos definidos. Para esse tipo de pessoa, a palavra de ordem é objetividade. A comunicação com esse tipo de profissional deve ser feita de forma direta, de forma rápida e sem muitos rodeios, com reuniões rápidas, objetivas e com pauta definida." ,
+        Description: "Analisa, quantifica, é lógico, é crítico, é realista, gosta de números, entende de dinheiro, sabe como as coisas funcionam. Gosta de trabalhar sozinho, realizar, analisar dados, lidar com aspectos financeiros, montar as coisas, fazer algo funcionar, resolver problemas difíceis. Como são pessoas muito objetivas, são perfeitas para atividades de execução, com escopo e prazos definidos. Para esse tipo de pessoa, a palavra de ordem é objetividade. A comunicação com esse tipo de profissional deve ser feita de forma direta, de forma rápida e sem muitos rodeios, com reuniões rápidas, objetivas e com pauta definida.",
         StrongPoints: "Pensar em longo prazo e cumprir com regras e responsabilidade.",
         Weaknesses: " Dificuldade de se adaptar às mudanças pode impedir o progresso.",
         SrcImgIcon: iconWolfProfile

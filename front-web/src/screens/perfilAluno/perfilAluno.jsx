@@ -4,7 +4,6 @@ import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
 import fotoUsuario from './../../assets/images/universal/fotoUsuario.jpg'
 import { requestAPI } from './../../services/api'
-import { getJtiUserInToken } from './../../services/functions'
 import { BehavioralProfiles } from './../../services/constants/data'
 
 export default function PerfilAluno() {
@@ -17,7 +16,7 @@ export default function PerfilAluno() {
 
     const getInformationsUser = async () => {
         try {
-            const request = await requestAPI("get", `/aluno/${getJtiUserInToken()}`)
+            const request = await requestAPI("get", "/aluno/id")
             console.log(request.data)
             if (request.status === 200) {
                 setDataStudent(request.data)
@@ -31,10 +30,24 @@ export default function PerfilAluno() {
         }
     }
 
-    const studentAnimalProfile = BehavioralProfiles[dataStudent.perfilComportamental]
+    const getStudentAnimalProfile = (perfilComportamental) => {
+        switch (perfilComportamental) {
+            case "Aguia":
+                return BehavioralProfiles.Aguia
+            case "Tubarao":
+                return BehavioralProfiles.Tubarao
+            case "Aguia":
+                return BehavioralProfiles.Aguia
+            case "Tubarao":
+                return BehavioralProfiles.Tubarao
+            default:
+                return "asd"
+        }
+    }
 
     const childUserInformations = () => {
-        const { nome, email, telefone } = dataStudent
+        const { nome, email, telefone, perfilComportamental } = dataStudent
+        const studentProfile = getStudentAnimalProfile(perfilComportamental)
 
         return (
             <div className={stylesCss.childUserInformations}>
@@ -47,9 +60,9 @@ export default function PerfilAluno() {
 
                 <div className={stylesCss.behavioralProfile}>
                     <div>
-                        <img 
-                            className={stylesCss.icon} 
-                            src={BehavioralProfiles.Aguia.SrcImgIcon} 
+                        <img
+                            className={stylesCss.icon}
+                            src={studentProfile.SrcImgIcon}
                             alt={`Icone ${dataStudent.perfilComportamental}`} />
                     </div>
                     <div>
