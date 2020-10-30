@@ -8,8 +8,9 @@ import Button from './../../components/button/button'
 import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
 import { requestAPI } from './../../services/api'
-import { formatData } from './../../services/functions'
+import { formatData, functionAfterTime } from './../../services/functions'
 import { Colors } from '../../services/constants/constants'
+import LoadingPage from './../../components/loadingPage/loadingPage'
 
 const columnsTable = ["ID", "Nome", "Email", "RG",
     "Data Nascimento", "Telefone", "Genero"]
@@ -32,6 +33,8 @@ export default function CandidatosAdm() {
         email: null,
         telefone: null
     })
+
+    const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     useEffect(() => {
         getCandidatesInDataBase()
@@ -112,7 +115,9 @@ export default function CandidatosAdm() {
     )
 
     return (
-        <div className={stylesCss.root}>
+        <div className={stylesCss.root}
+            onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
+            {showLoadingIcon && <LoadingPage />}
             <Header
                 typeHeader={"administrator"}
             />

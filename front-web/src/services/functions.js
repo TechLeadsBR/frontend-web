@@ -41,3 +41,9 @@ export const formatData = (dateTime) => {
     const splitted = date.split('-')
     return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
 }
+
+export const functionAfterTime = (seconds, callback) => {
+    setTimeout(() => {
+        callback()
+    }, seconds);
+}
