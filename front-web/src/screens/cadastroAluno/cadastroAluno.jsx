@@ -10,7 +10,7 @@ import Button from './../../components/button/button'
 import FileUploadInput from './../../components/fileUploadInput/fileUploadInput'
 import { UF } from '../../services/constants/data'
 import { Positions } from '../../services/constants/data'
-import { Profile } from '../../services/constants/data'
+import { BehavioralProfiles } from '../../services/constants/data'
 import { Levels } from '../../services/constants/data'
 import { Colors } from './../../services/constants/constants'
 
@@ -128,7 +128,7 @@ export default function CadastroAluno() {
                 <Select
                     labelText={"Perfil Comportamental:"}
                     name={"behavioralProfile"}
-                    options={Profile}
+                    options={Object.keys(BehavioralProfiles).map(p => p)}
                     callbackChangedValue={(value) => internSetStateForm("perfilComportamental", value)}
                 />
                 <div className={stylesCss.divFileInput}>

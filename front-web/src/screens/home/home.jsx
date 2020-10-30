@@ -92,7 +92,7 @@ export default function Home() {
                     {advantageOurPlatformArray.map((advantage, index) => {
                         return (
                             <div className={studentStylesCss.advantageItem} key={index}>
-                                <div>{index++}</div>
+                                <div>{index + 1}</div>
                                 <p>{advantage}</p>
                             </div>
                         )

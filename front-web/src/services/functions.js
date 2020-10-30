@@ -1,4 +1,4 @@
-import { KEY_USER_JWT } from './constants/constants'
+import { KEY_USER_JWT, BASE_URL_API } from './constants/constants'
 
 // função para salvar no localStorage
 export const saveInLocalStorage = (key, value) => localStorage.setItem(key, value)
@@ -41,6 +41,8 @@ export const formatData = (dateTime) => {
     const splitted = date.split('-')
     return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
 }
+
+export const formatUrlImage = (path) => `${BASE_URL_API}/Images/${path}`
 
 export const saveInSessionStorage = (key, value) => sessionStorage.setItem(key, value)
 

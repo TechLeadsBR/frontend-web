@@ -3,6 +3,7 @@ import Login from './../screens/login/login'
 import NotFound from './../screens/notFound/notFound'
 import CadastroVaga from './../screens/cadastroVaga/cadastroVaga'
 import CadastroEmpresa from './../screens/cadastroEmpresa/cadastroEmpresa'
+import PerfilAluno from './../screens/perfilAluno/perfilAluno'
 import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
 import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
@@ -31,6 +32,12 @@ const Pages = [
         path: "/cadastro-empresa",
         component: CadastroEmpresa,
         role: "0"
+    },
+    {
+        name: "Perfil Aluno",
+        path: "/perfil-aluno",
+        component: PerfilAluno,
+        role: "2"
     },
     {
         name: "Cadastro Aluno",

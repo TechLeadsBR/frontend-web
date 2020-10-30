@@ -1,6 +1,77 @@
 .root {
-    background-color: #B1B3B6;
+    background-color: rgb(218, 218, 218);
     width: 100%;
-    height: 120px;
+    height: 150px;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.root > img:nth-child(1) {
+    width: 120px;
+    height: 70%;
+    border-radius: 50%;
+    margin-left: 30px;
+}
+
+.jobInformations {
+    height: 80%;
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
+    justify-content: space-around;
+    margin-left: 30px;
+    padding-right: 30px;
+}
+
+.jobInformations > div:nth-child(1) {
+    line-height: 1.7rem;
+    margin-right: 30px;
+}
+
+.jobInformations > div:nth-child(2) {
+    border: 1px solid #223222;
+    height: 80%;
+}
+
+.jobInformations > div:nth-child(3) {
+    margin-left: 30px;
+    width: 70%;
+    font-size: 1em;
+}
+
+@media (max-width: 1300px){
+    .jobInformations > div:nth-child(3) {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 950px){
+    .root {
+        min-height: 50vh;
+        flex-direction: column;
+        margin: 50px 0;
+    }
+
+    .root > img:nth-child(1){
+        width: 200px;
+        /* height: 200px; */
+        margin: 50px 0;
+    }
+
+    .jobInformations > div:nth-child(2) {
+        display: none;
+    }
+
+    .jobInformations > div:nth-child(3) {
+        text-align: start;
+        height: 200px;
+        font-size: 1em;
+    }
+
+    .jobInformations {
+        flex-direction: column;
+        text-align: center;
+    }
 }
