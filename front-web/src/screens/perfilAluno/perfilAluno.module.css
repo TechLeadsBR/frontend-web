@@ -45,9 +45,37 @@
 }
 
 .cardsJobApplication > div:nth-child(2) {
-    width: 70%;
+    width: 60%;
     min-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+@media (max-width: 1600px){
+    .cardsJobApplication > div:nth-child(2){
+        width: 80%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .childUserInformations {
+        flex-direction: column;
+        margin-left: 60px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .behavioralProfile {
+        margin: 20px 0;
+        flex-direction: column;
+    }
+
+    .behavioralProfile > div:nth-child(2) {
+        line-height: 1.5rem;
+    }
+
+    .behavioralProfile > div:nth-child(2) > p {
+        display: none;
+    }
 }
