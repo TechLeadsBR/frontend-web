@@ -1,6 +1,37 @@
 .root {
-    background-color: #B1B3B6;
+    background-color: rgb(42, 46, 50, 0.2);
     width: 100%;
-    height: 120px;
+    height: 150px;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.root > img:nth-child(1){
+    height: 70%;
+    border-radius: 50%;
+    margin-left: 30px;
+}
+
+.jobInformations {
+    height: 80%;
+    display: flex;
+    align-items: center;
+    word-wrap: break-word;
+    justify-content: space-around;
+    margin-left: 30px;
+    padding-right: 30px;
+}
+
+.jobInformations > div:nth-child(1) {
+    line-height: 1.7rem;
+}
+
+.jobInformations > div:nth-child(2) {
+    border: 1px solid #223222;
+    height: 80%;
+}
+
+.jobInformations > div:nth-child(3) {
+    width: 70%;
 }

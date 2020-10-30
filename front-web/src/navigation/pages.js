@@ -37,7 +37,8 @@ const Pages = [
         path: "/perfil-aluno",
         component: PerfilAluno,
         role: "2"
-    },{
+    },
+    {
         name: "Cadastro Aluno",
         path: "/cadastro-aluno",
         component: CadastroAluno,

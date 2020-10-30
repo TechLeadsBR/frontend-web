@@ -5,26 +5,37 @@ import GrayBackgroundProfile from './../../components/grayBackgroundProfile/gray
 import fotoUsuario from './../../assets/images/universal/fotoUsuario.jpg'
 import { requestAPI } from './../../services/api'
 import { BehavioralProfiles } from './../../services/constants/data'
+import CardJob from '../../components/cardJob/cardJob'
 
 export default function PerfilAluno() {
 
     const [dataStudent, setDataStudent] = useState({})
+    const [userApplications, setUserApplication] = useState([])
 
     useEffect(() => {
         getInformationsUser()
+        requestGetJobApplication()
     }, [])
 
     const getInformationsUser = async () => {
         try {
             const request = await requestAPI("get", "/aluno/id")
-            console.log(request.data)
+
             if (request.status === 200) {
                 setDataStudent(request.data)
-            } else {
-                console.log("Deu ruim")
-                console.log(request)
             }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
+    const requestGetJobApplication = async () => {
+        try {
+            const request = await requestAPI("get", "/inscricaoemprego")
+
+            if (request.status === 200) {
+                setUserApplication(request.data)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -36,10 +47,10 @@ export default function PerfilAluno() {
                 return BehavioralProfiles.Aguia
             case "Tubarao":
                 return BehavioralProfiles.Tubarao
-            case "Aguia":
-                return BehavioralProfiles.Aguia
-            case "Tubarao":
-                return BehavioralProfiles.Tubarao
+            case "Lobo":
+                return BehavioralProfiles.Lobo
+            case "Gato":
+                return BehavioralProfiles.Lobo
             default:
                 return "asd"
         }
@@ -75,6 +86,26 @@ export default function PerfilAluno() {
         )
     }
 
+    const cardsJobApplication = () => {
+        return (
+            userApplications.map((job, key) => {
+                const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
+                const { razaoSocial } = job.idVagaEmpregoNavigation.idEmpresaNavigation
+                return (
+                    <CardJob 
+                        job={{ 
+                            title: titulo, 
+                            local: cidade, 
+                            level: nivel, 
+                            nameCompany: razaoSocial,
+                            description: descricaoVaga
+                        }}
+                    />
+                )
+            })
+        )
+    }
+
     return (
         <div>
             <Header
@@ -83,6 +114,10 @@ export default function PerfilAluno() {
             <GrayBackgroundProfile srcImgUser={fotoUsuario}>
                 {childUserInformations()}
             </GrayBackgroundProfile>
+            <h1>Candidaturas</h1>
+            <div style={{ width: "80%" }}>
+                {cardsJobApplication()}
+            </div>
         </div>
     )
 }
