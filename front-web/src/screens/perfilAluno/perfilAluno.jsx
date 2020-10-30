@@ -129,21 +129,25 @@ export default function PerfilAluno() {
     )
 
     const modalWithJob = (
-        true && (
+        showModalAnimalUser && (
             <div className={stylesCss.backgroundModalWithJob}>
-            <Modal styleProps={{ width: "70vh" }}>
+            <Modal>
                 <div className={stylesCss.contentModalWithJob}>
                     <p onClick={() => setShowModalAnimalUser(false)}>X</p>
-                    <h2>Animal predominante</h2>
-                    <img 
-                        src={animalUser.srcImgIcon} 
-                        alt={`Icone animal ${animalUser.name}`} 
-                        width={300}     
-                    />
-                    <p>Pontos Fortes</p>
-                    <p>{animalUser.strongPoints}</p>
-                    <p>Pontos a melhorar</p>
-                    <p>{animalUser.weaknesses}</p>
+                    <div>
+                        <h2>Animal predominante</h2>
+                        <img 
+                            src={animalUser.srcImgIcon} 
+                            alt={`Icone animal ${animalUser.name}`} 
+                            width={300}     
+                        />
+                        <b>Descrição</b>
+                        <p>{animalUser.description}</p>
+                        <b>Pontos Fortes</b>
+                        <p>{animalUser.strongPoints}</p>
+                        <b>Pontos a melhorar</b>
+                        <p>{animalUser.weaknesses}</p>
+                    </div>
                 </div>
             </Modal>
         </div>

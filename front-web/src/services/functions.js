@@ -43,3 +43,9 @@ export const formatData = (dateTime) => {
 }
 
 export const formatUrlImage = (path) => `${BASE_URL_API}/Images/${path}`
+
+export const functionAfterTime = (seconds, callback) => {
+    setTimeout(() => {
+        callback()
+    }, seconds);
+}
