@@ -6,6 +6,8 @@ import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
+import LoadingPage from './../../components/loadingPage/loadingPage'
+import { functionAfterTime } from './../../services/functions'
 import { Colors } from '../../services/constants/constants'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { requestAPI } from './../../services/api'
@@ -15,6 +17,7 @@ export default function Login() {
     const history = useHistory()
     const { administrator } = useParams()
     const [login, setLogin] = useState({ email: null, password: null })
+    const [showLoadingIcon, setShowLoadingIcon] = useState(true)
     
     useEffect(() => {
         if(administrator !== undefined && administrator !== "administrator") history.push("/")
@@ -55,9 +58,9 @@ export default function Login() {
         </div>
     )
 
-
     return (
-        <div>
+        <div onLoad={() => functionAfterTime(1600, () => setShowLoadingIcon(!showLoadingIcon))}>
+            {showLoadingIcon && <LoadingPage />}
             <Header />
             <div className={stylesCss.root} id={isAdministrator ? stylesCss.administrator : null}>
                 <Modal>
