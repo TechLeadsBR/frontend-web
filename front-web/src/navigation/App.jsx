@@ -13,7 +13,7 @@ import {
 } from './pages'
 
 function RoutesComponent() {
-    return Pages.map((page, index) => 
+    return Pages.map((page, index) =>
         <RoutePermission
             path={page.path}
             key={index}

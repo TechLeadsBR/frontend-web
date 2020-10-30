@@ -42,8 +42,13 @@ export const formatData = (dateTime) => {
     return `${splitted[2]}/${splitted[1]}/${splitted[0]}`
 }
 
+export const saveInSessionStorage = (key, value) => sessionStorage.setItem(key, value)
+
+export const getInSessionStorage = (key) => sessionStorage.getItem(key)
+
 export const functionAfterTime = (seconds, callback) => {
     setTimeout(() => {
         callback()
     }, seconds);
 }
+
