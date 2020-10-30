@@ -1,5 +1,5 @@
 .childUserInformations {
-    width: 100%;
+    width: 70%;
     height: 40%;
     display: flex;
     justify-content: space-around;
@@ -31,4 +31,23 @@
 
 .behavioralProfile > div:nth-child(2){
     text-align: center;
+}
+
+.cardsJobApplication {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardsJobApplication > h1:nth-child(1) {
+    margin: 40px 0;
+    border-bottom: 2px solid #000000;
+}
+
+.cardsJobApplication > div:nth-child(2) {
+    width: 70%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

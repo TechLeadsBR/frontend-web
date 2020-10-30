@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/header'
 import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
+import CardJob from '../../components/cardJob/cardJob'
 import fotoUsuario from './../../assets/images/universal/fotoUsuario.jpg'
+import { formatUrlImage } from './../../services/functions'
 import { requestAPI } from './../../services/api'
 import { BehavioralProfiles } from './../../services/constants/data'
-import CardJob from '../../components/cardJob/cardJob'
 
 export default function PerfilAluno() {
 
@@ -57,7 +58,8 @@ export default function PerfilAluno() {
     }
 
     const childUserInformations = () => {
-        const { nome, email, telefone, perfilComportamental } = dataStudent
+        const { nome, email, telefone, perfilComportamental, nomeFoto } = dataStudent
+        const pathImage = formatUrlImage(nomeFoto)
         const studentProfile = getStudentAnimalProfile(perfilComportamental)
 
         return (
@@ -86,37 +88,41 @@ export default function PerfilAluno() {
         )
     }
 
-    const cardsJobApplication = () => {
-        return (
-            userApplications.map((job, key) => {
-                const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
-                const { razaoSocial } = job.idVagaEmpregoNavigation.idEmpresaNavigation
-                return (
-                    <CardJob 
-                        job={{ 
-                            title: titulo, 
-                            local: cidade, 
-                            level: nivel, 
-                            nameCompany: razaoSocial,
-                            description: descricaoVaga
-                        }}
-                    />
-                )
-            })
-        )
-    }
+    const cardsJobApplication = (
+        userApplications.map((job, index) => {
+            const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
+            const { razaoSocial, nomeFoto } = job.idVagaEmpregoNavigation.idEmpresaNavigation
+            const pathImage = formatUrlImage(nomeFoto)
+            return (
+                <CardJob
+                    callbackJobInformation={job => console.log(job)}
+                    key={index}
+                    job={{
+                        srcImgCompany: pathImage,
+                        title: titulo,
+                        local: cidade,
+                        level: nivel,
+                        nameCompany: razaoSocial,
+                        description: descricaoVaga
+                    }}
+                />
+            )
+        })
+    )
 
     return (
         <div>
             <Header
                 typeHeader={"student"}
             />
-            <GrayBackgroundProfile srcImgUser={fotoUsuario}>
+            <GrayBackgroundProfile srcImgUser={formatUrlImage(dataStudent.nomeFoto)}>
                 {childUserInformations()}
             </GrayBackgroundProfile>
-            <h1>Candidaturas</h1>
-            <div style={{ width: "80%" }}>
-                {cardsJobApplication()}
+            <div className={stylesCss.cardsJobApplication}>
+                <h1>Candidaturas</h1>
+                <div>
+                    {cardsJobApplication}
+                </div>
             </div>
         </div>
     )

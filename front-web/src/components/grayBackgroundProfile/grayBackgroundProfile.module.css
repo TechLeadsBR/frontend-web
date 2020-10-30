@@ -8,11 +8,19 @@
 }
 
 .root > div:nth-child(1) {
-    margin-left: 50px;
-    margin-right: 30px;
+    display: flex;
+    align-items: center;
+    width: 70%;
 }
 
-.root > div:nth-child(1) > img {
-    width: 150px;
+.root > div:nth-child(1) > div:nth-child(1) > img {
+    width: 200px;
     border-radius: 50%;
+}
+
+.root > div:nth-child(2) {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    background-color: yellow;
 }

@@ -8,9 +8,12 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
     return (
         <div className={stylesCss.root}>
             <div>
-                <img src={srcImgUser} alt="Foto do Usuário" />
+                <div>
+                    <img src={srcImgUser} alt="Foto do Usuário" />
+                </div>
+                {children}
             </div>
-            {children}
+            
         </div>
     )
 }
