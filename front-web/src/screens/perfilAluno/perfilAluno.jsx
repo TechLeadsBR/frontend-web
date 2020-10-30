@@ -4,7 +4,8 @@ import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
 import CardJob from './../../components/cardJob/cardJob'
 import Modal from './../../components/modal/modal'
-import { formatUrlImage } from './../../services/functions'
+import LoadingPage from './../../components/loadingPage/loadingPage'
+import { formatUrlImage, functionAfterTime } from './../../services/functions'
 import { requestAPI } from './../../services/api'
 import { BehavioralProfiles } from './../../services/constants/data'
 
@@ -20,6 +21,7 @@ export default function PerfilAluno() {
         srcImgIcon: null
     })
     const [showModalAnimalUser, setShowModalAnimalUser] = useState(false)
+    const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     useEffect(() => {
         getInformationsUser()
@@ -113,7 +115,6 @@ export default function PerfilAluno() {
             const pathImage = formatUrlImage(nomeFoto)
             return (
                 <CardJob
-                    callbackJobInformation={job => console.log(job)}
                     key={index}
                     job={{
                         srcImgCompany: pathImage,
@@ -155,7 +156,8 @@ export default function PerfilAluno() {
     )
 
     return (
-        <div>
+        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
+            {showLoadingIcon && <LoadingPage />}
             <Header
                 typeHeader={"student"}
             />

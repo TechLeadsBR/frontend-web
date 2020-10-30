@@ -6,6 +6,7 @@ import CadastroEmpresa from './../screens/cadastroEmpresa/cadastroEmpresa'
 import PerfilAluno from './../screens/perfilAluno/perfilAluno'
 import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
 import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
+import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
 
 const Pages = [
     {
@@ -48,6 +49,12 @@ const Pages = [
         name: "Candidatos administrador",
         path: "/candidatos-adm",
         component: CandidatosAdm,
+        role: "0"
+    },
+    {
+        name: "Inicio cadastro",
+        path: "/inicio-cadastro/:user",
+        component: InicioCadastro,
         role: "0"
     }
 ]

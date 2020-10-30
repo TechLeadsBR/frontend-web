@@ -8,7 +8,9 @@ export default function Select({ name, options, labelText, callbackChangedValue 
     return (
         <div className={stylesCss.root}>
             <label htmlFor={name}>{labelText}</label>
-            <select id={name} onChange={(event) => callbackChangedValue(event.target.value)}>
+            <select id={name} onChange={(event) => {
+                if(callbackChangedValue) callbackChangedValue(event.target.value)
+            }}>
                 <option defaultValue="selected">Selecione</option>
                 {options.map((o, i) => <option key={i} value={o}>{o}</option>)}
             </select>

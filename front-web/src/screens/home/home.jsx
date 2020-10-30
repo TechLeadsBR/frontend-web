@@ -126,12 +126,12 @@ export default function Home() {
             <span>Anuncie sua vaga e contrate os verdadeiros talentos.</span>
             <div>
                 <div className={companyStylesCss.cardGreyBackground}>
-                    <img src={imgCurriculoIcon} alt="" />
+                    <img src={imgCurriculoIcon} alt={"Icone curriculo"} />
                     <span>Publique vagas</span>
                     <p>Publíque aqui as vagas disponiveis<br />em sua empresa para os nossos<br /> jovens talentos.</p>
                 </div>
                 <div className={companyStylesCss.cardGreyBackground}>
-                    <img src={imgGroupIcon} alt="" />
+                    <img src={imgGroupIcon} alt={"Icone grupo"} />
                     <span>Recrute Talentos</span>
                     <p>Aqui você encontrara os<br />melhores alunos da nossa<br />instituição Senai</p>
                 </div>
@@ -144,6 +144,7 @@ export default function Home() {
     const backgroundFilmFrame = typeRender === "student" ? Colors.red.rgb + ", 0.6" : Colors.matteBlack.rgb + ", 0.6"
     const firstContent = typeRender === "student" ? partnerCompaniesChild : cardTechnologies
     const secondContent = typeRender === "student" ? advantageOurPlatform : greyBackground
+    const srcImageFilmFrame = typeRender === "student" ? imgAmbienteTrabalho : imgAmbienteTrabalhoCompanyRender
 
     return (
         <div>
@@ -154,7 +155,7 @@ export default function Home() {
             <div className={stylesCss.divFilmFrame}>
                 <FilmFrame
                     styleProps={{ bgColorRgba: backgroundFilmFrame, height: "55vh", width: "100%" }}
-                    srcImg={typeRender === "student" ? imgAmbienteTrabalho : imgAmbienteTrabalhoCompanyRender}
+                    srcImg={srcImageFilmFrame}
                 >
                     {childFilmFrame}
                 </FilmFrame>

@@ -44,8 +44,13 @@ export const formatData = (dateTime) => {
 
 export const formatUrlImage = (path) => `${BASE_URL_API}/Images/${path}`
 
+export const saveInSessionStorage = (key, value) => sessionStorage.setItem(key, value)
+
+export const getInSessionStorage = (key) => sessionStorage.getItem(key)
+
 export const functionAfterTime = (seconds, callback) => {
     setTimeout(() => {
         callback()
     }, seconds);
 }
+

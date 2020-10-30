@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import Button from './../../components/button/button'
-import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
+import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
 import { Colors } from '../../services/constants/constants'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 
 export default function Header({ typeHeader = false, srcImgUser, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
+    const history = useHistory()
 
     const listLinks = (type) => {
         switch (type) {
@@ -49,9 +50,12 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
             <b><Link to="/login">Login</Link></b>
             <Button
                 textColor={Colors.white.hexadecimal}
-                bgColor={Colors.red.hexadecimal}
+                bgColor={typeRender === "student" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal}
                 text={"Cadastre-se"}
-                onClick={() => console.log('Cadastre-se')}
+                onClick={() => {
+                    const toRegister = typeRender === "student" ? "aluno" : "empresa"
+                    history.push(`/inicio-cadastro/${toRegister}`)
+                }}
             />
         </div>
     )

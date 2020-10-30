@@ -22,7 +22,7 @@ async function requestAPI(method = "get", path, body = null) {
         else return await axios[method](pathURL, data, configRequest)
 
     } catch (error) {
-        console.log(error)
+        throw new Error(error)
     }
 }
 

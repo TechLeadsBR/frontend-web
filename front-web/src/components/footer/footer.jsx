@@ -1,5 +1,5 @@
 import React from 'react'
-import logoBranca from './../../assets/images/logos/logo-branca.png'
+import logoBranca from './../../assets/images/logos/logo-branca-talentos-senai.png'
 import stylesCss from './footer.module.css'
 import facebookIcon from './../../assets/images/socialMedia/facebook.png'
 import linkedinIcon from './../../assets/images/socialMedia/linkedin.png'
