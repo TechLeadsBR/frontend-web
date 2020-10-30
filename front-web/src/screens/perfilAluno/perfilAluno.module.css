@@ -15,6 +15,7 @@
     margin-bottom: 10px;
 }
 
+/* Animals */
 .behavioralProfile {
     display: flex;
     width: 30%;
@@ -33,6 +34,7 @@
     text-align: center;
 }
 
+/* Region user applications */
 .cardsJobApplication {
     display: flex;
     flex-direction: column;
@@ -51,6 +53,25 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+/* Modal with job */
+.backgroundModalWithJob {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentModalWithJob > p:nth-child(1){
+    align-self: flex-end;
+    font-size: 30px;
+    cursor: pointer;
+}
+
 
 @media (max-width: 1600px){
     .cardsJobApplication > div:nth-child(2){

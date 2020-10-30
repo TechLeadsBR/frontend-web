@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/header'
 import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
-import CardJob from '../../components/cardJob/cardJob'
+import CardJob from './../../components/cardJob/cardJob'
+import Modal from './../../components/modal/modal'
 import { formatUrlImage } from './../../services/functions'
 import { requestAPI } from './../../services/api'
 import { BehavioralProfiles } from './../../services/constants/data'
@@ -11,6 +12,14 @@ export default function PerfilAluno() {
 
     const [dataStudent, setDataStudent] = useState({})
     const [userApplications, setUserApplication] = useState([])
+    const [animalUser, setAnimalUser] = useState({
+        name: null,
+        description: null,
+        strongPoints: null,
+        weaknesses: null,
+        srcImgIcon: null
+    })
+    const [showModalAnimalUser, setShowModalAnimalUser] = useState(false)
 
     useEffect(() => {
         getInformationsUser()
@@ -50,19 +59,27 @@ export default function PerfilAluno() {
             case "Lobo":
                 return BehavioralProfiles.Lobo
             case "Gato":
-                return BehavioralProfiles.Lobo
+                return BehavioralProfiles.Gato
             default:
-                return "asd"
+                return BehavioralProfiles.Aguia
         }
     }
 
     const childUserInformations = () => {
-        const { nome, email, telefone, perfilComportamental, nomeFoto } = dataStudent
-        const pathImage = formatUrlImage(nomeFoto)
-        const studentProfile = getStudentAnimalProfile(perfilComportamental)
-
+        const { nome, email, telefone, perfilComportamental } = dataStudent
+        const animalPerfilUser = getStudentAnimalProfile(perfilComportamental)
+        
         return (
-            <div className={stylesCss.childUserInformations}>
+            <div className={stylesCss.childUserInformations} onLoad={() => {
+                const { Description, StrongPoints, SrcImgIcon, Weaknesses } = animalPerfilUser
+                setAnimalUser({
+                    description: Description,
+                    name: perfilComportamental,
+                    srcImgIcon: SrcImgIcon,
+                    strongPoints: StrongPoints,
+                    weaknesses: Weaknesses
+                })
+            }}>
                 <div className={stylesCss.userData}>
                     <p>Dados Pessoais</p>
                     <p>Nome: {nome}</p>
@@ -74,8 +91,10 @@ export default function PerfilAluno() {
                     <div>
                         <img
                             className={stylesCss.icon}
-                            src={studentProfile.SrcImgIcon}
-                            alt={`Icone ${dataStudent.perfilComportamental}`} />
+                            src={animalPerfilUser.SrcImgIcon}
+                            alt={`Icone ${dataStudent.perfilComportamental}`} 
+                            onClick={() => setShowModalAnimalUser(true)} 
+                        />
                     </div>
                     <div>
                         <p>Perfil Comportamental</p>
@@ -109,6 +128,28 @@ export default function PerfilAluno() {
         })
     )
 
+    const modalWithJob = (
+        true && (
+            <div className={stylesCss.backgroundModalWithJob}>
+            <Modal styleProps={{ width: "70vh" }}>
+                <div className={stylesCss.contentModalWithJob}>
+                    <p onClick={() => setShowModalAnimalUser(false)}>X</p>
+                    <h2>Animal predominante</h2>
+                    <img 
+                        src={animalUser.srcImgIcon} 
+                        alt={`Icone animal ${animalUser.name}`} 
+                        width={300}     
+                    />
+                    <p>Pontos Fortes</p>
+                    <p>{animalUser.strongPoints}</p>
+                    <p>Pontos a melhorar</p>
+                    <p>{animalUser.weaknesses}</p>
+                </div>
+            </Modal>
+        </div>
+        )
+    )
+
     return (
         <div>
             <Header
@@ -123,6 +164,7 @@ export default function PerfilAluno() {
                     {cardsJobApplication}
                 </div>
             </div>
+            {modalWithJob}
         </div>
     )
 }
