@@ -11,7 +11,7 @@ export default function BuscarVagas() {
 
     return (
         <div className={stylesCss.root} onLoad={() => functionAfterTime(2000, () => setShowIconLoadingPage(!showIconLoagingPage))}>
-            {showIconLoagingPage && <LoadingPage />}
+            <LoadingPage visible={showIconLoagingPage} />
             <Header typeHeader={"student"} />
             <SearchJobs 
                 callbackValue={value => console.log(value)}
