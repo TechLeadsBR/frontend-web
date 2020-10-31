@@ -156,7 +156,7 @@ export default function PerfilAluno() {
     )
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
+        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"student"}

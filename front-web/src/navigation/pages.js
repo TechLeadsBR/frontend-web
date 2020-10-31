@@ -62,7 +62,7 @@ const Pages = [
         name: "Buscar Vagas",
         path: "/buscar-vagas",
         component: BuscarVagas,
-        role: "0"
+        role: "2"
     }
 ]
 
