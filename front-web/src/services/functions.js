@@ -54,3 +54,7 @@ export const functionAfterTime = (seconds, callback) => {
     }, seconds);
 }
 
+export const formatedTodayInDate = () => {
+    const date = new Date()
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay() + 1}`
+}
