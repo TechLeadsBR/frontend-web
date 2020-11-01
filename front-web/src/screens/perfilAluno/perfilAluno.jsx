@@ -109,7 +109,7 @@ export default function PerfilAluno() {
     }
 
     const cardsJobApplication = (
-        userApplications.map((job, index) => {
+        userApplications && userApplications.map((job, index) => {
             const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
             const { razaoSocial, nomeFoto } = job.idVagaEmpregoNavigation.idEmpresaNavigation
             const pathImage = formatUrlImage(nomeFoto)
