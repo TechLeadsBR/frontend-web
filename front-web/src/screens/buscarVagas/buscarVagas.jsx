@@ -52,7 +52,7 @@ export default function BuscarVagas() {
             setToastProps({ visible: true, status: "error", text: "Parece que você ja se inscreveu nessa vaga!" })
         }
 
-        setToastProps({ visible: false, status: null, text: null })
+        setToastProps({ visible: false })
     }
 
     const createCardJobsFiltered = (
