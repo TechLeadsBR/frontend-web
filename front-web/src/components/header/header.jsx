@@ -8,7 +8,7 @@ import { Colors } from '../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 
 
-export default function Header({ typeHeader = false, srcImgUser, callback }) {
+export default function Header({ typeHeader = null, srcImgUser, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
     const history = useHistory()

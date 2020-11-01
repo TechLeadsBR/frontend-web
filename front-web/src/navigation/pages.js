@@ -7,6 +7,7 @@ import PerfilAluno from './../screens/perfilAluno/perfilAluno'
 import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
 import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
+import GerenciarVagas from './../screens/gerenciarVagas/gerenciarVagas'
 import BuscarVagas from './../screens/buscarVagas/buscarVagas'
 
 const Pages = [
@@ -26,7 +27,7 @@ const Pages = [
         name: "Cadastro Vaga",
         path: "/cadastro-vaga",
         component: CadastroVaga,
-        role: "0"
+        role: "3"
     },
     {
         name: "Cadastro Empresa",
@@ -57,6 +58,12 @@ const Pages = [
         path: "/inicio-cadastro/:user",
         component: InicioCadastro,
         role: "0"
+    },
+    {
+        name: "Gerenciar Vagas",
+        path: "/gerenciar-vagas",
+        component: GerenciarVagas,
+        role: "3"
     },
     {
         name: "Buscar Vagas",
