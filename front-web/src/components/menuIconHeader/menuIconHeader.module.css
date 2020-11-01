@@ -4,6 +4,10 @@
 }
 
 @media (max-width: 768px){
+    .menuIconHeader {
+        display: block;
+    }
+
     .menuIconHeader img {
         width: 40px;
     }
@@ -11,10 +15,6 @@
     .rootNavigationLinksList a,
     .rootNavigationLinksList li {
         color: white;
-    }
-
-    .menuIconHeader {
-        display: block;
     }
 
     .rootNavigationLinksList {

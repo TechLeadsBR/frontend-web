@@ -46,11 +46,11 @@ export default function MenuIconHeader({ typeHeader }) {
             onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}
         >
             <nav>
-                {stateNavigationLinksList ? navigationLinksList : 
+                {stateNavigationLinksList && navigationLinksList} 
                 <img
                     src={iconUser}
                     alt={"Icone representando um usuario"}
-                 />}
+                 />
             </nav>
         </div>
     )
