@@ -1,8 +1,6 @@
 import React from 'react'
 import stylesCss from './grayBackgroundProfile.module.css'
 
-import { Colors } from '../../services/constants/constants'
-
 export default function GrayBackgroundProfile({ srcImgUser, children }) {
 
     return (

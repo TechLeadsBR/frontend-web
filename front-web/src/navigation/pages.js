@@ -8,6 +8,7 @@ import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
 import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
 import GerenciarVagas from './../screens/gerenciarVagas/gerenciarVagas'
+import BuscarVagas from './../screens/buscarVagas/buscarVagas'
 
 const Pages = [
     {
@@ -63,6 +64,12 @@ const Pages = [
         path: "/gerenciar-vagas",
         component: GerenciarVagas,
         role: "3"
+    },
+    {
+        name: "Buscar Vagas",
+        path: "/buscar-vagas",
+        component: BuscarVagas,
+        role: "2"
     }
 ]
 

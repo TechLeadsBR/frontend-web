@@ -59,8 +59,8 @@ export default function Login() {
     )
 
     return (
-        <div onLoad={() => functionAfterTime(1600, () => setShowLoadingIcon(!showLoadingIcon))}>
-            {showLoadingIcon && <LoadingPage />}
+        <div onLoad={() => functionAfterTime(1600, () => setShowLoadingIcon(false))}>
+            <LoadingPage visible={showLoadingIcon} />
             <Header />
             <div className={stylesCss.root} id={isAdministrator ? stylesCss.administrator : null}>
                 <Modal>
