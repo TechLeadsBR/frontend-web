@@ -7,7 +7,6 @@ import LoadingPage from './../../components/loadingPage/loadingPage'
 import CardJob from './../../components/cardJob/cardJob'
 import { functionAfterTime, formatUrlImage } from './../../services/functions'
 import { requestAPI } from './../../services/api'
-import { useEffect } from 'react'
 
 export default function BuscarVagas() {
 
@@ -19,7 +18,7 @@ export default function BuscarVagas() {
         try {
             const request = await requestAPI("get", `/vagaemprego/${valueInput}`)
             if (request.status === 200) {
-                if(jobsFiltered.length === 0) setJobsFiltered(request.data)
+                if (jobsFiltered.length === 0) setJobsFiltered(request.data)
             }
         } catch (error) {
             console.log(error)
@@ -31,17 +30,17 @@ export default function BuscarVagas() {
             const { idEmpresaNavigation, descricaoVaga, nivel, cidade, titulo } = job
             const { nomeFoto, razaoSocial } = idEmpresaNavigation
             return (
-                    <CardJob
-                        key={index}
-                        job={{
-                            title: titulo,
-                            srcImgCompany: formatUrlImage(nomeFoto),
-                            description: descricaoVaga,
-                            level: nivel,
-                            local: cidade,
-                            nameCompany: razaoSocial,
-                        }}
-                    />
+                <CardJob
+                    key={index}
+                    job={{
+                        title: titulo,
+                        srcImgCompany: formatUrlImage(nomeFoto),
+                        description: descricaoVaga,
+                        level: nivel,
+                        local: cidade,
+                        nameCompany: razaoSocial,
+                    }}
+                />
             )
         })
     )
@@ -57,7 +56,7 @@ export default function BuscarVagas() {
                 }}
             />
             <div className={stylesCss.jobsFiltered}>
-                <b>Vagas disponível</b>
+                {jobsFiltered.length !== 0 && <b>Vagas disponíveis</b>}
                 <div className={stylesCss.jobsContainer}>
                     {jobsFiltered ? createCardJobsFiltered : (
                         <small>Nenhuma vaga pesquisada...</small>
