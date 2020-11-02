@@ -40,7 +40,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
     const userLogged = (type) => (
         <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
             <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
-            {type === "student" || type === "company" && <img src={srcImgUser} alt={"Foto usuario x"} />}
+            {(type === "student" || type === "company") && <img src={srcImgUser} alt={"Foto usuario x"} />}
             <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
         </div>
     )

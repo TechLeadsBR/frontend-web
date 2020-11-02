@@ -9,15 +9,17 @@ import Button from './../../components/button/button'
 import { requestAPI } from './../../services/api'
 import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
+import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 
 export default function EmpresasAdm() {
 
+    const [showLoadingPage, setShowLoadingPage] = useState(true)
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [companys, setCompanys] = useState([])
-    const [showModalEditCompany, setShowModalEditCompany] = useState(true)
+    const [showModalEditCompany, setShowModalEditCompany] = useState(false)
     const [changeDataCompany, setChangeDataCompany] = useState({
         email: null, telefone: null, telefoneDois: null, razaoSocial: null, idEmpresa: null
     })
@@ -57,6 +59,7 @@ export default function EmpresasAdm() {
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch(error){
+            console.log(error)
             toastAfterRequest("Erro ao atualizar empresa!", "error")
         }
     }
@@ -80,14 +83,14 @@ export default function EmpresasAdm() {
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
-            toastAfterRequest("Erro ao deletedar empresa!")
+            toastAfterRequest("Parece que essa empresa tem vagas cadastradas!")
         }
     }
     //#endregion
 
     useEffect(() => {
         if (companys.length === 0) getCompanys()
-    }, [])
+    })
 
 
     const modalForEditCompany = (
@@ -128,18 +131,22 @@ export default function EmpresasAdm() {
                             currentValue={changeDataCompany.telefoneDois}
                         />
                         <div className={stylesCss.divButton}>
-                            <Button 
-                                bgColor={Colors.red.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
-                                text={"Alterador dados da empresa"}
-                                onClick={() => updateCompanyData()}
-                            />
-                            <Button 
-                                bgColor={Colors.matteBlack.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
-                                text={"Deletar empresa"}
-                                onClick={() => deleteCompany()}
-                            />
+                            <div>
+                                <Button 
+                                    bgColor={Colors.red.hexadecimal}
+                                    textColor={Colors.white.hexadecimal}
+                                    text={"Alterador dados da empresa"}
+                                    onClick={() => updateCompanyData()}
+                                />
+                            </div>
+                            <div>
+                                <Button 
+                                    bgColor={Colors.matteBlack.hexadecimal}
+                                    textColor={Colors.white.hexadecimal}
+                                    text={"Deletar empresa"}
+                                    onClick={() => deleteCompany()}
+                                />
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -148,7 +155,9 @@ export default function EmpresasAdm() {
     )
 
     return (
-        <div className={stylesCss.root}>
+        <div className={stylesCss.root}
+            onLoad={() => functionAfterTime(2000, () => setShowLoadingPage(false))}>
+            <LoadingPage visible={showLoadingPage} />
             <Header typeHeader={"administrator"} />
             <div className={stylesCss.content}>
                 <Table
@@ -156,7 +165,7 @@ export default function EmpresasAdm() {
                     title={"Empresas cadastradas"}
                     columnsTable={companyColumnsTable}
                     dataTable={companys}
-                    callbackAction={value => setShowModalEditCompany(value)}
+                    callbackAction={value => functionAfterTime(1000, () => setShowModalEditCompany(value))}
                     rowSelected={(row) => {
                         setChangeDataCompany(row)
                     }}
