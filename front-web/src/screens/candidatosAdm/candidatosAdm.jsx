@@ -29,7 +29,7 @@ export default function CandidatosAdm() {
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     // Dados alterados
-    const [changedData, setChangedData] = useState({
+    const [changeData, setChangeData] = useState({
         email: null,
         telefone: null
     })
@@ -37,7 +37,7 @@ export default function CandidatosAdm() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     useEffect(() => {
-        getCandidatesInDataBase()
+        if(dataCandidatosArray.length === 0) getCandidatesInDataBase()
     })
 
     const createObjectForDataTable = (data) => {
@@ -67,9 +67,9 @@ export default function CandidatosAdm() {
 
     const changeCandidateData = async () => {
         try {
-            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changedData)
+            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
             if (request.status === 200) {
-                setToastProps({ status: "success", text: "Candidatos alterado com sucesso", visible: true })
+                setToastProps({ status: "success", text: "Candidato  alterado com sucesso", visible: true })
                 setShowModal(false)
             } else {
                 setToastProps({ status: "error", text: "Ocorreu um erro ao atualizar", visible: true })
@@ -77,6 +77,8 @@ export default function CandidatosAdm() {
         } catch (error) {
             console.log(error)
         }
+
+        setToastProps({ status: null, text: null, visible: false })
 
     }
     //#endregion
@@ -92,15 +94,15 @@ export default function CandidatosAdm() {
                             labelText={"Email"}
                             name={"emailCandidate"}
                             type={"email"}
-                            onChange={(event) => setChangedData({ ...changedData, email: event.target.value })}
-                            currentValue={changedData.email}
+                            onChange={(event) => setChangeData({ ...changeData, email: event.target.value })}
+                            currentValue={changeData.email}
                         />
                         <Input
                             labelText={"Telefone"}
                             name={"Telefone"}
                             type={"number"}
-                            onChange={(event) => setChangedData({ ...changedData, telefone: event.target.value })}
-                            currentValue={changedData.telefone}
+                            onChange={(event) => setChangeData({ ...changeData, telefone: event.target.value })}
+                            currentValue={changeData.telefone}
                         />
                         <Button
                             bgColor={Colors.red.hexadecimal}
@@ -130,7 +132,7 @@ export default function CandidatosAdm() {
                     callbackAction={value => setShowModal(value)}
                     rowSelected={(row) => {
                         setRowSelectedForChanges(row)
-                        setChangedData({ ...changedData, email: row.email })
+                        setChangeData({ ...changeData, email: row.email, telefone: row.telefone })
                     }}
                 />
                 <Table
