@@ -9,6 +9,7 @@ import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
 import GerenciarVagas from './../screens/gerenciarVagas/gerenciarVagas'
 import BuscarVagas from './../screens/buscarVagas/buscarVagas'
+import EmpresasAdm from './../screens/empresasAdm/empresasAdm'
 
 const Pages = [
     {
@@ -70,6 +71,12 @@ const Pages = [
         path: "/buscar-vagas",
         component: BuscarVagas,
         role: "2"
+    },
+    {
+        name: "Empresas Adm",
+        path: "/empresas-adm",
+        component: EmpresasAdm,
+        role: "3"
     }
 ]
 
