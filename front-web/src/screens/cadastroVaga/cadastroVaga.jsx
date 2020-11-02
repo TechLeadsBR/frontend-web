@@ -29,7 +29,7 @@ export default function CadastroVaga() {
         try {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
-            if(request.status === 200){
+            if(request.status === 201){
                 setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
                 
                 setTimeout(() => {

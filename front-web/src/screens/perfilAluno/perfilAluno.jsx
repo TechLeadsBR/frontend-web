@@ -109,7 +109,7 @@ export default function PerfilAluno() {
     }
 
     const cardsJobApplication = (
-        userApplications.map((job, index) => {
+        userApplications && userApplications.map((job, index) => {
             const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
             const { razaoSocial, nomeFoto } = job.idVagaEmpregoNavigation.idEmpresaNavigation
             const pathImage = formatUrlImage(nomeFoto)
@@ -156,8 +156,8 @@ export default function PerfilAluno() {
     )
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
-            {showLoadingIcon && <LoadingPage />}
+        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
+            <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"student"}
             />

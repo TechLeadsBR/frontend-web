@@ -117,7 +117,7 @@ export default function CandidatosAdm() {
     return (
         <div className={stylesCss.root}
             onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
-            {showLoadingIcon && <LoadingPage />}
+            <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"administrator"}
             />

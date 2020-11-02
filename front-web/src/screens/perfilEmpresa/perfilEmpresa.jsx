@@ -46,16 +46,14 @@ export default function PerfilEmpresa() {
         return (
             <div className={stylesCss.childUserInformations}>
                 <div className={stylesCss.userData}>
-                    <p>Dados Pessoais</p>
+                    <p>{razaoSocial}</p>
                     <p>Nome: {razaoSocial}</p>
                     <p>E-mail: {email}</p>
                     <p>Telefone: {telefone}</p>
                 </div>
 
                 <div className={stylesCss.behavioralProfile}>
-                    <div>
-                        <p>Descrição: {descricaoEmpresa} </p>
-                    </div>
+                    <p>Descrição: {descricaoEmpresa} </p>
                 </div>
             </div>
         )
@@ -94,7 +92,7 @@ export default function PerfilEmpresa() {
             </GrayBackgroundProfile>
 
             <div className={stylesCss.cardsJobApplication}>
-                <h1>Candidaturas</h1>
+                <h1>Vagas em Aberto</h1>
                 <div>
                     {cardsJobApplication}
                 </div>
