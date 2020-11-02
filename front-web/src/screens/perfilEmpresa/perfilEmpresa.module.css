@@ -1,0 +1,14 @@
+.childUserInformations {
+    width: 70%;
+    height: 40%;
+    display: flex;
+    justify-content: space-around;
+}
+.userData {
+    height: 100%;
+    line-height: 1.8em;
+}
+.userData > p:nth-child(1) {
+    font-weight: 700;
+    margin-bottom: 10px;
+}

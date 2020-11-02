@@ -7,6 +7,7 @@ import PerfilAluno from './../screens/perfilAluno/perfilAluno'
 import CadastroAluno from './../screens/cadastroAluno/cadastroAluno'
 import CandidatosAdm from './../screens/candidatosAdm/candidatosAdm'
 import InicioCadastro from './../screens/inicioCadastro/inicioCadastro'
+import PerfilEmpresa from './../screens/perfilEmpresa/perfilEmpresa'
 
 const Pages = [
     {
@@ -38,6 +39,12 @@ const Pages = [
         path: "/perfil-aluno",
         component: PerfilAluno,
         role: "2"
+    },
+    {
+        name: "Perfil Empresa",
+        path: "/perfil-empresa",
+        component: PerfilEmpresa,
+        role: "3"
     },
     {
         name: "Cadastro Aluno",
