@@ -4,16 +4,16 @@ import iconEagleProfile from './../../assets/images/icons/eagleProfile.png'
 import iconWolfProfile from './../../assets/images/icons/wolfProfile.png'
 
 export const Positions = [
-    "Gestor",
-    "Gerente",
-    "Estagiário",
-    "Supervisor",
-    "Diretor",
-    "Coordenador",
-    "Consultor",
-    "Executivo",
-    "Suporte",
-    "Auxiliar"
+    "Desenvolvedor Front-end",
+    "Desenvoledor Back-end",
+    "Desenvolvedor Full-stack",
+    "Técnico de Redes",
+    "Administrador de Redes",
+    "Designer Multimídia",
+    "UX Designer",
+    "Web Designer",
+    "UI Designer",
+    "UI/UX Designer"
 ]
 
 export const Levels = ["Junior", "Pleno", "Senior"]
@@ -81,3 +81,11 @@ export const BehavioralProfiles = {
         SrcImgIcon: iconSharkProfile
     }
 }
+
+export const SpecifyDisability = [
+    "Deficiência física",
+    "Deficiência visual",
+    "Deficiência auditiva",
+    "Deficiência mental",
+    "Deficiência intelectual",
+]

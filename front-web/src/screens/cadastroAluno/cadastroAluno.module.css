@@ -18,12 +18,6 @@
     margin-bottom: 100px;
 }
 
-.divButton {
-    width: 50%;
-    margin-top: 15px;
-    align-self: center;
-}
-
 .divFileInput {
     margin: 30px 0px;
     display: flex;
@@ -31,6 +25,8 @@
 }
 
 .divButton {
-    width: 100%;
+    width: 35%;
     margin-top: 30px;
+    align-self: center;
 }
+

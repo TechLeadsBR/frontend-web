@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import stylesCss from './cadastroAluno.module.css'
 import Header from './../../components/header/header'
-import Footer from './../../components/footer/footer'
+import SFooter from './../../components/simplefooter/simplefooter'
 import Input from './../../components/input/input'
 import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
 import RadioInput from './../../components/radioInput/radioInput'
 import Button from './../../components/button/button'
-import FileUploadInput from './../../components/fileUploadInput/fileUploadInput'
 import { UF } from '../../services/constants/data'
 import { Positions } from '../../services/constants/data'
 import { BehavioralProfiles } from '../../services/constants/data'
 import { Levels } from '../../services/constants/data'
+import {SpecifyDisability} from  '../../services/constants/data'
 import { Colors } from './../../services/constants/constants'
 
 export default function CadastroAluno() {
@@ -51,7 +51,7 @@ export default function CadastroAluno() {
                     labelText={"Data de Nascimento"}
                     name={"dateBirt"}
                     type={"date"}
-                    onChange={event => internSetStateForm("datanascimento", event.target.value)}
+                    onChange={event => internSetStateForm("dataNascimento", event.target.value)}
                 />
 
                 <Input
@@ -88,18 +88,69 @@ export default function CadastroAluno() {
                     type={"text"}
                     onChange={event => internSetStateForm("cep", event.target.value)}
                 />
+
                 <Input
                     labelText={"Cidade"}
                     name={"city"}
                     type={"text"}
                     onChange={event => internSetStateForm("cidade", event.target.value)}
-                />
+                /> 
                 <Select
                     labelText={"Estado"}
                     name={"uf"}
                     options={UF}
                     callbackChangedValue={(value) => internSetStateForm("estado", value)}
                 />
+
+                <Input
+                    labelText={"Logradouro"}
+                    name={"street"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("logradouro", event.target.value)}
+                /> 
+                    <Input
+                        labelText={"Bairro"}
+                        name={"district"}
+                        type={"text"}
+                        onChange={event => internSetStateForm("bairro", event.target.value)}
+                    /> 
+                <Input
+                    labelText={"Número"}
+                    name={"number"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("numero", event.target.value)}
+                /> 
+                <Input
+                    labelText={"Complemento"}
+                    name={"complement"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("complemento", event.target.value)}
+                /> 
+
+                 <div style={{ width: "30%" }}>
+                    <RadioInput
+                        callbackChangedValue={value => console.log(value)}
+                        name={"deficiencia"}
+                        title={"Possui alguma deficiência?"}
+                        valuesArray={[{
+                            value: "sim",
+                            name: "simRadioInput",
+                            textLabel: "Sim"
+                        }, {
+                            value: "nao",
+                            name: "naoRadioInput",
+                            textLabel: "Não"
+                        }]}
+                    />
+                </div>
+
+                <Select
+                    labelText={"Especifique:"}
+                    name={"specifyDisability"}
+                    options={SpecifyDisability}
+                    callbackChangedValue={(value) => internSetStateForm("especifiquedeficiencia", value)}
+                />
+
                 <TextArea
                     labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
                 />
@@ -113,14 +164,22 @@ export default function CadastroAluno() {
                 <TextArea
                     labelText={"Resumo sobre você?"}
                 />
+
                 <Input
-                    labelText={"Linkedin"}
+                    labelText={"Curso:"}
+                    name={"course"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("cursoSenai", event.target.value)}
+                />
+
+                <Input
+                    labelText={"Linkedin:"}
                     name={"linkedin"}
                     type={"text"}
                     onChange={event => internSetStateForm("linkedin", event.target.value)}
                 />
                 <Input
-                    labelText={"GitHub"}
+                    labelText={"GitHub:"}
                     name={"git"}
                     type={"text"}
                     onChange={event => internSetStateForm("github", event.target.value)}
@@ -131,11 +190,7 @@ export default function CadastroAluno() {
                     options={Object.keys(BehavioralProfiles).map(p => p)}
                     callbackChangedValue={(value) => internSetStateForm("perfilComportamental", value)}
                 />
-                <div className={stylesCss.divFileInput}>
-                    <FileUploadInput 
-                        callbackWithFile={(value) => console.log(value)}  
-                    />
-                </div>
+               
                 <TextArea
                     labelText={"Informe suas habilidades (mínimo 3)"}
                 />
@@ -151,6 +206,7 @@ export default function CadastroAluno() {
                     options={Levels}
                     callbackChangedValue={(value) => internSetStateForm("nivel", value)}
                 />
+                
                 <div className={stylesCss.divButton}>
                     <Button
                         bgColor={Colors.red.hexadecimal}
@@ -171,7 +227,7 @@ export default function CadastroAluno() {
             />
             <h1>Cadastro</h1>
             {formRegisterStudent}
-            <Footer />
+            <SFooter/>
         </div>
     )
 }
