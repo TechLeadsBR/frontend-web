@@ -1,3 +1,20 @@
+.root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    width: 70%;
+    min-height: 80vh;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .modalForEditCompany {
     position: fixed;
     top: 0;
@@ -6,7 +23,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: bckos;
 }
 
 .contentModalForEditCompany {
@@ -21,4 +38,12 @@
     align-self: flex-end;
     font-size: 30px;
     cursor: pointer;
+}
+
+.divButton {
+    margin-top: 30px;
+    height: 700px;bckos
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
