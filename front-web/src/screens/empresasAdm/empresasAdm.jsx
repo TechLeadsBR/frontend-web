@@ -13,12 +13,16 @@ import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
+const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
 
 export default function EmpresasAdm() {
 
     const [showLoadingPage, setShowLoadingPage] = useState(true)
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [companys, setCompanys] = useState([])
+    const [jobs, setJobs] = useState([])
+    const [jobIdToDelete, setJobIdToDelete] = useState(null)
+    const [showModalDeleteJob, setShowModalDeleteJob] = useState(false)
     const [showModalEditCompany, setShowModalEditCompany] = useState(false)
     const [changeDataCompany, setChangeDataCompany] = useState({
         email: null, telefone: null, telefoneDois: null, razaoSocial: null, idEmpresa: null
@@ -44,6 +48,21 @@ export default function EmpresasAdm() {
         setCompanys(companys)
     }
 
+    const createObjectJobToArrayState = (data) => {
+        const jobs = data.map(job => {
+            return {
+                idVagaEmprego: job.idVagaEmprego,
+                titulo: job.titulo,
+                nivel: job.nivel,
+                cidade: job.cidade,
+                tipoContrato: job.tipoContrato,
+                remuneracaoBeneficio: job.remuneracaoBeneficio
+            }
+        })
+
+        setJobs(jobs)
+    }
+
     //#region Request API
     const updateCompanyData = async () => {
         try {
@@ -54,11 +73,11 @@ export default function EmpresasAdm() {
                 telefoneDois
             }
             const request = await requestAPI("put", `/empresa/${changeDataCompany.idEmpresa}`, bodyRequestPut)
-            if(request.status === 200) {
+            if (request.status === 200) {
                 toastAfterRequest("Empresa atualizada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
-        } catch(error){
+        } catch (error) {
             console.log(error)
             toastAfterRequest("Erro ao atualizar empresa!", "error")
         }
@@ -71,14 +90,15 @@ export default function EmpresasAdm() {
                 createObjectForCompanysArray(request.data)
             }
         } catch (error) {
-            console.log(error)
+            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
+
 
     const deleteCompany = async () => {
         try {
             const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
-            if(request.status === 200) {
+            if (request.status === 200) {
                 toastAfterRequest("Empresa deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
@@ -86,12 +106,35 @@ export default function EmpresasAdm() {
             toastAfterRequest("Parece que essa empresa tem vagas cadastradas!")
         }
     }
+    const getJobs = async () => {
+        try {
+            const request = await requestAPI("get", "/vagaemprego")
+            if (request.status === 200) {
+                createObjectJobToArrayState(request.data)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deleteJob = async () => {
+        try {
+
+        } catch (error) {
+            const request = await requestAPI("delete", "/vagaemprego")
+        }
+    }
     //#endregion
 
     useEffect(() => {
-        if (companys.length === 0) getCompanys()
-    })
+        let monted = true
 
+        if (monted && companys.length === 0) getCompanys()
+        if (monted && jobs.length === 0) getJobs()
+
+        return () => monted = false
+    })
 
     const modalForEditCompany = (
         <div className={stylesCss.modalForEditCompany}>
@@ -114,7 +157,7 @@ export default function EmpresasAdm() {
                             labelText={"Telefone"}
                             name={"telefoneCompany"}
                             type={"number"}
-                            onChange={(event) => setChangeDataCompany({ 
+                            onChange={(event) => setChangeDataCompany({
                                 ...changeDataCompany,
                                 telefone: event.target.value
                             })}
@@ -132,7 +175,7 @@ export default function EmpresasAdm() {
                         />
                         <div className={stylesCss.divButton}>
                             <div>
-                                <Button 
+                                <Button
                                     bgColor={Colors.red.hexadecimal}
                                     textColor={Colors.white.hexadecimal}
                                     text={"Alterador dados da empresa"}
@@ -140,7 +183,7 @@ export default function EmpresasAdm() {
                                 />
                             </div>
                             <div>
-                                <Button 
+                                <Button
                                     bgColor={Colors.matteBlack.hexadecimal}
                                     textColor={Colors.white.hexadecimal}
                                     text={"Deletar empresa"}
@@ -149,6 +192,22 @@ export default function EmpresasAdm() {
                             </div>
                         </div>
                     </form>
+                </div>
+            </Modal>
+        </div>
+    )
+
+    const modalDeleteJob = (
+        <div className={stylesCss.modalDeleteJob}>
+            <Modal styleProps={{ height: "20vh" }}>
+                <div className={stylesCss.contentModalDeleteJob}>
+                    <p onClick={() => setShowModalDeleteJob(false)}>X</p>
+                    <Button
+                        text={`Deletar job id: ${jobIdToDelete}`}
+                        bgColor={Colors.matteBlack.hexadecimal}
+                        textColor={Colors.white.hexadecimal}
+                        onClick={() => null}
+                    />
                 </div>
             </Modal>
         </div>
@@ -166,13 +225,20 @@ export default function EmpresasAdm() {
                     columnsTable={companyColumnsTable}
                     dataTable={companys}
                     callbackAction={value => functionAfterTime(1000, () => setShowModalEditCompany(value))}
-                    rowSelected={(row) => {
-                        setChangeDataCompany(row)
-                    }}
+                    rowSelected={(row) => setChangeDataCompany(row)}
+                />
+                <Table
+                    action={true}
+                    title={"Vagas Cadastradas"}
+                    columnsTable={jobsColumnsTable}
+                    dataTable={jobs}
+                    callbackAction={value => setShowModalDeleteJob(value)}
+                    rowSelected={(row) => setJobIdToDelete(row.idVagaEmprego)}
                 />
             </div>
             {showModalEditCompany && modalForEditCompany}
-            <ReactToast 
+            {showModalDeleteJob && modalDeleteJob}
+            <ReactToast
                 textToast={toastProps.text}
                 status={toastProps.status}
                 visible={toastProps.visible}

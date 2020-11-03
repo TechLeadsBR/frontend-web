@@ -37,7 +37,10 @@ export default function CandidatosAdm() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     useEffect(() => {
-        if(dataCandidatosArray.length === 0) getCandidatesInDataBase()
+        let monted = true
+        if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
+
+        return () => monted = false
     })
 
     const createObjectForDataTable = (data) => {
