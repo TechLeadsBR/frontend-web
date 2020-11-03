@@ -21,18 +21,20 @@ export default function EmpresasAdm() {
     // assets in page
     const [showLoadingPage, setShowLoadingPage] = useState(true)
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
-    
+    const [typeDelete, setTypeDelete] = useState("JOB")
+
     // Data
     const [companysState, setCompanysState] = useState([])
     const [jobsState, setJobsState] = useState([])
     const [registrationsState, setRegistrationsState] = useState([])
-    
+
     // Modal
     const [showModalDeleteJobOrRegistrations, setShowModalDeleteJobOrRegistrations] = useState(false)
     const [showModalEditCompany, setShowModalEditCompany] = useState(false)
-    
+
     // Put company and job
     const [jobIdToDelete, setJobIdToDelete] = useState(null)
+    const [registrationIdToDelete, setRegistrationIdToDelete] = useState(null)
     const [changeDataCompany, setChangeDataCompany] = useState({
         email: null, telefone: null, telefoneDois: null, razaoSocial: null, idEmpresa: null
     })
@@ -163,6 +165,19 @@ export default function EmpresasAdm() {
             toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
+
+    const deleteRegistrationAPI = async () => {
+        try {
+            const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
+
+            if (request.status === 200) {
+                toastAfterRequest("Inscrição deletada com sucesso!", "success")
+                functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
+            }
+        } catch (error){
+            toastAfterRequest("Ocorreu um erro ao excluir essa inscrição!")
+        }
+    }
     //#endregion
 
     // call requests api
@@ -243,10 +258,12 @@ export default function EmpresasAdm() {
                 <div className={stylesCss.contentModalDeleteJob}>
                     <p onClick={() => setShowModalDeleteJobOrRegistrations(false)}>X</p>
                     <Button
-                        text={`Deletar job id: ${jobIdToDelete}`}
+                        text={`Deletar ${typeDelete === "JOB" ? "job" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
                         bgColor={Colors.matteBlack.hexadecimal}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => deleteJobAPI()}
+                        onClick={() => {
+                            typeDelete === "JOB" ? deleteJobAPI() : deleteRegistrationAPI()
+                        }}
                     />
                 </div>
             </Modal>
@@ -272,15 +289,22 @@ export default function EmpresasAdm() {
                     title={"Vagas Cadastradas"}
                     columnsTable={jobsColumnsTable}
                     dataTable={jobsState}
-                    callbackAction={value => functionAfterTime(1000, () => setShowModalDeleteJobOrRegistrations(value))}
+                    callbackAction={value => {
+                        setTypeDelete("JOB")
+                        functionAfterTime(1000, () => setShowModalDeleteJobOrRegistrations(value))
+                    }}
                     rowSelected={(row) => setJobIdToDelete(row.idVagaEmprego)}
-                />
+                    />
                 <Table
                     action={true}
                     title={"Inscrições abertas"}
                     columnsTable={registrationsColumnsTable}
                     dataTable={registrationsState}
-                    callbackAction={value => functionAfterTime()}
+                    callbackAction={value => {
+                        setTypeDelete("REGISTRATION")
+                        functionAfterTime(1000, () => setShowModalDeleteJobOrRegistrations(value))
+                    }}
+                    rowSelected={(row) => setRegistrationIdToDelete(row.idInscricaoEmprego)}
                 />
             </div>
             {showModalEditCompany && modalForEditCompany}
