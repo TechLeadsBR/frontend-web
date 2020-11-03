@@ -36,15 +36,7 @@ export default function CandidatosAdm() {
 
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    useEffect(() => {
-        let monted = true
-        if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
-
-        return () => monted = false
-    })
-
     const createObjectForDataTable = (data) => {
-        //commitar back, modificado metodo de listar aluno
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -85,6 +77,14 @@ export default function CandidatosAdm() {
 
     }
     //#endregion
+
+    useEffect(() => {
+        let monted = true
+        
+        if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
+
+        return () => monted = false
+    })
 
     const contentModalForChanges = (
         <div className={stylesCss.modalEditData}>
