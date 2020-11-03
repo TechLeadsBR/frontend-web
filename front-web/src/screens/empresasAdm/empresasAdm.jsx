@@ -114,15 +114,20 @@ export default function EmpresasAdm() {
             }
 
         } catch (error) {
-            console.log(error)
+            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
 
     const deleteJob = async () => {
         try {
+            const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
 
+            if(request.status === 200) {
+                toastAfterRequest("Vaga de emprego deletada com sucesso!", "success")
+                functionAfterTime(1500, () => setShowModalDeleteJob(false))
+            }
         } catch (error) {
-            const request = await requestAPI("delete", "/vagaemprego")
+            toastAfterRequest("Parece que essa vaga tem inscrições!")
         }
     }
     //#endregion
@@ -206,7 +211,7 @@ export default function EmpresasAdm() {
                         text={`Deletar job id: ${jobIdToDelete}`}
                         bgColor={Colors.matteBlack.hexadecimal}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => null}
+                        onClick={() => deleteJob()}
                     />
                 </div>
             </Modal>
@@ -232,7 +237,7 @@ export default function EmpresasAdm() {
                     title={"Vagas Cadastradas"}
                     columnsTable={jobsColumnsTable}
                     dataTable={jobs}
-                    callbackAction={value => setShowModalDeleteJob(value)}
+                    callbackAction={value => functionAfterTime(1000, () => setShowModalDeleteJob(value))}
                     rowSelected={(row) => setJobIdToDelete(row.idVagaEmprego)}
                 />
             </div>
