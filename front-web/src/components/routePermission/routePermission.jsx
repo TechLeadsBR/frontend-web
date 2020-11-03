@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     verifyAuthenticatedUser as authenticated,
     decryptPayloadJwtAndReturnObject as decrypt,
@@ -22,6 +22,14 @@ export default function RoutePermission({ path, role, component: Component }) {
             return role === "0" ? <Component {...props} /> : <Redirect to="/" />
         }
     }
+
+    useEffect(() => {
+        let monted = true
+
+        if(monted) verificationUserToRoute()
+
+        return () => monted = false
+    })
 
     return (
         <>
