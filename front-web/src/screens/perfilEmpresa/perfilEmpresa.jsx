@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/header'
-import { requestAPI } from './../../services/api'
-import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
-import stylesCss from './perfilEmpresa.module.css'
 import CardJob from './../../components/cardJob/cardJob'
+import stylesCss from './perfilEmpresa.module.css'
+import LoadingPage from './../../components/loadingPage/loadingPage'
+import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
+import { requestAPI } from './../../services/api'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
 
 export default function PerfilEmpresa() {
     const [dataCompany, setDataCompany] = useState({})
     const [jobsCompany, setUserApplication] = useState([])
+    const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
 
     useEffect(() => {
@@ -48,10 +50,9 @@ export default function PerfilEmpresa() {
                 <div className={stylesCss.userData}>
                     <p>{razaoSocial}</p>
                     <p>Nome: {razaoSocial}</p>
-                    <p>E-mail: {email}</p>
+                    <p><b>E-mail:</b> {email}</p> 
                     <p>Telefone: {telefone}</p>
                 </div>
-
                 <div className={stylesCss.behavioralProfile}>
                     <p>Descrição: {descricaoEmpresa} </p>
                 </div>
@@ -82,15 +83,14 @@ export default function PerfilEmpresa() {
 
 
     return (
-        <div>
+        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
+            <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"company"}
             />
-
             <GrayBackgroundProfile srcImgUser={formatUrlImage(dataCompany.nomeFoto)}>
                 {childUserInformations()}
             </GrayBackgroundProfile>
-
             <div className={stylesCss.cardsJobApplication}>
                 <h1>Vagas em Aberto</h1>
                 <div>
