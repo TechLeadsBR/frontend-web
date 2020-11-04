@@ -25,7 +25,10 @@ export default function GerenciarVagas(){
     }
 
     useEffect(() => {
-        getJobs()
+        let monted = true
+        if (monted) getJobs()
+
+        return () => monted = false
     }, [])
 
     const jobsCompany = (
