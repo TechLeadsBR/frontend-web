@@ -48,8 +48,8 @@ div#companyStyle {
     justify-content: space-around;
 }
 
-.userLogged p:nth-child(3) a,
-.userLogged p:nth-child(3) a:visited{
+.userLogged p a,
+.userLogged p a:visited {
     color: #8F0016;
 }
 

@@ -24,8 +24,13 @@ export default function PerfilAluno() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     useEffect(() => {
-        getInformationsUser()
-        requestGetJobApplication()
+        let monted = true
+        if (monted) {
+            getInformationsUser()
+            requestGetJobApplication()
+        }
+
+        return () => monted = false
     }, [])
 
     const getInformationsUser = async () => {
