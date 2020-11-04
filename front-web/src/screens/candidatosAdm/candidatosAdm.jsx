@@ -29,19 +29,20 @@ export default function CandidatosAdm() {
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     // Dados alterados
-    const [changedData, setChangedData] = useState({
+    const [changeData, setChangeData] = useState({
         email: null,
-        telefone: null
+        telefone: null,
+        idAluno: null
     })
 
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    useEffect(() => {
-        getCandidatesInDataBase()
-    })
+    const toastAfterRequest = (text, status) => {
+        setToastProps({ visible: true, text, status })
+        setToastProps({ visible: false, text: null, status: null })
+    }
 
     const createObjectForDataTable = (data) => {
-        //commitar back, modificado metodo de listar aluno
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -67,9 +68,9 @@ export default function CandidatosAdm() {
 
     const changeCandidateData = async () => {
         try {
-            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changedData)
+            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
             if (request.status === 200) {
-                setToastProps({ status: "success", text: "Candidatos alterado com sucesso", visible: true })
+                setToastProps({ status: "success", text: "Candidato  alterado com sucesso", visible: true })
                 setShowModal(false)
             } else {
                 setToastProps({ status: "error", text: "Ocorreu um erro ao atualizar", visible: true })
@@ -78,8 +79,31 @@ export default function CandidatosAdm() {
             console.log(error)
         }
 
+        setToastProps({ status: null, text: null, visible: false })
+
+    }
+
+    const deleteCandidate = async () => {
+        try {
+            const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
+            if (request.status === 200) {
+                toastAfterRequest("Usuário deletado com sucuesso!", "success")
+                functionAfterTime(1500, () => setShowModal(false))
+            }
+
+        } catch(error) {
+            toastAfterRequest("Impossível excluir registro dependendente", "error")
+        }
     }
     //#endregion
+
+    useEffect(() => {
+        let monted = true
+        
+        if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
+
+        return () => monted = false
+    })
 
     const contentModalForChanges = (
         <div className={stylesCss.modalEditData}>
@@ -92,21 +116,27 @@ export default function CandidatosAdm() {
                             labelText={"Email"}
                             name={"emailCandidate"}
                             type={"email"}
-                            onChange={(event) => setChangedData({ ...changedData, email: event.target.value })}
-                            currentValue={changedData.email}
+                            onChange={(event) => setChangeData({ ...changeData, email: event.target.value })}
+                            currentValue={changeData.email}
                         />
                         <Input
                             labelText={"Telefone"}
                             name={"Telefone"}
                             type={"number"}
-                            onChange={(event) => setChangedData({ ...changedData, telefone: event.target.value })}
-                            currentValue={changedData.telefone}
+                            onChange={(event) => setChangeData({ ...changeData, telefone: event.target.value })}
+                            currentValue={changeData.telefone}
                         />
                         <Button
                             bgColor={Colors.red.hexadecimal}
                             textColor={Colors.white.hexadecimal}
                             text={"Alterar dados do usuario"}
                             onClick={() => changeCandidateData()}
+                        />
+                        <Button 
+                            bgColor={Colors.matteBlack.hexadecimal}
+                            textColor={Colors.white.hexadecimal}
+                            text={`Excluir usuário ${changeData.idAluno}`}
+                            onClick={() => deleteCandidate()}
                         />
                     </form>
                 </div>
@@ -116,7 +146,7 @@ export default function CandidatosAdm() {
 
     return (
         <div className={stylesCss.root}
-            onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(!showLoadingIcon))}>
+            onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"administrator"}
@@ -130,15 +160,8 @@ export default function CandidatosAdm() {
                     callbackAction={value => setShowModal(value)}
                     rowSelected={(row) => {
                         setRowSelectedForChanges(row)
-                        setChangedData({ ...changedData, email: row.email })
+                        setChangeData({ email: row.email, telefone: row.telefone, idAluno: row.idAluno })
                     }}
-                />
-                <Table
-                    title={"Ex-alunos"}
-                    columnsTable={columnsTable}
-                    dataTable={[]}
-                    callbackAction={value => setShowModal(value)}
-                    action={true}
                 />
             </div>
             {showModal && contentModalForChanges}

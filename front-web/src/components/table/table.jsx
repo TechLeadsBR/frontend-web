@@ -2,10 +2,10 @@ import React from 'react'
 import stylesCss from './table.module.css'
 import iconPenAction from './../../assets/images/icons/pen.png'
 
-export default function Table({ 
-    columnsTable, 
-    dataTable, 
-    action = false, 
+export default function Table({
+    columnsTable,
+    dataTable,
+    action = false,
     callbackAction,
     title,
     rowSelected
@@ -13,17 +13,19 @@ export default function Table({
 
     const actionColumn = {
         element: action && <th>Ação</th>,
-        imgIcon: (dataRow) => action && <td>
-            <img
-                className={stylesCss.iconPenActionStyle}
-                src={iconPenAction}
-                alt={"Icon pen action"}
-                onClick={() => {
-                    if(callbackAction) callbackAction(true)
-                    if(rowSelected) rowSelected(dataRow)
-                }}
-            />
-        </td>
+        imgIcon: (dataRow) => action && (
+            <td>
+                <img
+                    className={stylesCss.iconPenActionStyle}
+                    src={iconPenAction}
+                    alt={"Icon pen action"}
+                    onClick={() => {
+                        if (callbackAction) callbackAction(true)
+                        if (rowSelected) rowSelected(dataRow)
+                    }}
+                />
+            </td>
+        )
     }
 
     const headTable = (
