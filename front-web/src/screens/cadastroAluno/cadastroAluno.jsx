@@ -7,18 +7,29 @@ import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
 import RadioInput from './../../components/radioInput/radioInput'
 import Button from './../../components/button/button'
-import { UF } from '../../services/constants/data'
-import { Positions } from '../../services/constants/data'
-import { BehavioralProfiles } from '../../services/constants/data'
-import { Levels } from '../../services/constants/data'
-import {SpecifyDisability} from  '../../services/constants/data'
+import {
+    UF,
+    Positions,
+    BehavioralProfiles,
+    Levels,
+    SpecifyDisability
+} from '../../services/constants/data'
 import { Colors } from './../../services/constants/constants'
+import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 
 export default function CadastroAluno() {
 
-    const [newStudent, setNewStudent] = useState({})
+    const [newStudent, setNewStudent] = useState(formNewStudent)
+    const [newAddress, setNewAddress] = useState(formNewAddress)
 
-    const internSetStateForm = (key, value) => setNewStudent({ ...newStudent, [key]: value })
+    const [viacepRequestState, setViacepRequestState] = useState({
+        logradouro: null,
+        bairro: null,
+        localidade: null
+    })
+
+    const setStateNewStudent = (key, value) => setNewStudent({ ...newStudent, [key]: value })
+    const setStateNewAddress = (key, value) => setNewAddress({ ...newAddress, [key]: value })
 
     const formRegisterStudent = (
         <div className={stylesCss.formRegisterStudent}>
@@ -27,42 +38,41 @@ export default function CadastroAluno() {
                     labelText={"Nome"}
                     name={"name"}
                     type={"text"}
-                    onChange={event => internSetStateForm("nome", event.target.value)}
+                    onChange={event => setStateNewStudent("nome", event.target.value)}
                 />
                 <Input
                     labelText={"E-mail"}
                     name={"email"}
-                    type={"text"}
-                    onChange={event => internSetStateForm("email", event.target.value)}
+                    type={"email"}
+                    onChange={event => setStateNewStudent("email", event.target.value)}
                 />
                 <Input
                     labelText={"Senha"}
                     name={"password"}
-                    type={"text"}
-                    onChange={event => internSetStateForm("senha", event.target.value)}
+                    type={"password"}
+                    onChange={event => setStateNewStudent("senha", event.target.value)}
                 />
                 <Input
                     labelText={"Confirmação de Senha"}
                     name={"checkPassword"}
                     type={"text"}
-                    onChange={event => internSetStateForm("senha", event.target.value)}
+                    onChange={event => setStateNewStudent("senha", event.target.value)}
                 />
                 <Input
                     labelText={"Data de Nascimento"}
                     name={"dateBirt"}
                     type={"date"}
-                    onChange={event => internSetStateForm("dataNascimento", event.target.value)}
+                    onChange={event => setStateNewStudent("dataNascimento", event.target.value)}
                 />
-
                 <Input
                     labelText={"Genêro"}
                     name={"gender"}
                     type={"text"}
-                    onChange={event => internSetStateForm("genero", event.target.value)}
+                    onChange={event => setStateNewStudent("genero", event.target.value)}
                 />
                 <div style={{ width: "30%" }}>
                     <RadioInput
-                        callbackChangedValue={value => console.log(value)}
+                        callbackChangedValue={value => setStateNewStudent("nomeSocial", value)}
                         name={"nomeSocial"}
                         title={"Possui nome social?"}
                         valuesArray={[{
@@ -76,58 +86,61 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
+                <Input 
+                    labelText={"CPF"}
+                    name={"cpfAluno"}
+                    type={"text"}
+                    onChange={event => setStateNewStudent("cpf", event.target.value)}
+                />
+                <Input 
+                    labelText={"RG"}
+                    name={"rgAluno"}
+                    type={"text"}
+                    onChange={event => setStateNewStudent("rg", event.target.value)}
+                />
                 <Input
                     labelText={"Telefone"}
                     name={"telephone"}
                     type={"text"}
-                    onChange={event => internSetStateForm("telefone", event.target.value)}
+                    onChange={event => setStateNewStudent("telefone", event.target.value)}
                 />
                 <Input
                     labelText={"CEP"}
                     name={"cep"}
                     type={"text"}
-                    onChange={event => internSetStateForm("cep", event.target.value)}
+                    onChange={event => setStateNewAddress("cep", event.target.value)}
                 />
-
-                <Input
-                    labelText={"Cidade"}
-                    name={"city"}
-                    type={"text"}
-                    onChange={event => internSetStateForm("cidade", event.target.value)}
-                /> 
                 <Select
                     labelText={"Estado"}
                     name={"uf"}
                     options={UF}
-                    callbackChangedValue={(value) => internSetStateForm("estado", value)}
+                    callbackChangedValue={(value) => setStateNewAddress("localidade", value)}
                 />
-
                 <Input
                     labelText={"Logradouro"}
                     name={"street"}
                     type={"text"}
-                    onChange={event => internSetStateForm("logradouro", event.target.value)}
-                /> 
-                    <Input
-                        labelText={"Bairro"}
-                        name={"district"}
-                        type={"text"}
-                        onChange={event => internSetStateForm("bairro", event.target.value)}
-                    /> 
+                    onChange={event => setStateNewAddress("logradouro", event.target.value)}
+                />
+                <Input
+                    labelText={"Bairro"}
+                    name={"district"}
+                    type={"text"}
+                    onChange={event => setStateNewAddress("bairro", event.target.value)}
+                />
                 <Input
                     labelText={"Número"}
                     name={"number"}
                     type={"text"}
-                    onChange={event => internSetStateForm("numero", event.target.value)}
-                /> 
+                    onChange={event => setStateNewAddress("numero", event.target.value)}
+                />
                 <Input
                     labelText={"Complemento"}
                     name={"complement"}
                     type={"text"}
-                    onChange={event => internSetStateForm("complemento", event.target.value)}
-                /> 
-
-                 <div style={{ width: "30%" }}>
+                    onChange={event => setStateNewStudent("complemento", event.target.value)}
+                />
+                <div style={{ width: "30%" }}>
                     <RadioInput
                         callbackChangedValue={value => console.log(value)}
                         name={"deficiencia"}
@@ -143,54 +156,58 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
-
                 <Select
                     labelText={"Especifique:"}
                     name={"specifyDisability"}
                     options={SpecifyDisability}
-                    callbackChangedValue={(value) => internSetStateForm("especifiquedeficiencia", value)}
+                    callbackChangedValue={(value) => setStateNewStudent("tipoDeficiencia", value)}
                 />
-
                 <TextArea
                     labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
+                    callbackChangedValue={value => setStateNewStudent("detalheDeficiencia", value)}
+                    name={"detalheDeficiencia"}
                 />
                 <h2>Sobre Você</h2>
                 <Select
                     labelText={"Você é:"}
                     name={"positions"}
                     options={Positions}
-                    callbackChangedValue={(value) => internSetStateForm("posisao", value)}
+                    callbackChangedValue={value => setStateNewStudent("preferenciaArea", value)}
                 />
                 <TextArea
                     labelText={"Resumo sobre você?"}
+                    callbackChangedValue={value => setStateNewStudent("descricao", value)}
                 />
-
                 <Input
                     labelText={"Curso:"}
                     name={"course"}
                     type={"text"}
-                    onChange={event => internSetStateForm("cursoSenai", event.target.value)}
+                    onChange={event => setStateNewStudent("cursoSenai", event.target.value)}
                 />
-
+                <Input
+                    labelText={"Data da Formação:"}
+                    name={"dataFormacao"}
+                    type={"date"}
+                    onChange={event => setStateNewStudent("dataFormacao", event.target.value)}
+                />
                 <Input
                     labelText={"Linkedin:"}
                     name={"linkedin"}
                     type={"text"}
-                    onChange={event => internSetStateForm("linkedin", event.target.value)}
+                    onChange={event => setStateNewStudent("linkedin", event.target.value)}
                 />
                 <Input
                     labelText={"GitHub:"}
                     name={"git"}
                     type={"text"}
-                    onChange={event => internSetStateForm("github", event.target.value)}
+                    onChange={event => setStateNewStudent("gitHub", event.target.value)}
                 />
                 <Select
                     labelText={"Perfil Comportamental:"}
                     name={"behavioralProfile"}
                     options={Object.keys(BehavioralProfiles).map(p => p)}
-                    callbackChangedValue={(value) => internSetStateForm("perfilComportamental", value)}
+                    callbackChangedValue={(value) => setStateNewStudent("perfilComportamental", value)}
                 />
-               
                 <TextArea
                     labelText={"Informe suas habilidades (mínimo 3)"}
                 />
@@ -198,15 +215,14 @@ export default function CadastroAluno() {
                     labelText={"Idioma:"}
                     name={"language"}
                     type={"text"}
-                    onChange={event => internSetStateForm("idioma", event.target.value)}
+                    onChange={event => setStateNewStudent("idioma", event.target.value)}
                 />
                 <Select
                     labelText={"Nível:"}
                     name={"levels"}
                     options={Levels}
-                    callbackChangedValue={(value) => internSetStateForm("nivel", value)}
+                    callbackChangedValue={(value) => setStateNewStudent("nivel", value)}
                 />
-                
                 <div className={stylesCss.divButton}>
                     <Button
                         bgColor={Colors.red.hexadecimal}
@@ -227,11 +243,7 @@ export default function CadastroAluno() {
             />
             <h1>Cadastro</h1>
             {formRegisterStudent}
-            <SFooter/>
+            <SFooter />
         </div>
     )
 }
-
-
-
-

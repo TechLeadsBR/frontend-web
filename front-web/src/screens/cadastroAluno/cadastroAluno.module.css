@@ -30,3 +30,8 @@
     align-self: center;
 }
 
+@media (max-width: 1024px) {
+    .formRegisterStudent {
+        width: 80%;
+    }
+}

@@ -20,18 +20,27 @@ export const formNewStudent = {
 	cpf: null,
 	dataNascimento: null,
 	genero: null,
-	cursoSENAI: null,
+	cursoSenai: null,
 	dataFormacao: null,
 	telefone: null,
-	tipoDefiencia: null,
+	tipoDeficiencia: null,
 	detalheDeficiencia: null,
 	preferenciaArea: null,
 	descricao: null,
 	linkedin: null,
 	gitHub: null,
 	perfilComportamental: null,
-	idTipoUsuario: getJtiUserInToken (),
-	idEndereco: getJtiUserInToken()
+	idTipoUsuario: 2,
+	idEndereco: null
+}
+
+export const formNewAddress = {
+	cep: null,
+	logradouro: null,
+	bairro: null,
+	numero: null,
+	complemento: null,
+	localidade: null
 }
 
 export const  formNewCompany = {
