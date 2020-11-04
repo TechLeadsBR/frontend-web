@@ -31,10 +31,16 @@ export default function CandidatosAdm() {
     // Dados alterados
     const [changeData, setChangeData] = useState({
         email: null,
-        telefone: null
+        telefone: null,
+        idAluno: null
     })
 
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
+
+    const toastAfterRequest = (text, status) => {
+        setToastProps({ visible: true, text, status })
+        setToastProps({ visible: false, text: null, status: null })
+    }
 
     const createObjectForDataTable = (data) => {
         const candidates = data.map(item => {
@@ -76,6 +82,19 @@ export default function CandidatosAdm() {
         setToastProps({ status: null, text: null, visible: false })
 
     }
+
+    const deleteCandidate = async () => {
+        try {
+            const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
+            if (request.status === 200) {
+                toastAfterRequest("Usuário deletado com sucuesso!", "success")
+                functionAfterTime(1500, () => setShowModal(false))
+            }
+
+        } catch(error) {
+            toastAfterRequest("Impossível excluir registro dependendente", "error")
+        }
+    }
     //#endregion
 
     useEffect(() => {
@@ -113,6 +132,12 @@ export default function CandidatosAdm() {
                             text={"Alterar dados do usuario"}
                             onClick={() => changeCandidateData()}
                         />
+                        <Button 
+                            bgColor={Colors.matteBlack.hexadecimal}
+                            textColor={Colors.white.hexadecimal}
+                            text={`Excluir usuário ${changeData.idAluno}`}
+                            onClick={() => deleteCandidate()}
+                        />
                     </form>
                 </div>
             </Modal>
@@ -135,15 +160,8 @@ export default function CandidatosAdm() {
                     callbackAction={value => setShowModal(value)}
                     rowSelected={(row) => {
                         setRowSelectedForChanges(row)
-                        setChangeData({ ...changeData, email: row.email, telefone: row.telefone })
+                        setChangeData({ email: row.email, telefone: row.telefone, idAluno: row.idAluno })
                     }}
-                />
-                <Table
-                    title={"Ex-alunos"}
-                    columnsTable={columnsTable}
-                    dataTable={[]}
-                    callbackAction={value => setShowModal(value)}
-                    action={true}
                 />
             </div>
             {showModal && contentModalForChanges}
