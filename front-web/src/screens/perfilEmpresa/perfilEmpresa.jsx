@@ -12,11 +12,14 @@ export default function PerfilEmpresa() {
     const [jobsCompany, setUserApplication] = useState([])
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-
     useEffect(() => {
-        getInformationsUser()
-        requestGetJobApplication()
-    }, [])
+        let monted = true
+
+        if(monted && Object.keys(dataCompany).length === 0) getInformationsUser()
+        if(monted && jobsCompany.length === 0) requestGetJobApplication()
+            
+        return () => monted = false
+    })
 
     const getInformationsUser = async () => {
         try {
@@ -48,10 +51,10 @@ export default function PerfilEmpresa() {
         return (
             <div className={stylesCss.childUserInformations}>
                 <div className={stylesCss.userData}>
-                    <p>{razaoSocial}</p>
-                    <p>Nome: {razaoSocial}</p>
+                    <p><b>{razaoSocial}</b></p>
+                    <p><b>Nome:</b> {razaoSocial}</p>
                     <p><b>E-mail:</b> {email}</p> 
-                    <p>Telefone: {telefone}</p>
+                    <p><b>Telefone:</b> {telefone}</p>
                 </div>
                 <div className={stylesCss.behavioralProfile}>
                     <p>Descrição: {descricaoEmpresa} </p>
@@ -64,12 +67,11 @@ export default function PerfilEmpresa() {
         jobsCompany.map((job, index) => {
             const { descricaoVaga, cidade, nivel, titulo } = job
             const { razaoSocial, nomeFoto } = dataCompany
-            const pathImage = formatUrlImage(nomeFoto)
             return (
                 <CardJob
                     key={index}
                     job={{
-                        srcImgCompany: pathImage,
+                        srcImgCompany: formatUrlImage(nomeFoto),
                         title: titulo,
                         local: cidade,
                         level: nivel,
@@ -83,7 +85,9 @@ export default function PerfilEmpresa() {
 
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
+        <div onLoad={() => {
+            if(Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+        }}>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"company"}
