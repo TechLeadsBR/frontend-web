@@ -8,7 +8,6 @@ import TextArea from './../../components/textAreaInput/textAreaInput'
 import RadioInput from './../../components/radioInput/radioInput'
 import Button from './../../components/button/button'
 import {
-    UF,
     Positions,
     BehavioralProfiles,
     Levels,
@@ -22,17 +21,14 @@ export default function CadastroAluno() {
 
     const [newStudent, setNewStudent] = useState(formNewStudent)
     const [newAddress, setNewAddress] = useState(formNewAddress)
-    const [idNewAddress, setIdNewAddrress] = useState(0)
-
-    useEffect(() => {
-        const lengthCepInput = String(newAddress.cep).replace("-", "").length
-        if (lengthCepInput === 8) requestViacepAPI()
-
-        if (lengthCepInput < 8) setNewAddress({ ...newAddress, localidade: "", bairro: "", logradouro: "" })
-    }, [newAddress.cep])
+    const [confirmPasswordState, setConfirmPassword] = useState("")
 
     const setStateNewStudent = (key, value) => setNewStudent({ ...newStudent, [key]: value })
     const setStateNewAddress = (key, value) => setNewAddress({ ...newAddress, [key]: value })
+
+    //#region Validations
+    const confirmPasswordValidation = newStudent.senha !== null && newStudent.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
+    //#endregion
 
     //#region Requests API
     const requestViacepAPI = async () => {
@@ -44,9 +40,12 @@ export default function CadastroAluno() {
         setNewAddress({ ...newAddress, logradouro, bairro, localidade })
     }
 
-    const saveNewStudentAPI = async () => {
+    const registerNewStudentAPI = async () => {
         try {
+            await saveNewAddressAPI()
             const request = await requestAPI("post", "/aluno", newStudent)
+
+            console.log(request)
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +57,7 @@ export default function CadastroAluno() {
 
             if (request.status === 201) {
                 const idAddress = request.data.message.split(" ")[5]
-                setIdNewAddrress(idAddress)
+                setStateNewStudent("idEndereco", idAddress)
             }
 
         } catch (error) {
@@ -89,10 +88,12 @@ export default function CadastroAluno() {
                     onChange={event => setStateNewStudent("senha", event.target.value)}
                 />
                 <Input
+                    customStyles={confirmPasswordValidation}
                     labelText={"Confirmação de Senha"}
                     name={"checkPassword"}
-                    type={"text"}
-                    onChange={event => setStateNewStudent("senha", event.target.value)}
+                    type={"password"}
+                    currentValue={confirmPasswordState}
+                    onChange={event => setConfirmPassword(event.target.value)}
                 />
                 <Input
                     labelText={"Data de Nascimento"}
@@ -101,7 +102,7 @@ export default function CadastroAluno() {
                     onChange={event => setStateNewStudent("dataNascimento", event.target.value)}
                 />
                 <Input
-                    labelText={"Genêro"}
+                    labelText={"Gênero"}
                     name={"gender"}
                     type={"text"}
                     onChange={event => setStateNewStudent("genero", event.target.value)}
@@ -144,7 +145,14 @@ export default function CadastroAluno() {
                     labelText={"CEP"}
                     name={"cep"}
                     type={"text"}
-                    onChange={event => setStateNewAddress("cep", event.target.value)}
+                    onChange={event => {
+                        setStateNewAddress("cep", event.target.value)
+                        
+                        const lengthCepInput = String(newAddress.cep).replace("-", "").length
+                        if (lengthCepInput === 8) requestViacepAPI()
+                        console.log('Ta aqui')
+                        if (lengthCepInput < 8) setNewAddress({ ...newAddress, localidade: "", bairro: "", logradouro: "" })
+                    }}
                 />
                 <Input
                     labelText={"Localidade"}
@@ -263,7 +271,7 @@ export default function CadastroAluno() {
                         bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => saveNewAddressAPI()}
+                        onClick={() => registerNewStudentAPI()}
                     />
                 </div>
             </form>
