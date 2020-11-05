@@ -17,7 +17,9 @@ export default function Input({
                 id={name}
                 style={customStyles}
                 type={type}
-                onChange={onChange}
+                onChange={event => {
+                    if (onChange) onChange(event)
+                }}
                 value={currentValue}
             />
         </div>

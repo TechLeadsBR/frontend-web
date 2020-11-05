@@ -35,12 +35,12 @@ export const formNewStudent = {
 }
 
 export const formNewAddress = {
-	cep: null,
-	logradouro: null,
-	bairro: null,
-	numero: null,
-	complemento: null,
-	localidade: null
+	cep: "",
+	logradouro: "",
+	bairro: "",
+	numero: '',
+	complemento: "",
+	localidade: ""
 }
 
 export const  formNewCompany = {

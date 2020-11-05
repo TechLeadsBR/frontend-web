@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import stylesCss from './cadastroAluno.module.css'
 import Header from './../../components/header/header'
 import SFooter from './../../components/simplefooter/simplefooter'
@@ -16,20 +16,56 @@ import {
 } from '../../services/constants/data'
 import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
+import { requestAPI } from './../../services/api'
 
 export default function CadastroAluno() {
 
     const [newStudent, setNewStudent] = useState(formNewStudent)
     const [newAddress, setNewAddress] = useState(formNewAddress)
+    const [idNewAddress, setIdNewAddrress] = useState(0)
 
-    const [viacepRequestState, setViacepRequestState] = useState({
-        logradouro: null,
-        bairro: null,
-        localidade: null
-    })
+    useEffect(() => {
+        const lengthCepInput = String(newAddress.cep).replace("-", "").length
+        if (lengthCepInput === 8) requestViacepAPI()
+
+        if (lengthCepInput < 8) setNewAddress({ ...newAddress, localidade: "", bairro: "", logradouro: "" })
+    }, [newAddress.cep])
 
     const setStateNewStudent = (key, value) => setNewStudent({ ...newStudent, [key]: value })
     const setStateNewAddress = (key, value) => setNewAddress({ ...newAddress, [key]: value })
+
+    //#region Requests API
+    const requestViacepAPI = async () => {
+        const cep = String(newAddress.cep).replace("-", "")
+
+        const request = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        const response = await request.json()
+        const { logradouro, bairro, localidade } = response
+        setNewAddress({ ...newAddress, logradouro, bairro, localidade })
+    }
+
+    const saveNewStudentAPI = async () => {
+        try {
+            const request = await requestAPI("post", "/aluno", newStudent)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const saveNewAddressAPI = async () => {
+        try {
+            const request = await requestAPI("post", "/endereco", newAddress)
+
+            if (request.status === 201) {
+                const idAddress = request.data.message.split(" ")[5]
+                setIdNewAddrress(idAddress)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    //#endregion
 
     const formRegisterStudent = (
         <div className={stylesCss.formRegisterStudent}>
@@ -86,13 +122,13 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
-                <Input 
+                <Input
                     labelText={"CPF"}
                     name={"cpfAluno"}
                     type={"text"}
                     onChange={event => setStateNewStudent("cpf", event.target.value)}
                 />
-                <Input 
+                <Input
                     labelText={"RG"}
                     name={"rgAluno"}
                     type={"text"}
@@ -110,23 +146,22 @@ export default function CadastroAluno() {
                     type={"text"}
                     onChange={event => setStateNewAddress("cep", event.target.value)}
                 />
-                <Select
-                    labelText={"Estado"}
-                    name={"uf"}
-                    options={UF}
-                    callbackChangedValue={(value) => setStateNewAddress("localidade", value)}
+                <Input
+                    labelText={"Localidade"}
+                    name={"localidade"}
+                    currentValue={newAddress.localidade}
                 />
                 <Input
                     labelText={"Logradouro"}
                     name={"street"}
                     type={"text"}
-                    onChange={event => setStateNewAddress("logradouro", event.target.value)}
+                    currentValue={newAddress.logradouro}
                 />
                 <Input
                     labelText={"Bairro"}
                     name={"district"}
                     type={"text"}
-                    onChange={event => setStateNewAddress("bairro", event.target.value)}
+                    currentValue={newAddress.bairro}
                 />
                 <Input
                     labelText={"Número"}
@@ -138,7 +173,7 @@ export default function CadastroAluno() {
                     labelText={"Complemento"}
                     name={"complement"}
                     type={"text"}
-                    onChange={event => setStateNewStudent("complemento", event.target.value)}
+                    onChange={event => setStateNewAddress("complemento", event.target.value)}
                 />
                 <div style={{ width: "30%" }}>
                     <RadioInput
@@ -228,7 +263,7 @@ export default function CadastroAluno() {
                         bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => console.log(newStudent)}
+                        onClick={() => saveNewAddressAPI()}
                     />
                 </div>
             </form>
