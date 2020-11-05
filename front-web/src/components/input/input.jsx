@@ -17,7 +17,7 @@ export default function CInput({
                 id={name}
                 style={customStyles}
                 type={type}
-                onChange={event => onChange ? onChange(event) : () => ""}
+                onChange={event => onChange ? onChange(event) : null}
                 value={currentValue}
             />
         </div>

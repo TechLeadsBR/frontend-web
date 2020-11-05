@@ -6,11 +6,11 @@ import Input from './../../components/input/input'
 import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
 import RadioInput from './../../components/radioInput/radioInput'
+import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
 import {
     Positions,
     BehavioralProfiles,
-    Levels,
     SpecifyDisability
 } from '../../services/constants/data'
 import { Colors } from './../../services/constants/constants'
@@ -21,36 +21,56 @@ export default function CadastroAluno() {
 
     const [newStudent, setNewStudent] = useState(formNewStudent)
     const [newAddress, setNewAddress] = useState(formNewAddress)
+    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [confirmPasswordState, setConfirmPassword] = useState("")
+    const [isDeficient, setIsDeficient] = useState("nao")
+    const [hasASocialName, setHasASocialName] = useState("nao")
 
     const setStateNewStudent = (key, value) => setNewStudent({ ...newStudent, [key]: value })
     const setStateNewAddress = (key, value) => setNewAddress({ ...newAddress, [key]: value })
 
+    useEffect(() => {
+        const requestViacepAPI = async () => {
+            console.log(newAddress.cep)
+            try {
+                const request = await fetch(`https://viacep.com.br/ws/${newAddress.cep}/json/`)
+                const response = await request.json()
+                console.log(response)
+                const { logradouro, bairro, localidade } = response
+                setNewAddress(address => {
+                    return {
+                        ...address,
+                        bairro,
+                        localidade,
+                        logradouro
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        if(newAddress.cep.length === 8) requestViacepAPI()
+    }, [newAddress.cep])
+    
+    const toastAfterRequest = (text, status) => {
+        setToastProps({ visible: true, text, status })
+        setToastProps({ visible: false, text: null, status: null })
+    }
+
     //#region Validations
     const confirmPasswordValidation = newStudent.senha !== null && newStudent.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
+    
+    const validationInputsIsNotNull = () => {
+        const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
+        if (nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone) {
+            return true
+        } else {
+            return false
+        }
+    }
     //#endregion
 
     //#region Requests API
-    const requestViacepAPI = async () => {
-        const cep = String(newAddress.cep).replace("-", "")
-
-        const request = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-        const response = await request.json()
-        const { logradouro, bairro, localidade } = response
-        setNewAddress({ ...newAddress, logradouro, bairro, localidade })
-    }
-
-    const registerNewStudentAPI = async () => {
-        try {
-            await saveNewAddressAPI()
-            const request = await requestAPI("post", "/aluno", newStudent)
-
-            console.log(request)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     const saveNewAddressAPI = async () => {
         try {
             const request = await requestAPI("post", "/endereco", newAddress)
@@ -64,52 +84,66 @@ export default function CadastroAluno() {
             console.log(error)
         }
     }
+
+    const registerNewStudentAPI = async () => {
+        // try {
+        //     await saveNewAddressAPI()
+        //     const request = await requestAPI("post", "/aluno", newStudent)
+
+        //     if (request.status === 201) {
+        //         toastAfterRequest("Usuario cadastrado com sucesso!", "success")
+        //     }
+
+        // } catch (error) {
+        //     toastAfterRequest("Ocorreu um erro, verifique os dados digitados", "error")
+        // }
+    }
     //#endregion
 
     const formRegisterStudent = (
         <div className={stylesCss.formRegisterStudent}>
             <form>
                 <Input
-                    labelText={"Nome"}
+                    labelText={"Nome*"}
                     name={"name"}
                     type={"text"}
                     onChange={event => setStateNewStudent("nome", event.target.value)}
                 />
                 <Input
-                    labelText={"E-mail"}
+                    labelText={"E-mail*"}
                     name={"email"}
                     type={"email"}
                     onChange={event => setStateNewStudent("email", event.target.value)}
                 />
                 <Input
-                    labelText={"Senha"}
+                    labelText={"Senha*"}
                     name={"password"}
                     type={"password"}
                     onChange={event => setStateNewStudent("senha", event.target.value)}
                 />
                 <Input
                     customStyles={confirmPasswordValidation}
-                    labelText={"Confirmação de Senha"}
+                    labelText={"Confirmação de Senha*"}
                     name={"checkPassword"}
                     type={"password"}
                     currentValue={confirmPasswordState}
                     onChange={event => setConfirmPassword(event.target.value)}
                 />
                 <Input
-                    labelText={"Data de Nascimento"}
+                    labelText={"Data de Nascimento*"}
                     name={"dateBirt"}
                     type={"date"}
                     onChange={event => setStateNewStudent("dataNascimento", event.target.value)}
                 />
                 <Input
-                    labelText={"Gênero"}
+                    labelText={"Gênero*"}
                     name={"gender"}
                     type={"text"}
                     onChange={event => setStateNewStudent("genero", event.target.value)}
                 />
-                <div style={{ width: "30%" }}>
+                <div className={stylesCss.divRadioInput}>
                     <RadioInput
-                        callbackChangedValue={value => setStateNewStudent("nomeSocial", value)}
+                        callbackChangedValue={value => setHasASocialName(value)}
                         name={"nomeSocial"}
                         title={"Possui nome social?"}
                         valuesArray={[{
@@ -123,6 +157,13 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
+                {hasASocialName === "sim" && (
+                    <Input
+                        labelText={"Nome social"}
+                        name={"nomeSocialInput"}
+                        onChange={event => setStateNewStudent("nomeSocial", event.target.value)}
+                    />
+                    )}
                 <Input
                     labelText={"CPF"}
                     name={"cpfAluno"}
@@ -145,14 +186,7 @@ export default function CadastroAluno() {
                     labelText={"CEP"}
                     name={"cep"}
                     type={"text"}
-                    onChange={event => {
-                        setStateNewAddress("cep", event.target.value)
-                        
-                        const lengthCepInput = String(newAddress.cep).replace("-", "").length
-                        if (lengthCepInput === 8) requestViacepAPI()
-                        console.log('Ta aqui')
-                        if (lengthCepInput < 8) setNewAddress({ ...newAddress, localidade: "", bairro: "", logradouro: "" })
-                    }}
+                    onChange={event => setStateNewAddress("cep", event.target.value.replace("-", ""))}
                 />
                 <Input
                     labelText={"Localidade"}
@@ -183,9 +217,9 @@ export default function CadastroAluno() {
                     type={"text"}
                     onChange={event => setStateNewAddress("complemento", event.target.value)}
                 />
-                <div style={{ width: "30%" }}>
+                <div className={stylesCss.divRadioInput}>
                     <RadioInput
-                        callbackChangedValue={value => console.log(value)}
+                        callbackChangedValue={value => setIsDeficient(value)}
                         name={"deficiencia"}
                         title={"Possui alguma deficiência?"}
                         valuesArray={[{
@@ -199,17 +233,23 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
-                <Select
-                    labelText={"Especifique:"}
-                    name={"specifyDisability"}
-                    options={SpecifyDisability}
-                    callbackChangedValue={(value) => setStateNewStudent("tipoDeficiencia", value)}
-                />
-                <TextArea
-                    labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
-                    callbackChangedValue={value => setStateNewStudent("detalheDeficiencia", value)}
-                    name={"detalheDeficiencia"}
-                />
+                {
+                    isDeficient === "sim" && (
+                        <>
+                            <Select
+                                labelText={"Especifique:"}
+                                name={"specifyDisability"}
+                                options={SpecifyDisability}
+                                callbackChangedValue={(value) => setStateNewStudent("tipoDeficiencia", value)}
+                            />
+                            <TextArea
+                                labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
+                                callbackChangedValue={value => setStateNewStudent("detalheDeficiencia", value)}
+                                name={"detalheDeficiencia"}
+                            />
+                        </>
+                    )
+                }
                 <h2>Sobre Você</h2>
                 <Select
                     labelText={"Você é:"}
@@ -251,21 +291,6 @@ export default function CadastroAluno() {
                     options={Object.keys(BehavioralProfiles).map(p => p)}
                     callbackChangedValue={(value) => setStateNewStudent("perfilComportamental", value)}
                 />
-                <TextArea
-                    labelText={"Informe suas habilidades (mínimo 3)"}
-                />
-                <Input
-                    labelText={"Idioma:"}
-                    name={"language"}
-                    type={"text"}
-                    onChange={event => setStateNewStudent("idioma", event.target.value)}
-                />
-                <Select
-                    labelText={"Nível:"}
-                    name={"levels"}
-                    options={Levels}
-                    callbackChangedValue={(value) => setStateNewStudent("nivel", value)}
-                />
                 <div className={stylesCss.divButton}>
                     <Button
                         bgColor={Colors.red.hexadecimal}
@@ -287,6 +312,11 @@ export default function CadastroAluno() {
             <h1>Cadastro</h1>
             {formRegisterStudent}
             <SFooter />
+            <ReactToast 
+                textToast={toastProps.text}
+                visible={toastProps.visible}
+                status={toastProps.status}
+            />
         </div>
     )
 }
