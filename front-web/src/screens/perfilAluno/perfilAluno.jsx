@@ -26,8 +26,8 @@ export default function PerfilAluno() {
     useEffect(() => {
         let monted = true
         if (monted) {
-            getInformationsUser()
-            requestGetJobApplication()
+            if (Object.keys(dataStudent).length === 0) getInformationsUser()
+            if (userApplications.length === 0) requestGetJobApplication()
         }
 
         return () => monted = false
@@ -68,14 +68,14 @@ export default function PerfilAluno() {
             case "Gato":
                 return BehavioralProfiles.Gato
             default:
-                return BehavioralProfiles.Aguia
+                return ""
         }
     }
 
     const childUserInformations = () => {
         const { nome, email, telefone, perfilComportamental } = dataStudent
         const animalPerfilUser = getStudentAnimalProfile(perfilComportamental)
-        
+
         return (
             <div className={stylesCss.childUserInformations} onLoad={() => {
                 const { Description, StrongPoints, SrcImgIcon, Weaknesses } = animalPerfilUser
@@ -99,8 +99,8 @@ export default function PerfilAluno() {
                         <img
                             className={stylesCss.icon}
                             src={animalPerfilUser.SrcImgIcon}
-                            alt={`Icone ${dataStudent.perfilComportamental}`} 
-                            onClick={() => setShowModalAnimalUser(true)} 
+                            alt={`Icone ${dataStudent.perfilComportamental || "animal"}`}
+                            onClick={() => setShowModalAnimalUser(true)}
                         />
                     </div>
                     <div>
@@ -137,31 +137,33 @@ export default function PerfilAluno() {
     const modalWithJob = (
         showModalAnimalUser && (
             <div className={stylesCss.backgroundModalWithJob}>
-            <Modal>
-                <div className={stylesCss.contentModalWithJob}>
-                    <p onClick={() => setShowModalAnimalUser(false)}>X</p>
-                    <div>
-                        <h2>Animal predominante</h2>
-                        <img 
-                            src={animalUser.srcImgIcon} 
-                            alt={`Icone animal ${animalUser.name}`} 
-                            width={300}     
-                        />
-                        <b>Descrição</b>
-                        <p>{animalUser.description}</p>
-                        <b>Pontos Fortes</b>
-                        <p>{animalUser.strongPoints}</p>
-                        <b>Pontos a melhorar</b>
-                        <p>{animalUser.weaknesses}</p>
+                <Modal>
+                    <div className={stylesCss.contentModalWithJob}>
+                        <p onClick={() => setShowModalAnimalUser(false)}>X</p>
+                        <div>
+                            <h2>Animal predominante</h2>
+                            <img
+                                src={animalUser.srcImgIcon}
+                                alt={`Icone animal ${animalUser.name}`}
+                                width={300}
+                            />
+                            <b>Descrição</b>
+                            <p>{animalUser.description}</p>
+                            <b>Pontos Fortes</b>
+                            <p>{animalUser.strongPoints}</p>
+                            <b>Pontos a melhorar</b>
+                            <p>{animalUser.weaknesses}</p>
+                        </div>
                     </div>
-                </div>
-            </Modal>
-        </div>
+                </Modal>
+            </div>
         )
     )
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
+        <div onLoad={() => {
+            if (Object.keys(dataStudent).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+        }}>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"student"}

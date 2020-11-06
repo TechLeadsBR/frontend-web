@@ -6,6 +6,8 @@ export const saveInLocalStorage = (key, value) => localStorage.setItem(key, valu
 // função para pegar um valor no localStorage
 export const getInLocalStorage = (key) => localStorage.getItem(key)
 
+export const saveTokenInLocalStorage = (token) => localStorage.setItem(KEY_USER_JWT, token)
+
 export const verifyAuthenticatedUser = () => getInLocalStorage(KEY_USER_JWT) !== null
 
 export const removeInLocalStorage = (key) => localStorage.removeItem(key)
