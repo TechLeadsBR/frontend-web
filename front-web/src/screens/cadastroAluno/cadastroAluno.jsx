@@ -32,7 +32,6 @@ export default function CadastroAluno() {
 
     useEffect(() => {
         const requestViacepAPI = async () => {
-            console.log(newAddress.cep)
             try {
                 const request = await fetch(`https://viacep.com.br/ws/${newAddress.cep}/json/`)
                 const response = await request.json()
@@ -46,7 +45,7 @@ export default function CadastroAluno() {
                     }
                 })
             } catch (error) {
-                console.log(error)
+                toastFunction("Ocorreu um erro ao buscar os dados do endereço", "error")
             }
         }
         if (newAddress.cep.length === 8) requestViacepAPI()
@@ -68,25 +67,19 @@ export default function CadastroAluno() {
         }
         else {
             if (cpf.length > 11 || cpf.length < 11) {
-                console.log("CPF")
-                console.log(String(cpf).length)
                 toastFunction("CPF Inválido")
                 return false
             }
             if (rg.length > 9 || rg.length < 9) {
-                console.log(String(rg).length)
-                console.log("RG")
                 toastFunction("RG Inválido")
                 return false
             }
             if(confirmPasswordState !== newStudent.senha) {
-                console.log("senhas")
                 toastFunction("As senhas não coincidem")
                 return false
             }
 
             else {
-                console.log('Tudo certo')
                 return true
             }
         }
@@ -104,20 +97,18 @@ export default function CadastroAluno() {
 
     //#region Requests API
     const saveNewAddressAPI = async () => {
-
         if (!validationInputNewAddress()) {
             return
         }
-
         try {
             const request = await requestAPI("post", "/endereco", newAddress)
 
             if (request.status === 201) {
                 const idAddress = request.data.message.split(" ")[5]
                 setStateNewStudent("idEndereco", idAddress)
+                await registerNewStudentAPI()
             }
         } catch (error) {
-            console.log(error)
             toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
@@ -129,7 +120,6 @@ export default function CadastroAluno() {
         }
 
         try {
-            const requestSaveNewAddress = await saveNewAddressAPI()
             const request = await requestAPI("post", "/aluno", newStudent)
 
             if (request.status === 201) {
@@ -210,6 +200,7 @@ export default function CadastroAluno() {
                     labelText={"CPF*"}
                     name={"cpfAluno"}
                     type={"text"}
+                    currentValue={newStudent.cpf}
                     onChange={event => setStateNewStudent("cpf", event.target.value)}
                 />
                 <Input
@@ -336,7 +327,7 @@ export default function CadastroAluno() {
                         bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => registerNewStudentAPI()}
+                        onClick={() => saveNewAddressAPI()}
                     />
                 </div>
             </form>

@@ -16,6 +16,7 @@ import {
     UF,
     TypeContracts
 } from '../../services/constants/data'
+import { functionAfterTime } from './../../services/functions'
 
 export default function CadastroVaga() {
 
