@@ -4,7 +4,8 @@ import stylesCss from './textAreaInput.module.css'
 export default function TextInput({
     name,
     callbackChangedValue,
-    labelText
+    labelText,
+    currentValue
 }) {
 
     const [maxLength, setMaxLength] = useState(100)
@@ -32,6 +33,7 @@ export default function TextInput({
                 <span>{maxLength >= 0 && maxLength}</span>
             </div>
             <textarea
+                value={currentValue}
                 rows={7}
                 onChange={(event) => counterValueInput(event.target.value)}
                 maxLength={100}

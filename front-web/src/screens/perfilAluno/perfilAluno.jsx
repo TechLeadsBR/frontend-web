@@ -26,36 +26,47 @@ export default function PerfilAluno() {
     useEffect(() => {
         let monted = true
         if (monted) {
-            if (Object.keys(dataStudent).length === 0) getInformationsUser()
-            if (userApplications.length === 0) requestGetJobApplication()
+            if (userApplications.length === 0) {
+                const requestGetJobApplication = async () => {
+                    try {
+                        const request = await requestAPI("get", "/inscricaoemprego")
+
+                        if (request.status === 200) {
+                            setUserApplication(request.data)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                requestGetJobApplication()
+            }
         }
 
         return () => monted = false
-    }, [])
+    }, [userApplications])
 
-    const getInformationsUser = async () => {
-        try {
-            const request = await requestAPI("get", "/aluno/id")
+    useEffect(() => {
+        let monted = true
 
-            if (request.status === 200) {
-                setDataStudent(request.data)
+        if (monted) {
+            if (Object.keys(dataStudent).length === 0) {
+                const getInformationsUser = async () => {
+                    try {
+                        const request = await requestAPI("get", "/aluno/id")
+
+                        if (request.status === 200) {
+                            setDataStudent(request.data)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                getInformationsUser()
             }
-        } catch (error) {
-            console.log(error)
         }
-    }
 
-    const requestGetJobApplication = async () => {
-        try {
-            const request = await requestAPI("get", "/inscricaoemprego")
-
-            if (request.status === 200) {
-                setUserApplication(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+        return () => monted = false
+    },[dataStudent])
 
     const getStudentAnimalProfile = (perfilComportamental) => {
         switch (perfilComportamental) {
