@@ -1,0 +1,26 @@
+ h1{
+    text-align: center;
+}
+.constForms{
+    display: flex;
+    justify-content: center;
+}
+
+.formRegisterAdm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    margin-bottom: 100px;
+}
+
+.divButton {
+    width: 50%;
+    margin-top: 15px;
+    align-self: center;
+}
+.divButton {
+    width: 100%;
+    margin-top: 30px;
+}
