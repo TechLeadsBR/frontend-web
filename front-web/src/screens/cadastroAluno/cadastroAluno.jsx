@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import stylesCss from './cadastroAluno.module.css'
 import Header from './../../components/header/header'
-import SFooter from './../../components/simplefooter/simplefooter'
+import SimpleFooter from './../../components/simplefooter/simplefooter'
 import Input from './../../components/input/input'
 import Select from './../../components/select/select'
 import TextArea from './../../components/textAreaInput/textAreaInput'
@@ -17,9 +17,11 @@ import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from '../../services/functions'
+import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
 
+    const history = useHistory()
     const [newStudent, setNewStudent] = useState(formNewStudent)
     const [newAddress, setNewAddress] = useState(formNewAddress)
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
@@ -51,7 +53,7 @@ export default function CadastroAluno() {
         if (newAddress.cep.length === 8) requestViacepAPI()
     }, [newAddress.cep])
 
-    const toastFunction = (text, status) => {
+    const toastFunction = (text, status="error") => {
         setToastProps({ visible: true, text, status })
         functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
     }
@@ -75,13 +77,10 @@ export default function CadastroAluno() {
                 return false
             }
             if(confirmPasswordState !== newStudent.senha) {
-                toastFunction("As senhas não coincidem")
+                toastFunction("As senhas não são iguais!")
                 return false
             }
-
-            else {
-                return true
-            }
+            else return true
         }
     }
 
@@ -97,9 +96,7 @@ export default function CadastroAluno() {
 
     //#region Requests API
     const saveNewAddressAPI = async () => {
-        if (!validationInputNewAddress()) {
-            return
-        }
+        if (!validationInputNewAddress()) return
         try {
             const request = await requestAPI("post", "/endereco", newAddress)
 
@@ -114,16 +111,13 @@ export default function CadastroAluno() {
     }
 
     const registerNewStudentAPI = async () => {
-
-        if (!validationInputsNewStudent()) {
-            return
-        }
-
+        if (!validationInputsNewStudent()) return
         try {
             const request = await requestAPI("post", "/aluno", newStudent)
 
             if (request.status === 201) {
                 toastFunction("Usuario cadastrado com sucesso!", "success")
+                history.push("/login")
             }
 
         } catch (error) {
@@ -342,7 +336,7 @@ export default function CadastroAluno() {
             />
             <h1>Cadastro</h1>
             {formRegisterStudent}
-            <SFooter />
+            <SimpleFooter />
             <ReactToast
                 textToast={toastProps.text}
                 visible={toastProps.visible}

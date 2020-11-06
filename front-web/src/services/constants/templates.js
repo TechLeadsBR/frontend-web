@@ -47,11 +47,11 @@ export const formNewCompany = {
     razaoSocial: null,
 	email: null,
 	senha:null,
-	cnpj: null, 
+	cnpj: getInSessionStorage("CNPJ"), 
 	atividadeEconomica: null,
 	telefone: null,
 	telefoneDois: null,
 	nomeFoto: null,
 	descricaoEmpresa: null,
-    idTipoUsuario: getJtiUserInToken()
+    idTipoUsuario: 3
 }
