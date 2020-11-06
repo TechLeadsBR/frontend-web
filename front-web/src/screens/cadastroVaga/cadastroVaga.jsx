@@ -16,31 +16,34 @@ import {
     UF,
     TypeContracts
 } from '../../services/constants/data'
+import { functionAfterTime } from './../../services/functions'
 
 export default function CadastroVaga() {
 
     const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
-    const [toastProps, setToastProps] = useState({text: null, visible: false, status: null})
+    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
+
+    const toastAfterRequest = (text, status) => {
+        setToastProps({ visible: true, text, status })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
+    }
 
     const requestApiNewJob = async () => {
         try {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
-            if(request.status === 201){
-                setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
-                
+            if (request.status === 201) {
+                toastAfterRequest("Vaga cadastrada com sucesso!", "success")
                 setTimeout(() => {
                     history.push("/gerenciar-vagas")
                 }, 2000)
-            }else {
-                setToastProps({ status: "error", text: "Ocorreu um erro ao cadastrar vaga", visible: true})
             }
-            
+
         } catch (error) {
-            setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
+            toastAfterRequest("Ocorreu um erro ao cadastrar a vaga!", "error")
         }
     }
 
@@ -100,7 +103,7 @@ export default function CadastroVaga() {
             </form>
         </div>
     )
-    
+
     return (
         <div className={stylesCss.root}>
             <Header
