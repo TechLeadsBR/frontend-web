@@ -37,7 +37,7 @@ export default function CadastroVaga() {
 
             if (request.status === 201) {
                 toastAfterRequest("Vaga cadastrada com sucesso!", "success")
-                functionAfterTime(1000, () => history.push("/gerenciar-vagas"))
+                functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
             }
 
         } catch (error) {

@@ -15,7 +15,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
 
     const listLinks = (type) => {
         switch (type) {
-            case "student": return <li><Link to="/">Vagas</Link></li>
+            case "student": return <li><Link to="/buscar-vagas">Vagas</Link></li>
             case "company": return <li><Link to="/gerenciar-vagas">Gerenciar Vagas</Link></li>
             case "administrator": {
                 return (
@@ -65,9 +65,9 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
 
     const linkRedirectLogoHeader = (type) => {
         switch (type) {
-            case "student": return "/vagas"
+            case "student": return "/buscar-vagas"
             case "company": return "/gerenciar-vagas"
-            case "administrator": return "/home-adm"
+            case "administrator": return "/inicial-adm"
             case "home": return "/"
             default: return "/"
         }

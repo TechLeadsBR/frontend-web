@@ -82,7 +82,7 @@ const Pages = [
     },
     {
         name: "Inicial Adm",
-        path: "/inicial-adm",
+        path: "/inicial-administrador",
         component: InicialAdm,
         role: "1"
     }

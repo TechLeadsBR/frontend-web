@@ -19,7 +19,7 @@ export default function PerfilEmpresa() {
         if(monted && jobsCompany.length === 0) requestGetJobApplication()
             
         return () => monted = false
-    })
+    }, [])
 
     const getInformationsUser = async () => {
         try {

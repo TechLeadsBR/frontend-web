@@ -22,11 +22,16 @@ export default function Login() {
     const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     useEffect(() => {
-        if (user !== undefined
-            && user !== "administrador"
-            && user !== "aluno"
-            && user !== "empresa"
-        ) history.push("/")
+        let monted = true
+        if(monted) {
+            if (user !== undefined
+                && user !== "administrador"
+                && user !== "aluno"
+                && user !== "empresa"
+            ) history.push("/")
+        }
+
+        return () => monted = false
     })
 
     const toastFunction = (text, status="error") => {
@@ -49,7 +54,7 @@ export default function Login() {
                 saveTokenInLocalStorage(request.data.message)
 
                 const pushUser = user === "aluno" ? "/perfil-aluno" : user === "empresa" ? "/perfil-empresa" : "/inicial-administrador"
-                functionAfterTime(1000, () => history.push(pushUser))
+                functionAfterTime(5000, () => history.push(pushUser))
             }
         } catch (error) {
             toastFunction("Usuario não encontrado!", "error")

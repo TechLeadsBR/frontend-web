@@ -43,7 +43,7 @@ export default function PerfilAluno() {
         }
 
         return () => monted = false
-    }, [userApplications])
+    }, [])
 
     useEffect(() => {
         let monted = true
