@@ -10,10 +10,11 @@ import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
+import { formNewAdministrator } from './../../services/constants/templates'
 
 export default function InicialAdm() {
 
-    const [newAdministrator, setNewAdministrator] = useState({})
+    const [newAdministrator, setNewAdministrator] = useState(formNewAdministrator)
 
     const internSetStateForm = (key, value) => setNewAdministrator({ ...newAdministrator, [key]: value })
 
@@ -23,29 +24,24 @@ export default function InicialAdm() {
 
     useEffect(() => {
         let monted = true
-        if (monted) {
-            getInformationsGrafic()
-        }
-
+        if (monted && Object.keys(dataGrafic).length === 0) getInformationsGrafic()
         return () => monted = false
     }, [])
+
+    const toastAfterRequest = (text, status) => {
+        setToastProps({ visible: true, text, status })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
+    }
 
     const requestNewAdm = async () => {
         try {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
             if(request.status === 201){
-                setToastProps({status: "success", text: "Administrador Cadastrado", visible: true})
-                
-                // setTimeout(() => {
-                //     history.push("/gerenciar-vagas")
-                // }, 2000)
-            }else {
-                setToastProps({ status: "error", text: "Ocorreu um erro ao cadastrar vaga", visible: true})
+                toastAfterRequest("Administrador cadastrado com sucesso!", "success")
             }
-            
         } catch (error) {
-            setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
+            toastAfterRequest("Ocorreu um erro ao cadastrar o novo administrador", "error")
         }
     }
 
@@ -57,7 +53,7 @@ export default function InicialAdm() {
                 setDataGrafic(request.data)
             }
         } catch (error) {
-            console.log(error)
+            toastAfterRequest("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
         }
     }
 
@@ -90,17 +86,17 @@ export default function InicialAdm() {
                 <Input
                     labelText={"E-mail"}
                     name={"email"}
-                    type={"text"}
+                    type={"email"}
                     onChange={event => internSetStateForm("email", event.target.value)}
                 />
                 <Input
                     labelText={"Senha"}
                     name={"password"}
-                    type={"text"}
+                    type={"password"}
                     onChange={event => internSetStateForm("senha", event.target.value)}
                 />
                 <Input
-                    labelText={"Cpf"}
+                    labelText={"CPF"}
                     name={"cpf"}
                     type={"text"}
                     onChange={event => internSetStateForm("cpf", event.target.value)}
@@ -122,19 +118,17 @@ export default function InicialAdm() {
         <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
             <LoadingPage visible={showLoadingIcon} />
             <Header typeHeader="administrator" />
+            <h1>DashBoard</h1>
+            {GraficApplication()}
+            <div className={Stylecss.constForms}>
+                {FormRegisterAdm}
+            </div>
+            <Footer/>
             <ReactToast
                 visible={toastProps.visible}
                 textToast={toastProps.text}
                 status={toastProps.status}
             />
-
-            <h1>DashBoard</h1>
-            {GraficApplication()}
-            <div className={Stylecss.constForms}>
-                
-                {FormRegisterAdm}
-            </div>
-            <Footer/>
         </div>
     )
 }

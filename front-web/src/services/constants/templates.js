@@ -55,3 +55,11 @@ export const formNewCompany = {
 	descricaoEmpresa: null,
     idTipoUsuario: 3
 }
+
+export const formNewAdministrator = {
+	nome: "",
+	email: "",
+	senha: "",
+	cpf: "",
+	idTipoUsuario: 1
+}
