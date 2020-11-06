@@ -29,7 +29,7 @@ export default function RoutePermission({ path, role, component: Component }) {
         if(monted) verificationUserToRoute()
 
         return () => monted = false
-    })
+    }, [])
 
     return (
         <>

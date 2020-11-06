@@ -99,7 +99,7 @@ export default function CandidatosAdm() {
         if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
 
         return () => monted = false
-    })
+    }, [])
 
     const contentModalForChanges = (
         <div className={stylesCss.modalEditData}>

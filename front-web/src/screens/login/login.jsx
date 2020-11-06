@@ -32,7 +32,7 @@ export default function Login() {
         }
 
         return () => monted = false
-    })
+    }, [])
 
     const toastFunction = (text, status="error") => {
         setToastProps({ visible: true, text, status })

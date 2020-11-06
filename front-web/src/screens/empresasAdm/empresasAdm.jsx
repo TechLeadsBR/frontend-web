@@ -189,7 +189,7 @@ export default function EmpresasAdm() {
         if (monted && registrationsState.length === 0) functionAfterTime(3000, () => getRegistrationsAPI())
 
         return () => monted = false
-    })
+    }, [])
 
     const modalForEditCompany = (
         <div className={stylesCss.modalForEditCompany}>
