@@ -27,6 +27,7 @@ export default function InicioCadastro() {
         const labelInput = user === "aluno" ? "CPF" : "CNPJ"
         const nameInput = user === "aluno" ? "cpfInput" : "cnpjInput"
         const bgColorButton = user === "aluno" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal
+        const redirectPage = user === "aluno" ? "/cadastro-aluno" : "/cadastro-empresa"
 
         return (
             <div className={stylesCss.registrationForm}>
@@ -45,7 +46,7 @@ export default function InicioCadastro() {
                             textColor={Colors.white.hexadecimal}
                             onClick={() => {
                                 saveInSessionStorage(labelInput, data)
-                                history.push("/cadastro-aluno")
+                                history.push(redirectPage)
                             }}
                         />
                     </form>

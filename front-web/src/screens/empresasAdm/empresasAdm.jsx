@@ -41,7 +41,7 @@ export default function EmpresasAdm() {
 
     const toastAfterRequest = (text, status) => {
         setToastProps({ visible: true, text, status })
-        setToastProps({ visible: false, text: null, status: null })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
     }
 
     const createObjectForCompanysArray = (data) => {
@@ -113,7 +113,7 @@ export default function EmpresasAdm() {
                 createObjectForCompanysArray(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
     }
 
@@ -125,7 +125,7 @@ export default function EmpresasAdm() {
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa empresa tem vagas cadastradas!")
+            toastAfterRequest("Parece que essa empresa tem vagas cadastradas!", "error")
         }
     }
 
@@ -137,7 +137,7 @@ export default function EmpresasAdm() {
             }
 
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
     }
 
@@ -150,7 +150,7 @@ export default function EmpresasAdm() {
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa vaga tem inscrições!")
+            toastAfterRequest("Parece que essa vaga tem inscrições!", "error")
         }
     }
 
@@ -162,7 +162,7 @@ export default function EmpresasAdm() {
                 createObjectRegistrationsToArrayState(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
     }
 
@@ -175,7 +175,7 @@ export default function EmpresasAdm() {
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error){
-            toastAfterRequest("Ocorreu um erro ao excluir essa inscrição!")
+            toastAfterRequest("Ocorreu um erro ao excluir essa inscrição!", "error")
         }
     }
     //#endregion

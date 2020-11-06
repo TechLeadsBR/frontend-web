@@ -1,7 +1,7 @@
 import React from 'react'
 import stylesCss from './input.module.css'
 
-export default function Input({  
+export default function CInput({  
     type, 
     onChange, 
     labelText, 
@@ -17,7 +17,7 @@ export default function Input({
                 id={name}
                 style={customStyles}
                 type={type}
-                onChange={onChange}
+                onChange={event => onChange ? onChange(event) : null}
                 value={currentValue}
             />
         </div>

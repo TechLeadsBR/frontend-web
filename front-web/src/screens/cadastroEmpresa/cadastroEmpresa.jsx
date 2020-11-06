@@ -4,58 +4,130 @@ import Header from './../../components/header/header'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import TextArea from './../../components/textAreaInput/textAreaInput'
+import SimpleFooter from './../../components/simplefooter/simplefooter'
+import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
+import { formNewCompany } from './../../services/constants/templates'
+import { functionAfterTime } from './../../services/functions'
+import { requestAPI } from '../../services/api'
+import { useHistory } from 'react-router-dom'
 
-export default function CadastroEmpresa(){
+export default function CadastroEmpresa() {
 
-    const [newCompany, setNewCompany] = useState({})
+    const history = useHistory()
+    const [newCompany, setNewCompany] = useState(formNewCompany)
+    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
+    const [confirmPasswordState, setConfirmPassword] = useState("")
 
-    const internSetStateForm = (key, value) => setNewCompany({...newCompany, [key]: value})
+    const setStateNewCompany = (key, value) => setNewCompany({ ...newCompany, [key]: value })
+    
+    const toastFunction = (text, status="error") => {
+        setToastProps({ visible: true, text, status })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
+    }
+
+    //#region Validations
+    const confirmPasswordValidation = newCompany.senha !== null && newCompany.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
+    
+    const validateInputsNewCompany = () => {
+        const { razaoSocial, email, senha, cnpj, atividadeEconomica, telefone, telefoneDois, descricaoEmpresa } = newCompany
+        if(!(razaoSocial && email && senha && cnpj && atividadeEconomica && telefone && telefoneDois && descricaoEmpresa)) {
+            toastFunction("Preencha os dados obrigatorios")
+            return false
+        } 
+        else {
+            if (cnpj.length > 14 || cnpj.length < 14){
+                toastFunction("CNPJ Inválido")
+                return false
+            }
+            if (confirmPasswordState !== newCompany.senha) {
+                toastFunction("As senhas não são iguais!")
+                return false
+            }
+            else return true
+        }
+    }
+    //#endregion
+
+    const registerNewCompanyAPI = async () => {
+        if (!validateInputsNewCompany()) return
+
+        try {
+            const request = await requestAPI("post", "/empresa", newCompany)
+
+            if (request.status === 201) {
+                toastFunction("Empresa cadastrada com sucesso!", "success")
+                history.push("/login")
+            }
+
+        } catch (error) {
+            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
+        }
+    }
 
     const formRegisterCompany = (
         <div className={stylesCss.formRegisterCompany}>
             <form>
                 <Input
-                    labelText={"Confirmar Senha:"}
-                    name={"confirmPassword"}
+                    labelText={"Razão Social:*"}
+                    name={"companyname"}
                     type={"text"}
-                    onChange={event => internSetStateForm("senha", event.target.value)}
+                    onChange={event => setStateNewCompany("razaoSocial", event.target.value)}
                 />
-                <div className={stylesCss.rowForm}>
-                    <Input 
-                        labelText={"CNPJ"}
-                        name={"cnpj"}
-                        type={"text"}
-                    />
-                    <Input 
-                        labelText={"Atividade econômica (Nr CNAE)"}
-                        name={"economyActivity"}
-                        type={"text"}
-                    />
-                </div>
-                <div className={stylesCss.rowForm}>
-                    <Input 
-                        labelText={"Telefone 1"}
-                        name={"tel1"}
-                        type={"number"}
-                    />
-                    <Input 
-                        labelText={"Telefone 2"}
-                        name={"tel2"}
-                        type={"number"}
-                    />
-                </div>
-
-                <TextArea 
-                    labelText={"Descrição Empresa"}
+                <Input
+                    labelText={"E-mail:*"}
+                    name={"email"}
+                    type={"email"}
+                    onChange={event => setStateNewCompany("email", event.target.value)}
                 />
-
+                <Input
+                    labelText={"Senha:*"}
+                    name={"password"}
+                    type={"password"}
+                    onChange={event => setStateNewCompany("senha", event.target.value)}
+                />
+                <Input
+                    customStyles={confirmPasswordValidation}
+                    labelText={"Confirmar Senha:*"}
+                    name={"confirmPassword"}
+                    type={"password"}
+                    onChange={event => setConfirmPassword(event.target.value)}
+                />
+                <Input
+                    labelText={"CNPJ*"}
+                    name={"cnpj"}
+                    type={"text"}
+                    currentValue={newCompany.cnpj}
+                    onChange={event => setStateNewCompany("cnpj", event.target.value)}
+                />
+                <Input
+                    labelText={"Atividade econômica (Nr CNAE)*"}
+                    name={"economyActivity"}
+                    type={"text"}
+                    onChange={event => setStateNewCompany("atividadeEconomica", event.target.value)}
+                />
+                <Input
+                    labelText={"Telefone 1*"}
+                    name={"telefone1"}
+                    type={"text"}
+                    onChange={event => setStateNewCompany("telefone", event.target.value)}
+                />
+                <Input
+                    labelText={"Telefone 2*"}
+                    name={"telefone2"}
+                    type={"text"}
+                    onChange={event => setStateNewCompany("telefoneDois", event.target.value)}
+                />
+                <TextArea
+                    labelText={"Descrição Empresa*"}
+                    callbackChangedValue={value => setStateNewCompany("descricaoEmpresa", value)}
+                />
                 <div className={stylesCss.divButton}>
                     <Button
                         bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => console.log(newCompany)}
+                        onClick={() => registerNewCompanyAPI()}
                     />
                 </div>
             </form>
@@ -64,12 +136,15 @@ export default function CadastroEmpresa(){
 
     return (
         <div className={stylesCss.root}>
-            <Header 
-                typeHeader={"company"}
-                srcImgUser={"https://image.flaticon.com/icons/png/512/25/25634.png"}
-            />
+            <Header />
             <h1>Cadastro</h1>
             {formRegisterCompany}
+            <SimpleFooter />
+            <ReactToast
+                textToast={toastProps.text}
+                visible={toastProps.visible}
+                status={toastProps.status}
+            />
         </div>
     )
 }
