@@ -98,7 +98,7 @@ export default function PerfilEmpresa() {
             <div className={stylesCss.cardsJobApplication}>
                 <h1>Vagas em Aberto</h1>
                 <div>
-                    {cardsJobApplication}
+                    {jobsCompany.length !== 0 ? cardsJobApplication : <small>Nenhuma vaga cadastrada</small>}
                 </div>
             </div>
         </div>

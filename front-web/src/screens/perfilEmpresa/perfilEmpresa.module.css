@@ -37,3 +37,7 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.cardsJobApplication > div:nth-child(2) > small {
+    text-align: center;
+}

@@ -16,7 +16,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
     const listLinks = (type) => {
         switch (type) {
             case "student": return <li><Link to="/">Vagas</Link></li>
-            case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
+            case "company": return <li><Link to="/gerenciar-vagas">Gerenciar Vagas</Link></li>
             case "administrator": {
                 return (
                     <>
@@ -37,17 +37,20 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
         }
     }
 
-    const userLogged = (type) => (
-        <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
-            <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
-            {(type === "student" || type === "company") && <img src={srcImgUser} alt={"Foto usuario x"} />}
-            <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
-        </div>
-    )
+    const userLogged = (type) => {
+        const linkRedirect = type === "student" ? "/perfil-aluno" : "/perfil-empresa"
+        return (
+            <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
+                <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
+                {(type === "student" || type === "company") && <Link to={{ pathname: linkRedirect }} >Perfil</Link>}
+                <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
+            </div>
+        )
+    }
 
     const notLogged = (
         <div className={stylesCss.notLogged}>
-            <b><Link to="/login">Login</Link></b>
+            <b><Link to={`/login/${typeRender === "student" ? "aluno" : "empresa"}`}>Login</Link></b>
             <Button
                 textColor={Colors.white.hexadecimal}
                 bgColor={typeRender === "student" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal}

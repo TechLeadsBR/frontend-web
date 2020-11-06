@@ -8,7 +8,8 @@ export default function CardJob({
         local,
         level,
         description,
-        title
+        title,
+        idVagaEmprego
     },
     callbackJobInformation
 }){
@@ -16,7 +17,7 @@ export default function CardJob({
     const callback = () => {
         if(callbackJobInformation){
             callbackJobInformation({
-                srcImgCompany, nameCompany, local, level, description, title
+                srcImgCompany, nameCompany, local, level, description, title, idVagaEmprego
             })
         }
     }

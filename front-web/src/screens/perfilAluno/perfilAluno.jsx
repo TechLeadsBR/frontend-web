@@ -26,36 +26,47 @@ export default function PerfilAluno() {
     useEffect(() => {
         let monted = true
         if (monted) {
-            getInformationsUser()
-            requestGetJobApplication()
+            if (userApplications.length === 0) {
+                const requestGetJobApplication = async () => {
+                    try {
+                        const request = await requestAPI("get", "/inscricaoemprego")
+
+                        if (request.status === 200) {
+                            setUserApplication(request.data)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                requestGetJobApplication()
+            }
         }
 
         return () => monted = false
-    }, [])
+    }, [userApplications])
 
-    const getInformationsUser = async () => {
-        try {
-            const request = await requestAPI("get", "/aluno/id")
+    useEffect(() => {
+        let monted = true
 
-            if (request.status === 200) {
-                setDataStudent(request.data)
+        if (monted) {
+            if (Object.keys(dataStudent).length === 0) {
+                const getInformationsUser = async () => {
+                    try {
+                        const request = await requestAPI("get", "/aluno/id")
+
+                        if (request.status === 200) {
+                            setDataStudent(request.data)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                getInformationsUser()
             }
-        } catch (error) {
-            console.log(error)
         }
-    }
 
-    const requestGetJobApplication = async () => {
-        try {
-            const request = await requestAPI("get", "/inscricaoemprego")
-
-            if (request.status === 200) {
-                setUserApplication(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+        return () => monted = false
+    },[dataStudent])
 
     const getStudentAnimalProfile = (perfilComportamental) => {
         switch (perfilComportamental) {
@@ -68,14 +79,14 @@ export default function PerfilAluno() {
             case "Gato":
                 return BehavioralProfiles.Gato
             default:
-                return BehavioralProfiles.Aguia
+                return ""
         }
     }
 
     const childUserInformations = () => {
         const { nome, email, telefone, perfilComportamental } = dataStudent
         const animalPerfilUser = getStudentAnimalProfile(perfilComportamental)
-        
+
         return (
             <div className={stylesCss.childUserInformations} onLoad={() => {
                 const { Description, StrongPoints, SrcImgIcon, Weaknesses } = animalPerfilUser
@@ -99,8 +110,8 @@ export default function PerfilAluno() {
                         <img
                             className={stylesCss.icon}
                             src={animalPerfilUser.SrcImgIcon}
-                            alt={`Icone ${dataStudent.perfilComportamental}`} 
-                            onClick={() => setShowModalAnimalUser(true)} 
+                            alt={`Icone ${dataStudent.perfilComportamental || "animal"}`}
+                            onClick={() => setShowModalAnimalUser(true)}
                         />
                     </div>
                     <div>
@@ -137,31 +148,33 @@ export default function PerfilAluno() {
     const modalWithJob = (
         showModalAnimalUser && (
             <div className={stylesCss.backgroundModalWithJob}>
-            <Modal>
-                <div className={stylesCss.contentModalWithJob}>
-                    <p onClick={() => setShowModalAnimalUser(false)}>X</p>
-                    <div>
-                        <h2>Animal predominante</h2>
-                        <img 
-                            src={animalUser.srcImgIcon} 
-                            alt={`Icone animal ${animalUser.name}`} 
-                            width={300}     
-                        />
-                        <b>Descrição</b>
-                        <p>{animalUser.description}</p>
-                        <b>Pontos Fortes</b>
-                        <p>{animalUser.strongPoints}</p>
-                        <b>Pontos a melhorar</b>
-                        <p>{animalUser.weaknesses}</p>
+                <Modal>
+                    <div className={stylesCss.contentModalWithJob}>
+                        <p onClick={() => setShowModalAnimalUser(false)}>X</p>
+                        <div>
+                            <h2>Animal predominante</h2>
+                            <img
+                                src={animalUser.srcImgIcon}
+                                alt={`Icone animal ${animalUser.name}`}
+                                width={300}
+                            />
+                            <b>Descrição</b>
+                            <p>{animalUser.description}</p>
+                            <b>Pontos Fortes</b>
+                            <p>{animalUser.strongPoints}</p>
+                            <b>Pontos a melhorar</b>
+                            <p>{animalUser.weaknesses}</p>
+                        </div>
                     </div>
-                </div>
-            </Modal>
-        </div>
+                </Modal>
+            </div>
         )
     )
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowLoadingIcon(false))}>
+        <div onLoad={() => {
+            if (Object.keys(dataStudent).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+        }}>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"student"}
@@ -169,10 +182,11 @@ export default function PerfilAluno() {
             <GrayBackgroundProfile srcImgUser={formatUrlImage(dataStudent.nomeFoto)}>
                 {childUserInformations()}
             </GrayBackgroundProfile>
+
             <div className={stylesCss.cardsJobApplication}>
                 <h1>Candidaturas</h1>
                 <div>
-                    {cardsJobApplication}
+                    {userApplications.length !== 0 ? cardsJobApplication : <small>Nenhuma inscrição feita</small>}
                 </div>
             </div>
             {modalWithJob}
