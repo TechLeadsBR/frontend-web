@@ -46,13 +46,14 @@ export default function EmpresasAdm() {
 
     const createObjectForCompanysArray = (data) => {
         const companys = data.map((company) => {
+            const { idEmpresa, razaoSocial, email, cnpj, telefone, telefoneDois } = company
             return {
-                idEmpresa: company.idEmpresa,
-                razaoSocial: company.razaoSocial,
-                email: company.email,
-                cnpj: company.cnpj,
-                telefone: company.telefone,
-                telefoneDois: company.telefoneDois
+                idEmpresa,
+                razaoSocial,
+                email,
+                cnpj,
+                telefone,
+                telefoneDois
             }
         })
 
@@ -61,13 +62,14 @@ export default function EmpresasAdm() {
 
     const createObjectJobToArrayState = (data) => {
         const jobs = data.map(job => {
+            const { idVagaEmprego, titulo, nivel, cidade, tipoContrato, remuneracaoBeneficio} = job
             return {
-                idVagaEmprego: job.idVagaEmprego,
-                titulo: job.titulo,
-                nivel: job.nivel,
-                cidade: job.cidade,
-                tipoContrato: job.tipoContrato,
-                remuneracaoBeneficio: job.remuneracaoBeneficio
+                idVagaEmprego,
+                titulo,
+                nivel,
+                cidade,
+                tipoContrato,
+                remuneracaoBeneficio
             }
         })
 
@@ -76,11 +78,12 @@ export default function EmpresasAdm() {
 
     const createObjectRegistrationsToArrayState = (data) => {
         const registrations = data.map(registration => {
+            const { idInscricaoEmprego, dataInscricao, idAluno, idVagaEmprego }  = registration
             return {
-                idInscricaoEmprego: registration.idInscricaoEmprego,
-                dataInscricao: registration.dataInscricao,
-                idAluno: registration.idAluno,
-                idVagaEmprego: registration.idVagaEmprego
+                idInscricaoEmprego,
+                dataInscricao,
+                idAluno,
+                idVagaEmprego
             }
         })
         setRegistrationsState(registrations)

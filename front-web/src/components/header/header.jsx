@@ -20,7 +20,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
             case "administrator": {
                 return (
                     <>
-                        <li><Link to="/inicial-adm">Início</Link></li>
+                        <li><Link to="/inicial-administrador">Início</Link></li>
                         <li><Link to="/candidatos-adm">Candidatos</Link></li>
                         <li><Link to="/empresas-adm">Empresas</Link></li>
                     </>
@@ -67,7 +67,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
         switch (type) {
             case "student": return "/buscar-vagas"
             case "company": return "/gerenciar-vagas"
-            case "administrator": return "/inicial-adm"
+            case "administrator": return "/inicial-administrador"
             case "home": return "/"
             default: return "/"
         }

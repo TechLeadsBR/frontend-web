@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/header'
+import Footer from './../../components/footer/footer'
 import CardJob from './../../components/cardJob/cardJob'
 import stylesCss from './perfilEmpresa.module.css'
 import LoadingPage from './../../components/loadingPage/loadingPage'
@@ -101,6 +102,7 @@ export default function PerfilEmpresa() {
                     {jobsCompany.length !== 0 ? cardsJobApplication : <small>Nenhuma vaga cadastrada</small>}
                 </div>
             </div>
+            <Footer />
         </div>
 
     )

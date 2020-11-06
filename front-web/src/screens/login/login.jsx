@@ -50,7 +50,7 @@ export default function Login() {
             const request = await requestAPI("post", `/login/${user}`, login)
 
             if (request.status === 200) {
-                toastFunction("Login realizando com sucesso!", "success")
+                toastFunction("Login realizado com sucesso!", "success")
                 saveTokenInLocalStorage(request.data.message)
 
                 const pushUser = user === "aluno" ? "/perfil-aluno" : user === "empresa" ? "/perfil-empresa" : "/inicial-administrador"
