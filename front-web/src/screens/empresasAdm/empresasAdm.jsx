@@ -14,7 +14,7 @@ import { functionAfterTime } from './../../services/functions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
-const registrationsColumnsTable = ["ID", "Id Vaga de Emprego", "Id Aluno", "Data Inscricao"]
+const registrationsColumnsTable = ["ID", "Data Inscrição", "Id Aluno", "Id Vaga de Emprego"]
 
 export default function EmpresasAdm() {
 

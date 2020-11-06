@@ -30,7 +30,7 @@ export default function InicialAdm() {
         return () => monted = false
     }, [])
 
-    const requesNewAdm = async () => {
+    const requestNewAdm = async () => {
         try {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
@@ -60,9 +60,6 @@ export default function InicialAdm() {
             console.log(error)
         }
     }
-    // const childGraficInformations = () => {
-    //     const { aluno, empresa, vagas, inscricoes } = dataGrafic
-    // }
 
     const GraficApplication = () => {
         const { aluno, empresa, vagas, inscricoes } = dataGrafic
@@ -114,7 +111,7 @@ export default function InicialAdm() {
                         bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
                         textColor={Colors.white.hexadecimal}
-                        onClick={() => requesNewAdm()}
+                        onClick={() => requestNewAdm()}
                     />
                 </div>
             </form>
