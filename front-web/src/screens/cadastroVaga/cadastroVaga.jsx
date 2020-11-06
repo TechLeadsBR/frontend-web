@@ -17,31 +17,26 @@ import {
     TypeContracts
 } from '../../services/constants/data'
 import { functionAfterTime } from './../../services/functions'
+import { toast } from 'react-toastify'
 
 export default function CadastroVaga() {
 
     const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const requestApiNewJob = async () => {
         try {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
             if (request.status === 201) {
-                toastAfterRequest("Vaga cadastrada com sucesso!", "success")
+                toast("Vaga cadastrada com sucesso!")
                 functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
             }
 
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao cadastrar a vaga!", "error")
+            toast("Ocorreu um erro ao cadastrar a vaga!", "error")
         }
     }
 
@@ -110,11 +105,7 @@ export default function CadastroVaga() {
             />
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
-            <ReactToast
-                visible={toastProps.visible}
-                textToast={toastProps.text}
-                status={toastProps.status}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

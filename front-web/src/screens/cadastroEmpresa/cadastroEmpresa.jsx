@@ -8,7 +8,7 @@ import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import { formNewCompany } from './../../services/constants/templates'
-import { functionAfterTime } from './../../services/functions'
+import { toast } from 'react-toastify'
 import { requestAPI } from '../../services/api'
 import { useHistory } from 'react-router-dom'
 
@@ -16,15 +16,10 @@ export default function CadastroEmpresa() {
 
     const history = useHistory()
     const [newCompany, setNewCompany] = useState(formNewCompany)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [confirmPasswordState, setConfirmPassword] = useState("")
 
     const setStateNewCompany = (key, value) => setNewCompany({ ...newCompany, [key]: value })
-    
-    const toastFunction = (text, status="error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
+
 
     //#region Validations
     const confirmPasswordValidation = newCompany.senha !== null && newCompany.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
@@ -32,16 +27,16 @@ export default function CadastroEmpresa() {
     const validateInputsNewCompany = () => {
         const { razaoSocial, email, senha, cnpj, atividadeEconomica, telefone, telefoneDois, descricaoEmpresa } = newCompany
         if(!(razaoSocial && email && senha && cnpj && atividadeEconomica && telefone && telefoneDois && descricaoEmpresa)) {
-            toastFunction("Preencha os dados obrigatorios")
+            toast("Preencha os dados obrigatorios")
             return false
         } 
         else {
             if (cnpj.length > 14 || cnpj.length < 14){
-                toastFunction("CNPJ Inválido")
+                toast("CNPJ Inválido")
                 return false
             }
             if (confirmPasswordState !== newCompany.senha) {
-                toastFunction("As senhas não são iguais!")
+                toast("As senhas não são iguais!")
                 return false
             }
             else return true
@@ -56,12 +51,12 @@ export default function CadastroEmpresa() {
             const request = await requestAPI("post", "/empresa", newCompany)
 
             if (request.status === 201) {
-                toastFunction("Empresa cadastrada com sucesso!", "success")
+                toast("Empresa cadastrada com sucesso!", "success")
                 history.push("/login")
             }
 
         } catch (error) {
-            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
+            toast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
 
@@ -140,11 +135,7 @@ export default function CadastroEmpresa() {
             <h1>Cadastro</h1>
             {formRegisterCompany}
             <SimpleFooter />
-            <ReactToast
-                textToast={toastProps.text}
-                visible={toastProps.visible}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }

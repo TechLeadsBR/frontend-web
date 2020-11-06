@@ -11,6 +11,7 @@ import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
+import { toast } from 'react-toastify'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
@@ -20,7 +21,6 @@ export default function EmpresasAdm() {
 
     // assets in page
     const [showLoadingPage, setShowLoadingPage] = useState(true)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [typeDelete, setTypeDelete] = useState("JOB")
 
     // Data
@@ -38,11 +38,6 @@ export default function EmpresasAdm() {
     const [changeDataCompany, setChangeDataCompany] = useState({
         email: null, telefone: null, telefoneDois: null, razaoSocial: null, idEmpresa: null
     })
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const createObjectForCompanysArray = (data) => {
         const companys = data.map((company) => {
@@ -100,12 +95,12 @@ export default function EmpresasAdm() {
             }
             const request = await requestAPI("put", `/empresa/${changeDataCompany.idEmpresa}`, bodyRequestPut)
             if (request.status === 200) {
-                toastAfterRequest("Empresa atualizada com sucesso!", "success")
+                toast("Empresa atualizada com sucesso!")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
             console.log(error)
-            toastAfterRequest("Erro ao atualizar empresa!", "error")
+            toast("Erro ao atualizar empresa!")
         }
     }
 
@@ -116,7 +111,7 @@ export default function EmpresasAdm() {
                 createObjectForCompanysArray(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
 
@@ -124,11 +119,11 @@ export default function EmpresasAdm() {
         try {
             const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
             if (request.status === 200) {
-                toastAfterRequest("Empresa deletada com sucesso!", "success")
+                toast("Empresa deletada com sucesso!")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa empresa tem vagas cadastradas!", "error")
+            toast("Parece que essa empresa tem vagas cadastradas!")
         }
     }
 
@@ -140,7 +135,7 @@ export default function EmpresasAdm() {
             }
 
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
 
@@ -149,11 +144,11 @@ export default function EmpresasAdm() {
             const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Vaga de emprego deletada com sucesso!", "success")
+                toast("Vaga de emprego deletada com sucesso!")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa vaga tem inscrições!", "error")
+            toast("Parece que essa vaga tem inscrições!")
         }
     }
 
@@ -165,7 +160,7 @@ export default function EmpresasAdm() {
                 createObjectRegistrationsToArrayState(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
         }
     }
 
@@ -174,11 +169,11 @@ export default function EmpresasAdm() {
             const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Inscrição deletada com sucesso!", "success")
+                toast("Inscrição deletada com sucesso!")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error){
-            toastAfterRequest("Ocorreu um erro ao excluir essa inscrição!", "error")
+            toast("Ocorreu um erro ao excluir essa inscrição!")
         }
     }
     //#endregion
@@ -312,11 +307,7 @@ export default function EmpresasAdm() {
             </div>
             {showModalEditCompany && modalForEditCompany}
             {showModalDeleteJobOrRegistrations && modalDeleteJob}
-            <ReactToast
-                textToast={toastProps.text}
-                status={toastProps.status}
-                visible={toastProps.visible}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

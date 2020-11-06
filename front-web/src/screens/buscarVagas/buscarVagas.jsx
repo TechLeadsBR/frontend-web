@@ -11,13 +11,13 @@ import ReactToast from './../../components/reactToast/reactToast'
 import { functionAfterTime, formatUrlImage, getJtiUserInToken, formatedTodayInDate } from './../../services/functions'
 import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
+import { toast } from 'react-toastify'
 
 export default function BuscarVagas() {
 
     const [showIconLoagingPage, setShowIconLoadingPage] = useState(true)
     const [valueInput, setValueInput] = useState("")
     const [modalViewJobSelected, setModalViewJobSelected] = useState(false)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [jobSelectedForViewInModal, setJobSelectedForViewInModal] = useState({})
     const [jobsFiltered, setJobsFiltered] = useState([])
 
@@ -41,18 +41,13 @@ export default function BuscarVagas() {
 
         try {
             const request = await requestAPI("post", "/inscricaoemprego", bodyRequestSignUpJob)
-
             if (request.status === 201) {
-                setToastProps({ visible: true, status: "success", text: "Inscrição concluida com sucesso!" })
-
+                toast("Inscrição concluida com sucesso!")
                 functionAfterTime(1500, () => setModalViewJobSelected(false))
             }
-
         } catch (error) {
-            setToastProps({ visible: true, status: "error", text: "Parece que você ja se inscreveu nessa vaga!" })
+            toast("Parece que você ja se inscreveu nessa vaga!")
         }
-
-        setToastProps({ visible: false })
     }
 
     const createCardJobsFiltered = (
@@ -140,11 +135,7 @@ export default function BuscarVagas() {
                 </div>
             </div>
             {modalWithJobSelected()}
-            <ReactToast
-                visible={toastProps.visible}
-                status={toastProps.status}
-                textToast={toastProps.text}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

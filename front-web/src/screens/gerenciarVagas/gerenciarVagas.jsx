@@ -13,12 +13,12 @@ import { requestAPI } from '../../services/api'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
 import { Colors } from './../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function GerenciarVagas() {
 
     const history = useHistory()
     const [jobs, setJobs] = useState([])
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [showLoadingPage, setShowLoadingPage] = useState(true)
     const [showModalEditJob, setShowModalEditJob] = useState(false)
     const [jobEdit, setJobEdit] = useState({})
@@ -40,11 +40,6 @@ export default function GerenciarVagas() {
         return () => monted = false
     }, [])
 
-    const toastFunction = (text, status = "error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
-
     //#region Requests
     const updateJobAPI = async () => {
         const { title, description } = jobEdit
@@ -56,11 +51,11 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("put", `/vagaemprego/${jobEdit.idVagaEmprego}`, jobUpdated)
             if (request.status === 200) {
-                toastFunction("Vaga de emprego atualizada com sucesso", "success")
+                toast("Vaga de emprego atualizada com sucesso")
                 setShowModalEditJob(false)
             }
         } catch (error) {
-            toastFunction("Erro ao atualizar vaga de emprego")
+            toast("Erro ao atualizar vaga de emprego")
         }
     }
 
@@ -68,12 +63,12 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobEdit.idVagaEmprego}`)
             if (request.status === 200) {
-                toastFunction("Vaga de emprego deletada com sucesso", "success")
+                toast("Vaga excluida com sucesso")
                 setShowModalEditJob(false)
             }
 
         } catch (error) {
-            toastFunction("Erro ao deletar vaga de emprego")
+            toast("Erro ao deletar vaga de emprego")
         }
     }
     //#endregion
@@ -87,7 +82,6 @@ export default function GerenciarVagas() {
                     <CardJob
                         callbackJobInformation={job => {
                             setJobEdit(job)
-                            console.log(job)
                             functionAfterTime(1000, () => setShowModalEditJob(true))
                         }}
                         key={index}
@@ -170,11 +164,7 @@ export default function GerenciarVagas() {
             </div>
             {showModalEditJob && modalEditJob}
             <Footer />
-            <ReactToast
-                textToast={toastProps.text}
-                visible={toastProps.visible}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }

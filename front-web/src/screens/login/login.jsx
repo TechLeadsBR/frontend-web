@@ -12,6 +12,7 @@ import { functionAfterTime, saveTokenInLocalStorage } from './../../services/fun
 import { Colors } from '../../services/constants/constants'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { requestAPI } from './../../services/api'
+import { toast } from 'react-toastify'
 
 export default function Login() {
 
@@ -19,7 +20,6 @@ export default function Login() {
     const { user } = useParams()
     const [login, setLogin] = useState({ email: null, senha: null })
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     useEffect(() => {
         let monted = true
@@ -34,11 +34,6 @@ export default function Login() {
         return () => monted = false
     }, [])
 
-    const toastFunction = (text, status="error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
-
     const titleModal = () => {
         if (user === "aluno") return "Acesse sua conta como Aluno"
         if (user === "empresa") return "Acesse sua conta como Empresa"
@@ -50,14 +45,14 @@ export default function Login() {
             const request = await requestAPI("post", `/login/${user}`, login)
 
             if (request.status === 200) {
-                toastFunction("Login realizado com sucesso!", "success")
+                toast("Login realizado com sucesso!")
                 saveTokenInLocalStorage(request.data.message)
 
                 const pushUser = user === "aluno" ? "/perfil-aluno" : user === "empresa" ? "/perfil-empresa" : "/inicial-administrador"
                 functionAfterTime(5000, () => history.push(pushUser))
             }
         } catch (error) {
-            toastFunction("Usuario não encontrado!", "error")
+            toast("Usuario não encontrado!")
         }
     }
 
@@ -105,11 +100,7 @@ export default function Login() {
                 </Modal>
             </div>
             <Footer />
-            <ReactToast 
-                textToast={toastProps.text}
-                status={toastProps.status}
-                visible={toastProps.visible}
-            />
+            <ReactToast />
         </div>
     )
 }

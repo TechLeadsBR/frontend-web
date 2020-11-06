@@ -13,6 +13,7 @@ import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
 import { formNewAdministrator } from './../../services/constants/templates'
+import { toast } from 'react-toastify'
 
 const administratorColumnsTable = ["ID", "Nome", "Email", "CPF"]
 
@@ -22,7 +23,6 @@ export default function InicialAdm() {
 
     const internSetStateForm = (key, value) => setNewAdministrator({ ...newAdministrator, [key]: value })
 
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
     const [dataGrafic, setDataGrafic] = useState({})
     const [administratorsState, setAdministratorsState] = useState([])
@@ -35,11 +35,6 @@ export default function InicialAdm() {
         if (monted) getAdministratorsAPI()
         return () => monted = false
     }, [])
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const createObjectToDataTableAdministrators = (data) => {
         const administrators = data.map((adm) => {
@@ -60,10 +55,10 @@ export default function InicialAdm() {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
             if (request.status === 201) {
-                toastAfterRequest("Administrador cadastrado com sucesso!", "success")
+                toast("Administrador cadastrado com sucesso!")
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao cadastrar o novo administrador", "error")
+            toast("Ocorreu um erro ao cadastrar o novo administrador")
         }
     }
 
@@ -75,7 +70,7 @@ export default function InicialAdm() {
                 setDataGrafic(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
+            toast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
     }
 
@@ -84,7 +79,7 @@ export default function InicialAdm() {
             const request = await requestAPI("get", "/administrador")
             if (request.status === 200) createObjectToDataTableAdministrators(request.data)
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
+            toast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
     }
 
@@ -93,11 +88,11 @@ export default function InicialAdm() {
             const request = await requestAPI("delete", `/administrador/${idAdministratorToExclude}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Administrador excluido com sucesso!", "success")
+                toast("Administrador excluido com sucesso!")
                 setShowModalDeleteAdministrator(false)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao excluir administrador, aguarde um momento", "error")
+            toast("Ocorreu um erro ao excluir administrador, aguarde um momento")
         }
     }
     //#endregion
@@ -197,11 +192,7 @@ export default function InicialAdm() {
                 {formRegisterAdm}
             </div>
             <Footer />
-            <ReactToast
-                visible={toastProps.visible}
-                textToast={toastProps.text}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }

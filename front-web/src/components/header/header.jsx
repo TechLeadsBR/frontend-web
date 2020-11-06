@@ -3,12 +3,11 @@ import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import { breakToken } from './../../services/functions'
+import functions from './../../services/functions/index'
 import { Colors } from '../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 
-
-export default function Header({ typeHeader = null, srcImgUser, callback }) {
+export default function Header({ typeHeader = null, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
     const history = useHistory()
@@ -43,7 +42,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
             <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
                 <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
                 {(type === "student" || type === "company") && <Link to={{ pathname: linkRedirect }} >Perfil</Link>}
-                <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
+                <p onClick={() => functions.breakToken()}><Link to="/">sair</Link></p>
             </div>
         )
     }
