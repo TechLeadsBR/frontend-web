@@ -47,7 +47,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
 
     const notLogged = (
         <div className={stylesCss.notLogged}>
-            <b><Link to="/login">Login</Link></b>
+            <b><Link to={`/login/${typeRender === "student" ? "aluno" : "empresa"}`}>Login</Link></b>
             <Button
                 textColor={Colors.white.hexadecimal}
                 bgColor={typeRender === "student" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal}

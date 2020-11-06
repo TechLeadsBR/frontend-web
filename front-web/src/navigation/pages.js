@@ -15,13 +15,7 @@ import EmpresasAdm from './../screens/empresasAdm/empresasAdm'
 const Pages = [
     {
         name: "LoginAdm",
-        path: "/login/:administrator",
-        component: Login,
-        role: "0"
-    },
-    {
-        name: "Login",
-        path: "/login",
+        path: "/login/:user",
         component: Login,
         role: "0"
     },
