@@ -49,9 +49,9 @@ export default function CadastroAluno() {
                 console.log(error)
             }
         }
-        if(newAddress.cep.length === 8) requestViacepAPI()
+        if (newAddress.cep.length === 8) requestViacepAPI()
     }, [newAddress.cep])
-    
+
     const toastFunction = (text, status) => {
         setToastProps({ visible: true, text, status })
         functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
@@ -59,19 +59,42 @@ export default function CadastroAluno() {
 
     //#region Validations
     const confirmPasswordValidation = newStudent.senha !== null && newStudent.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
-    
-    const inputsNewStudentIsNotNull = () => {
+
+    const validationInputsNewStudent = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
-        if(!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
-            toastFunction("Preencha os dados obrigatorios")
+        if (!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
+            toastFunction("Preencha os dados obrigatórios")
             return false
         }
-        else return true
+        else {
+            if (cpf.length > 11 || cpf.length < 11) {
+                console.log("CPF")
+                console.log(String(cpf).length)
+                toastFunction("CPF Inválido")
+                return false
+            }
+            if (rg.length > 9 || rg.length < 9) {
+                console.log(String(rg).length)
+                console.log("RG")
+                toastFunction("RG Inválido")
+                return false
+            }
+            if(confirmPasswordState !== newStudent.senha) {
+                console.log("senhas")
+                toastFunction("As senhas não coincidem")
+                return false
+            }
+
+            else {
+                console.log('Tudo certo')
+                return true
+            }
+        }
     }
 
-    const inputsNewAddressIsNotNull = () => {
+    const validationInputNewAddress = () => {
         const { bairro, cep, numero, logradouro, localidade } = newAddress
-        if(!(bairro && cep && numero && logradouro && localidade)) {
+        if (!(bairro && cep && numero && logradouro && localidade)) {
             toastFunction("Preencha o endereço corretamente", "error")
             return false
         }
@@ -82,8 +105,8 @@ export default function CadastroAluno() {
     //#region Requests API
     const saveNewAddressAPI = async () => {
 
-        if(!inputsNewAddressIsNotNull()) {
-            return 
+        if (!validationInputNewAddress()) {
+            return
         }
 
         try {
@@ -100,8 +123,8 @@ export default function CadastroAluno() {
     }
 
     const registerNewStudentAPI = async () => {
-    
-        if(!inputsNewStudentIsNotNull()) {
+
+        if (!validationInputsNewStudent()) {
             return
         }
 
@@ -182,7 +205,7 @@ export default function CadastroAluno() {
                         name={"nomeSocialInput"}
                         onChange={event => setStateNewStudent("nomeSocial", event.target.value)}
                     />
-                    )}
+                )}
                 <Input
                     labelText={"CPF*"}
                     name={"cpfAluno"}
@@ -329,7 +352,7 @@ export default function CadastroAluno() {
             <h1>Cadastro</h1>
             {formRegisterStudent}
             <SFooter />
-            <ReactToast 
+            <ReactToast
                 textToast={toastProps.text}
                 visible={toastProps.visible}
                 status={toastProps.status}
