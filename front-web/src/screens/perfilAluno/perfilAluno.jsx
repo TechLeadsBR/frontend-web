@@ -171,10 +171,11 @@ export default function PerfilAluno() {
             <GrayBackgroundProfile srcImgUser={formatUrlImage(dataStudent.nomeFoto)}>
                 {childUserInformations()}
             </GrayBackgroundProfile>
+
             <div className={stylesCss.cardsJobApplication}>
                 <h1>Candidaturas</h1>
                 <div>
-                    {cardsJobApplication}
+                    {userApplications.length !== 0 ? cardsJobApplication : <small>Nenhuma inscrição feita</small>}
                 </div>
             </div>
             {modalWithJob}

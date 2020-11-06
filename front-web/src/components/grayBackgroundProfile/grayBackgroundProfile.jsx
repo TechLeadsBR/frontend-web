@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import stylesCss from './grayBackgroundProfile.module.css'
+import ReactToast from './../reactToast/reactToast'
 import { postImageAPI } from './../../services/api'
+import { functionAfterTime } from './../../services/functions'
 
 export default function GrayBackgroundProfile({ srcImgUser, children }) {
+
+    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
+
+    const toastFunction = (text, status="error") => {
+        setToastProps({ visible: true, text, status })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
+    }
 
     const setNewImage = async (value) => {
         const newFormData = new FormData()
@@ -13,8 +22,11 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
             const request = await postImageAPI("/upload", newFormData)
 
             console.log(request)
+            if(request.status === 201) {
+                toastFunction("Foto atualizada com sucesso!", "success")
+            }
         } catch (error) {
-            console.log(error)
+            toastFunction("Erro ao atualizar foto, tenten novamente mais tarde")
         }
     }
 
@@ -24,8 +36,8 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
                 <div className={stylesCss.content}>
                     <label htmlFor="imagem">
                         <img src={srcImgUser} alt="Foto do Usuário" />
+                        <small>Editar foto</small>
                     </label>
-                    <p>Editar foto</p>
                 </div>
                 {children}
             </div>
@@ -33,6 +45,11 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
                 type="file"
                 id={"imagem"}
                 onChange={event => setNewImage(event.target.files[0])}
+            />
+            <ReactToast 
+                textToast={toastProps.text}
+                status={toastProps.status}
+                visible={toastProps.visible}                
             />
         </div>
     )
