@@ -20,7 +20,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
             case "administrator": {
                 return (
                     <>
-                        <li><Link to="/">Início</Link></li>
+                        <li><Link to="/inicial-adm">Início</Link></li>
                         <li><Link to="/candidatos-adm">Candidatos</Link></li>
                         <li><Link to="/empresas-adm">Empresas</Link></li>
                     </>

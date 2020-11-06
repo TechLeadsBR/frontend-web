@@ -37,7 +37,7 @@ export default function CandidatosAdm() {
 
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const toastAfterRequest = (text, status) => {
+    const toastAfterRequest = (text, status="error") => {
         setToastProps({ visible: true, text, status })
         functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
     }
@@ -70,16 +70,12 @@ export default function CandidatosAdm() {
         try {
             const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
             if (request.status === 200) {
-                setToastProps({ status: "success", text: "Candidato  alterado com sucesso", visible: true })
+                toastAfterRequest("Candidato alterado com sucesso", "success")
                 setShowModal(false)
-            } else {
-                setToastProps({ status: "error", text: "Ocorreu um erro ao atualizar", visible: true })
-            }
+            } 
         } catch (error) {
-            console.log(error)
+            toastAfterRequest("Ocorreu um erro ao atualizar os dados do candidato", "success")
         }
-
-        setToastProps({ status: null, text: null, visible: false })
 
     }
 
