@@ -16,6 +16,7 @@ import {
 import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
+import { functionAfterTime } from '../../services/functions'
 
 export default function CadastroAluno() {
 
@@ -35,7 +36,6 @@ export default function CadastroAluno() {
             try {
                 const request = await fetch(`https://viacep.com.br/ws/${newAddress.cep}/json/`)
                 const response = await request.json()
-                console.log(response)
                 const { logradouro, bairro, localidade } = response
                 setNewAddress(address => {
                     return {
@@ -52,26 +52,40 @@ export default function CadastroAluno() {
         if(newAddress.cep.length === 8) requestViacepAPI()
     }, [newAddress.cep])
     
-    const toastAfterRequest = (text, status) => {
+    const toastFunction = (text, status) => {
         setToastProps({ visible: true, text, status })
-        setToastProps({ visible: false, text: null, status: null })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
     }
 
     //#region Validations
     const confirmPasswordValidation = newStudent.senha !== null && newStudent.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
     
-    const validationInputsIsNotNull = () => {
+    const inputsNewStudentIsNotNull = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
-        if (nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone) {
-            return true
-        } else {
+        if(!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
+            toastFunction("Preencha os dados obrigatorios")
             return false
         }
+        else return true
+    }
+
+    const inputsNewAddressIsNotNull = () => {
+        const { bairro, cep, numero, logradouro, localidade } = newAddress
+        if(!(bairro && cep && numero && logradouro && localidade)) {
+            toastFunction("Preencha o endereço corretamente", "error")
+            return false
+        }
+        else return true
     }
     //#endregion
 
     //#region Requests API
     const saveNewAddressAPI = async () => {
+
+        if(!inputsNewAddressIsNotNull()) {
+            return 
+        }
+
         try {
             const request = await requestAPI("post", "/endereco", newAddress)
 
@@ -79,24 +93,29 @@ export default function CadastroAluno() {
                 const idAddress = request.data.message.split(" ")[5]
                 setStateNewStudent("idEndereco", idAddress)
             }
-
         } catch (error) {
             console.log(error)
+            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
 
     const registerNewStudentAPI = async () => {
-        // try {
-        //     await saveNewAddressAPI()
-        //     const request = await requestAPI("post", "/aluno", newStudent)
+    
+        if(!inputsNewStudentIsNotNull()) {
+            return
+        }
 
-        //     if (request.status === 201) {
-        //         toastAfterRequest("Usuario cadastrado com sucesso!", "success")
-        //     }
+        try {
+            const requestSaveNewAddress = await saveNewAddressAPI()
+            const request = await requestAPI("post", "/aluno", newStudent)
 
-        // } catch (error) {
-        //     toastAfterRequest("Ocorreu um erro, verifique os dados digitados", "error")
-        // }
+            if (request.status === 201) {
+                toastFunction("Usuario cadastrado com sucesso!", "success")
+            }
+
+        } catch (error) {
+            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
+        }
     }
     //#endregion
 
@@ -135,11 +154,11 @@ export default function CadastroAluno() {
                     type={"date"}
                     onChange={event => setStateNewStudent("dataNascimento", event.target.value)}
                 />
-                <Input
+                <Select
                     labelText={"Gênero*"}
                     name={"gender"}
-                    type={"text"}
-                    onChange={event => setStateNewStudent("genero", event.target.value)}
+                    options={["Masculino", "Feminino", "Prefiro não dizer"]}
+                    callbackChangedValue={value => setStateNewStudent("genero", value)}
                 />
                 <div className={stylesCss.divRadioInput}>
                     <RadioInput
@@ -165,48 +184,48 @@ export default function CadastroAluno() {
                     />
                     )}
                 <Input
-                    labelText={"CPF"}
+                    labelText={"CPF*"}
                     name={"cpfAluno"}
                     type={"text"}
                     onChange={event => setStateNewStudent("cpf", event.target.value)}
                 />
                 <Input
-                    labelText={"RG"}
+                    labelText={"RG*"}
                     name={"rgAluno"}
                     type={"text"}
                     onChange={event => setStateNewStudent("rg", event.target.value)}
                 />
                 <Input
-                    labelText={"Telefone"}
+                    labelText={"Telefone*"}
                     name={"telephone"}
                     type={"text"}
                     onChange={event => setStateNewStudent("telefone", event.target.value)}
                 />
                 <Input
-                    labelText={"CEP"}
+                    labelText={"CEP*"}
                     name={"cep"}
                     type={"text"}
                     onChange={event => setStateNewAddress("cep", event.target.value.replace("-", ""))}
                 />
                 <Input
-                    labelText={"Localidade"}
+                    labelText={"Localidade*"}
                     name={"localidade"}
                     currentValue={newAddress.localidade}
                 />
                 <Input
-                    labelText={"Logradouro"}
+                    labelText={"Logradouro*"}
                     name={"street"}
                     type={"text"}
                     currentValue={newAddress.logradouro}
                 />
                 <Input
-                    labelText={"Bairro"}
+                    labelText={"Bairro*"}
                     name={"district"}
                     type={"text"}
                     currentValue={newAddress.bairro}
                 />
                 <Input
-                    labelText={"Número"}
+                    labelText={"Número*"}
                     name={"number"}
                     type={"text"}
                     onChange={event => setStateNewAddress("numero", event.target.value)}
@@ -233,23 +252,21 @@ export default function CadastroAluno() {
                         }]}
                     />
                 </div>
-                {
-                    isDeficient === "sim" && (
-                        <>
-                            <Select
-                                labelText={"Especifique:"}
-                                name={"specifyDisability"}
-                                options={SpecifyDisability}
-                                callbackChangedValue={(value) => setStateNewStudent("tipoDeficiencia", value)}
-                            />
-                            <TextArea
-                                labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
-                                callbackChangedValue={value => setStateNewStudent("detalheDeficiencia", value)}
-                                name={"detalheDeficiencia"}
-                            />
-                        </>
-                    )
-                }
+                {isDeficient === "sim" && (
+                    <>
+                        <Select
+                            labelText={"Especifique:"}
+                            name={"specifyDisability"}
+                            options={SpecifyDisability}
+                            callbackChangedValue={(value) => setStateNewStudent("tipoDeficiencia", value)}
+                        />
+                        <TextArea
+                            labelText={"Há algum detalhe sobre a deficiência que gostaria de adicionar?"}
+                            callbackChangedValue={value => setStateNewStudent("detalheDeficiencia", value)}
+                            name={"detalheDeficiencia"}
+                        />
+                    </>
+                )}
                 <h2>Sobre Você</h2>
                 <Select
                     labelText={"Você é:"}
@@ -258,17 +275,17 @@ export default function CadastroAluno() {
                     callbackChangedValue={value => setStateNewStudent("preferenciaArea", value)}
                 />
                 <TextArea
-                    labelText={"Resumo sobre você?"}
+                    labelText={"Resumo sobre você:"}
                     callbackChangedValue={value => setStateNewStudent("descricao", value)}
                 />
                 <Input
-                    labelText={"Curso:"}
+                    labelText={"Curso feito no SENAI:*"}
                     name={"course"}
                     type={"text"}
                     onChange={event => setStateNewStudent("cursoSenai", event.target.value)}
                 />
                 <Input
-                    labelText={"Data da Formação:"}
+                    labelText={"Data da formação do curso feito:*"}
                     name={"dataFormacao"}
                     type={"date"}
                     onChange={event => setStateNewStudent("dataFormacao", event.target.value)}

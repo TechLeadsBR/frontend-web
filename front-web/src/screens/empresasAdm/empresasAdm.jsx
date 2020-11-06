@@ -41,7 +41,7 @@ export default function EmpresasAdm() {
 
     const toastAfterRequest = (text, status) => {
         setToastProps({ visible: true, text, status })
-        setToastProps({ visible: false, text: null, status: null })
+        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
     }
 
     const createObjectForCompanysArray = (data) => {
