@@ -2,7 +2,6 @@ import React from 'react'
 import stylesCss from './searchJobs.module.css'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
-import { Colors } from './../../services/constants/constants'
 import { useState } from 'react'
 
 export default function SearchJobs({ callbackValue }){
@@ -19,8 +18,7 @@ export default function SearchJobs({ callbackValue }){
                     onChange={(event) => setValueInput(event.target.value)}
                 />
                 <Button 
-                    bgColor={Colors.red.hexadecimal}
-                    textColor={Colors.white.hexadecimal}
+                    bgColor={"red"}
                     text={"Buscar"}
                     onClick={() => {
                         if(callbackValue) callbackValue(valueInput)

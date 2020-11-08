@@ -9,7 +9,6 @@ import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
 import { requestAPI } from './../../services/api'
 import { formatData, functionAfterTime } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { messageToast } from './../../services/functions'
 
@@ -112,14 +111,11 @@ export default function CandidatosAdm() {
                             currentValue={changeData.telefone}
                         />
                         <Button
-                            bgColor={Colors.red.hexadecimal}
-                            textColor={Colors.white.hexadecimal}
                             text={"Alterar dados do usuario"}
                             onClick={() => changeCandidateData()}
                         />
                         <Button
-                            bgColor={Colors.matteBlack.hexadecimal}
-                            textColor={Colors.white.hexadecimal}
+                            bgColor={"black"}
                             text={`Excluir usuário ${changeData.idAluno}`}
                             onClick={() => deleteCandidate()}
                         />

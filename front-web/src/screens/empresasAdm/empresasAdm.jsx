@@ -8,7 +8,6 @@ import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import { requestAPI } from './../../services/api'
 import ReactToast from './../../components/reactToast/reactToast'
-import { Colors } from './../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
 import { messageToast } from './../../services/functions'
@@ -225,16 +224,13 @@ export default function EmpresasAdm() {
                         <div className={stylesCss.divButton}>
                             <div>
                                 <Button
-                                    bgColor={Colors.red.hexadecimal}
-                                    textColor={Colors.white.hexadecimal}
                                     text={"Alterador dados da empresa"}
                                     onClick={() => updateCompanyDataAPI()}
                                 />
                             </div>
                             <div>
                                 <Button
-                                    bgColor={Colors.matteBlack.hexadecimal}
-                                    textColor={Colors.white.hexadecimal}
+                                    bgColor={"black"}
                                     text={"Deletar empresa"}
                                     onClick={() => deleteCompanyAPI()}
                                 />
@@ -253,8 +249,7 @@ export default function EmpresasAdm() {
                     <p onClick={() => setShowModalDeleteJobOrRegistrations(false)}>X</p>
                     <Button
                         text={`Deletar ${typeDelete === "JOB" ? "vaga" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
-                        bgColor={Colors.matteBlack.hexadecimal}
-                        textColor={Colors.white.hexadecimal}
+                        bgColor={"black"}
                         onClick={() => {
                             typeDelete === "JOB" ? deleteJobAPI() : deleteRegistrationAPI()
                         }}

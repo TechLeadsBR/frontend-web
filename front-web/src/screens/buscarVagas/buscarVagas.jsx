@@ -15,7 +15,6 @@ import {
     formatedTodayInDate,
     messageToast
 } from './../../services/functions'
-import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 
 function BuscarVagas() {
@@ -118,8 +117,7 @@ function BuscarVagas() {
                         <div className={stylesCss.buttonContent}>
                             <Button
                                 text={"Candidatar-se"}
-                                bgColor={Colors.red.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
+                                bgColor={"red"}
                                 onClick={() => signUpForJob()}
                             />
                         </div>

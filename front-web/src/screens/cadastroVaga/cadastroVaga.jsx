@@ -8,7 +8,6 @@ import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
 import { useHistory } from 'react-router-dom'
-import { Colors } from '../../services/constants/constants'
 import { formNewJob } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 import {
@@ -87,9 +86,7 @@ export default function CadastroVaga() {
                 </div>
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => requestApiNewJob()}
                     />
                 </div>

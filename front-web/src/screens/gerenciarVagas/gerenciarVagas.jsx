@@ -11,7 +11,6 @@ import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
 import { requestAPI } from '../../services/api'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
-import { Colors } from './../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 import { messageToast } from './../../services/functions'
 
@@ -97,8 +96,6 @@ export default function GerenciarVagas() {
             <div className={stylesCss.buttonContainer}>
                 <Button
                     text={"Cadastrar nova vaga"}
-                    bgColor={Colors.red.hexadecimal}
-                    textColor={Colors.white.hexadecimal}
                     onClick={() => history.push("/cadastro-vaga")}
                 />
             </div>
@@ -126,14 +123,11 @@ export default function GerenciarVagas() {
                         />
                         <div className={stylesCss.divButtonsEditJob}>
                             <Button
-                                bgColor={Colors.red.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
                                 text={"Atualizar vaga"}
                                 onClick={() => updateJobAPI()}
                             />
                             <Button
-                                bgColor={Colors.matteBlack.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
+                                bgColor={"black"}
                                 text={"Excluir vaga"}
                                 onClick={() => deleteJobAPI()}
                             />

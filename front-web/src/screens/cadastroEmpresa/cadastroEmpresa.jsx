@@ -6,7 +6,6 @@ import Button from './../../components/button/button'
 import TextArea from './../../components/textAreaInput/textAreaInput'
 import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
-import { Colors } from './../../services/constants/constants'
 import { formNewCompany } from './../../services/constants/templates'
 import { messageToast, getInSessionStorage } from './../../services/functions'
 import { requestAPI } from '../../services/api'
@@ -119,9 +118,7 @@ export default function CadastroEmpresa() {
                 />
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => registerNewCompanyAPI()}
                     />
                 </div>

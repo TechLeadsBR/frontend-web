@@ -13,7 +13,6 @@ import {
     BehavioralProfiles,
     SpecifyDisability
 } from '../../services/constants/data'
-import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 import { messageToast, getInSessionStorage } from './../../services/functions'
@@ -312,9 +311,7 @@ export default function CadastroAluno() {
                 />
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => saveNewAddressAPI()}
                     />
                 </div>

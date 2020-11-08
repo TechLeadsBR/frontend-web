@@ -6,4 +6,13 @@
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+    color: white;
+}
+
+.red {
+    background-color: #BE0024;
+}
+
+.black {
+    background-color: #2A2E32;
 }

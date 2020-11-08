@@ -4,7 +4,6 @@ import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-sen
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 
 function Header({ typeHeader = null, callback }) {
@@ -51,8 +50,7 @@ function Header({ typeHeader = null, callback }) {
         <div className={stylesCss.notLogged}>
             <b><Link to={`/login/${typeRender === "student" ? "aluno" : "empresa"}`}>Login</Link></b>
             <Button
-                textColor={Colors.white.hexadecimal}
-                bgColor={typeRender === "student" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal}
+                bgColor={typeRender === "student" ? "red" : "black"}
                 text={"Cadastre-se"}
                 onClick={() => {
                     const toRegister = typeRender === "student" ? "aluno" : "empresa"

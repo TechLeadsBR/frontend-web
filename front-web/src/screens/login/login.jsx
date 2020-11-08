@@ -9,7 +9,6 @@ import ReactToast from './../../components/reactToast/reactToast'
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { requestAPI } from './../../services/api'
 
@@ -70,9 +69,7 @@ export default function Login() {
                     onChange={(event) => setLogin({ ...login, senha: event.target.value })}
                 />
                 <Button
-                    bgColor={Colors.red.hexadecimal}
                     text={"Entrar"}
-                    textColor={Colors.white.hexadecimal}
                     onClick={() => requestApiLogin()}
                 />
             </form>

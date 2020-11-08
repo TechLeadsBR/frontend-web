@@ -9,7 +9,6 @@ import Footer from './../../components/footer/footer'
 import ReactToast from './../../components/reactToast/reactToast'
 import Table from './../../components/table/table'
 import Modal from './../../components/modal/modal'
-import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
 import { formNewAdministrator } from './../../services/constants/templates'
@@ -141,9 +140,7 @@ export default function InicialAdm() {
                 />
                 <div className={styleCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => requestNewAdmAPI()}
                     />
                 </div>
@@ -159,8 +156,6 @@ export default function InicialAdm() {
                     <Button
                         text={"Delete administrador id: " + idAdministratorToExclude}
                         onClick={() => deleteAdministratorAPI()}
-                        bgColor={Colors.red.hexadecimal}
-                        textColor={Colors.white.hexadecimal}
                     />
                 </div>
             </Modal>
