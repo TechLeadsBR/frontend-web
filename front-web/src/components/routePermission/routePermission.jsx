@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
     verifyAuthenticatedUser as authenticated,
     decryptPayloadJwtAndReturnObject as decrypt,
     getInLocalStorage,
     removeInLocalStorage,
     getRoleInToken
-}
-    from './../../services/functions'
+} from './../../services/functions'
+
+
 import { KEY_USER_JWT } from './../../services/constants/constants'
 import { Route, Redirect } from 'react-router-dom'
 
@@ -22,14 +23,6 @@ export default function RoutePermission({ path, role, component: Component }) {
             return role === "0" ? <Component {...props} /> : <Redirect to="/" />
         }
     }
-
-    useEffect(() => {
-        let monted = true
-
-        if(monted) verificationUserToRoute()
-
-        return () => monted = false
-    }, [])
 
     return (
         <>

@@ -1,7 +1,7 @@
 import React from 'react'
 import stylesCss from './input.module.css'
 
-export default function CInput({  
+export default function Input({  
     type, 
     onChange, 
     labelText, 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Header from '../../components/header/header'
 import Grafic from '../../components/grafic/grafic'
 import LoadingPage from './../../components/loadingPage/loadingPage'
@@ -9,10 +9,10 @@ import Footer from './../../components/footer/footer'
 import ReactToast from './../../components/reactToast/reactToast'
 import Table from './../../components/table/table'
 import Modal from './../../components/modal/modal'
-import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
 import { formNewAdministrator } from './../../services/constants/templates'
+import { messageToast } from './../../services/functions'
 
 const administratorColumnsTable = ["ID", "Nome", "Email", "CPF"]
 
@@ -22,24 +22,11 @@ export default function InicialAdm() {
 
     const internSetStateForm = (key, value) => setNewAdministrator({ ...newAdministrator, [key]: value })
 
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
     const [dataGrafic, setDataGrafic] = useState({})
     const [administratorsState, setAdministratorsState] = useState([])
     const [showModalDeleteAdministrator, setShowModalDeleteAdministrator] = useState(false)
     const [idAdministratorToExclude, setIdAdministratorToExclude] = useState(0)
-
-    useEffect(() => {
-        let monted = true
-        if (monted && Object.keys(dataGrafic).length === 0) getInformationsGrafic()
-        if (monted) getAdministratorsAPI()
-        return () => monted = false
-    }, [])
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const createObjectToDataTableAdministrators = (data) => {
         const administrators = data.map((adm) => {
@@ -60,14 +47,14 @@ export default function InicialAdm() {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
             if (request.status === 201) {
-                toastAfterRequest("Administrador cadastrado com sucesso!", "success")
+                messageToast("Administrador cadastrado com sucesso!", "success")
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao cadastrar o novo administrador", "error")
+            messageToast("Ocorreu um erro ao cadastrar o novo administrador", "error")
         }
     }
 
-    const getInformationsGrafic = async () => {
+    const getInformationsGrafic = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/metrics")
 
@@ -75,29 +62,29 @@ export default function InicialAdm() {
                 setDataGrafic(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
         }
-    }
+    }, [])
 
-    const getAdministratorsAPI = async () => {
+    const getAdministratorsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/administrador")
             if (request.status === 200) createObjectToDataTableAdministrators(request.data)
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
         }
-    }
+    }, [])
 
     const deleteAdministratorAPI = async () => {
         try {
             const request = await requestAPI("delete", `/administrador/${idAdministratorToExclude}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Administrador excluido com sucesso!", "success")
+                messageToast("Administrador excluido com sucesso!", "success")
                 setShowModalDeleteAdministrator(false)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao excluir administrador, aguarde um momento", "error")
+            messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento", "error")
         }
     }
     //#endregion
@@ -118,9 +105,14 @@ export default function InicialAdm() {
         )
     }
 
+    useEffect(() => {
+        getInformationsGrafic()
+        getAdministratorsAPI()
+    }, [getAdministratorsAPI, getInformationsGrafic])
+
     const formRegisterAdm = (
         <div className={styleCss.formRegisterAdm}>
-            <h1>Cadastro Administrador</h1>
+            <h1>Cadastrar novo administrador</h1>
             <form>
                 <Input
                     labelText={"Nome"}
@@ -148,9 +140,7 @@ export default function InicialAdm() {
                 />
                 <div className={styleCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => requestNewAdmAPI()}
                     />
                 </div>
@@ -166,8 +156,6 @@ export default function InicialAdm() {
                     <Button
                         text={"Delete administrador id: " + idAdministratorToExclude}
                         onClick={() => deleteAdministratorAPI()}
-                        bgColor={Colors.red.hexadecimal}
-                        textColor={Colors.white.hexadecimal}
                     />
                 </div>
             </Modal>
@@ -197,11 +185,7 @@ export default function InicialAdm() {
                 {formRegisterAdm}
             </div>
             <Footer />
-            <ReactToast
-                visible={toastProps.visible}
-                textToast={toastProps.text}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }

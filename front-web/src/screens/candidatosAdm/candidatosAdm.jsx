@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Header from '../../components/header/header'
 import Footer from '../../components/footer/footer'
 import Table from './../../components/table/table'
@@ -9,26 +9,16 @@ import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
 import { requestAPI } from './../../services/api'
 import { formatData, functionAfterTime } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
+import { messageToast } from './../../services/functions'
 
-const columnsTable = ["ID", "Nome", "Email", "RG",
-    "Data Nascimento", "Telefone", "Genero"]
+const columnsTable = ["ID", "Nome", "Email", "RG", "Data Nascimento", "Telefone", "Genero"]
 
 export default function CandidatosAdm() {
 
-    // Decisão de visualização do modal
     const [showModal, setShowModal] = useState(false)
-
-    // Array de candidatos
     const [dataCandidatosArray, setCandidatosArray] = useState([])
-
-    // Linha selecionada que a tabela retorna para fazer as alterações
     const [rowSelectedForChanges, setRowSelectedForChanges] = useState({})
-
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
-
-    // Dados alterados
     const [changeData, setChangeData] = useState({
         email: null,
         telefone: null,
@@ -37,12 +27,8 @@ export default function CandidatosAdm() {
 
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const toastAfterRequest = (text, status="error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
-
     const createObjectForDataTable = (data) => {
+        console.log("createObjectForDataTable")
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -58,23 +44,29 @@ export default function CandidatosAdm() {
         setCandidatosArray(candidates)
     }
 
-    //#region Request API
-    const getCandidatesInDataBase = async () => {
-        const request = await requestAPI("get", "/aluno")
-        if (request) {
-            createObjectForDataTable(request.data)
+    //#region Requests API
+    const getCandidatesInDataBase = useCallback(async () => {
+        try {
+            const request = await requestAPI("get", "/aluno")
+            console.log(request)
+            if (request.status === 200) {
+                console.log('AQUI')
+                createObjectForDataTable(request.data)
+            }
+        } catch (error) {
+            messageToast("Ocorreu um erro ao carregar os dados", "error")
         }
-    }
+    }, [])
 
     const changeCandidateData = async () => {
         try {
             const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
             if (request.status === 200) {
-                toastAfterRequest("Candidato alterado com sucesso", "success")
+                messageToast("Dados do candidato alterado com sucesso", "success")
                 setShowModal(false)
-            } 
+            }
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao atualizar os dados do candidato", "success")
+            messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
         }
 
     }
@@ -83,23 +75,19 @@ export default function CandidatosAdm() {
         try {
             const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
             if (request.status === 200) {
-                toastAfterRequest("Usuário deletado com sucuesso!", "success")
+                messageToast("Usuário deletado com sucuesso!", "success")
                 functionAfterTime(1500, () => setShowModal(false))
             }
 
-        } catch(error) {
-            toastAfterRequest("Impossível excluir registro dependendente", "error")
+        } catch (error) {
+            messageToast("Impossível excluir registro no momento", "error")
         }
     }
     //#endregion
 
     useEffect(() => {
-        let monted = true
-        
-        if(monted && dataCandidatosArray.length === 0) getCandidatesInDataBase()
-
-        return () => monted = false
-    }, [])
+        getCandidatesInDataBase()
+    }, [getCandidatesInDataBase])
 
     const contentModalForChanges = (
         <div className={stylesCss.modalEditData}>
@@ -123,14 +111,11 @@ export default function CandidatosAdm() {
                             currentValue={changeData.telefone}
                         />
                         <Button
-                            bgColor={Colors.red.hexadecimal}
-                            textColor={Colors.white.hexadecimal}
                             text={"Alterar dados do usuario"}
                             onClick={() => changeCandidateData()}
                         />
-                        <Button 
-                            bgColor={Colors.matteBlack.hexadecimal}
-                            textColor={Colors.white.hexadecimal}
+                        <Button
+                            bgColor={"black"}
                             text={`Excluir usuário ${changeData.idAluno}`}
                             onClick={() => deleteCandidate()}
                         />
@@ -161,11 +146,7 @@ export default function CandidatosAdm() {
                 />
             </div>
             {showModal && contentModalForChanges}
-            <ReactToast
-                status={toastProps.status}
-                textToast={toastProps.text}
-                visible={toastProps.visible}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

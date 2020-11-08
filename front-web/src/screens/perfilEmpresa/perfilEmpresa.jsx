@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import CardJob from './../../components/cardJob/cardJob'
@@ -13,16 +13,11 @@ export default function PerfilEmpresa() {
     const [jobsCompany, setUserApplication] = useState([])
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    useEffect(() => {
-        let monted = true
+    const setFalseLoadingPage = useCallback(() => {
+        if (Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+    }, [dataCompany])
 
-        if(monted && Object.keys(dataCompany).length === 0) getInformationsUser()
-        if(monted && jobsCompany.length === 0) requestGetJobApplication()
-            
-        return () => monted = false
-    }, [])
-
-    const getInformationsUser = async () => {
+    const getInformationsUser = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/empresa/id")
 
@@ -32,9 +27,9 @@ export default function PerfilEmpresa() {
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [])
 
-    const requestGetJobApplication = async () => {
+    const requestGetJobApplication = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/vagaemprego/empresa")
 
@@ -44,17 +39,21 @@ export default function PerfilEmpresa() {
         } catch (error) {
             console.log(error)
         }
-    }
+    }, [])
+    useEffect(() => {
+        setFalseLoadingPage()
+        getInformationsUser()
+        requestGetJobApplication()
+    }, [getInformationsUser, requestGetJobApplication, setFalseLoadingPage])
 
-    const childUserInformations = () => {
+    const childUserInformations = useMemo(() => {
         const { razaoSocial, email, telefone, descricaoEmpresa } = dataCompany
-
         return (
             <div className={stylesCss.childUserInformations}>
                 <div className={stylesCss.userData}>
                     <p><b>{razaoSocial}</b></p>
                     <p><b>Nome:</b> {razaoSocial}</p>
-                    <p><b>E-mail:</b> {email}</p> 
+                    <p><b>E-mail:</b> {email}</p>
                     <p><b>Telefone:</b> {telefone}</p>
                 </div>
                 <div className={stylesCss.behavioralProfile}>
@@ -62,9 +61,9 @@ export default function PerfilEmpresa() {
                 </div>
             </div>
         )
-    }
+    }, [dataCompany])
 
-    const cardsJobApplication = (
+    const cardsJobApplication = useMemo(() => (
         jobsCompany.map((job, index) => {
             const { descricaoVaga, cidade, nivel, titulo } = job
             const { razaoSocial, nomeFoto } = dataCompany
@@ -82,19 +81,16 @@ export default function PerfilEmpresa() {
                 />
             )
         })
-    )
-
+    ), [dataCompany, jobsCompany])
 
     return (
-        <div onLoad={() => {
-            if(Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
-        }}>
+        <div>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"company"}
             />
             <GrayBackgroundProfile srcImgUser={formatUrlImage(dataCompany.nomeFoto)}>
-                {childUserInformations()}
+                {childUserInformations}
             </GrayBackgroundProfile>
             <div className={stylesCss.cardsJobApplication}>
                 <h1>Vagas em Aberto</h1>

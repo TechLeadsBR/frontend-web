@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import stylesCss from './empresasAdm.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -8,9 +8,9 @@ import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import { requestAPI } from './../../services/api'
 import ReactToast from './../../components/reactToast/reactToast'
-import { Colors } from './../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
@@ -20,7 +20,6 @@ export default function EmpresasAdm() {
 
     // assets in page
     const [showLoadingPage, setShowLoadingPage] = useState(true)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [typeDelete, setTypeDelete] = useState("JOB")
 
     // Data
@@ -38,11 +37,6 @@ export default function EmpresasAdm() {
     const [changeDataCompany, setChangeDataCompany] = useState({
         email: null, telefone: null, telefoneDois: null, razaoSocial: null, idEmpresa: null
     })
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const createObjectForCompanysArray = (data) => {
         const companys = data.map((company) => {
@@ -90,7 +84,7 @@ export default function EmpresasAdm() {
     }
 
     //#region Request API
-    const updateCompanyDataAPI = async () => {
+    const updateCompanyDataAPI = useCallback(async () => {
         try {
             const { email, telefone, telefoneDois } = changeDataCompany
             const bodyRequestPut = {
@@ -100,39 +94,39 @@ export default function EmpresasAdm() {
             }
             const request = await requestAPI("put", `/empresa/${changeDataCompany.idEmpresa}`, bodyRequestPut)
             if (request.status === 200) {
-                toastAfterRequest("Empresa atualizada com sucesso!", "success")
+                messageToast("Empresa atualizada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
             console.log(error)
-            toastAfterRequest("Erro ao atualizar empresa!", "error")
+            messageToast("Erro ao atualizar empresa!", "error")
         }
-    }
+    }, [changeDataCompany])
 
-    const getCompanysAPI = async () => {
+    const getCompanysAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/empresa")
             if (request.status === 200) {
                 createObjectForCompanysArray(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
-    const deleteCompanyAPI = async () => {
+    const deleteCompanyAPI = useCallback(async () => {
         try {
             const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
             if (request.status === 200) {
-                toastAfterRequest("Empresa deletada com sucesso!", "success")
+                messageToast("Empresa deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa empresa tem vagas cadastradas!", "error")
+            messageToast("Parece que essa empresa tem vagas cadastradas!", "error")
         }
-    }
+    }, [changeDataCompany.idEmpresa])
 
-    const getJobsAPI = async () => {
+    const getJobsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/vagaemprego")
             if (request.status === 200) {
@@ -140,24 +134,24 @@ export default function EmpresasAdm() {
             }
 
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
     const deleteJobAPI = async () => {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Vaga de emprego deletada com sucesso!", "success")
+                messageToast("Vaga de emprego deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error) {
-            toastAfterRequest("Parece que essa vaga tem inscrições!", "error")
+            messageToast("Parece que essa vaga tem inscrições!", "error")
         }
     }
 
-    const getRegistrationsAPI = async () => {
+    const getRegistrationsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/inscricaoemprego")
 
@@ -165,36 +159,32 @@ export default function EmpresasAdm() {
                 createObjectRegistrationsToArrayState(request.data)
             }
         } catch (error) {
-            toastAfterRequest("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
     const deleteRegistrationAPI = async () => {
         try {
             const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
 
             if (request.status === 200) {
-                toastAfterRequest("Inscrição deletada com sucesso!", "success")
+                messageToast("Inscrição deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error){
-            toastAfterRequest("Ocorreu um erro ao excluir essa inscrição!", "error")
+            messageToast("Ocorreu um erro ao excluir essa inscrição!", "error")
         }
     }
     //#endregion
 
     // call requests api
     useEffect(() => {
-        let monted = true
+        getCompanysAPI()
+        functionAfterTime(3000, () => getJobsAPI())
+        functionAfterTime(3000, () => getRegistrationsAPI())
+    }, [getCompanysAPI, getJobsAPI, getRegistrationsAPI])
 
-        if (monted && companysState.length === 0) getCompanysAPI()
-        if (monted && jobsState.length === 0) functionAfterTime(3000, () => getJobsAPI())
-        if (monted && registrationsState.length === 0) functionAfterTime(3000, () => getRegistrationsAPI())
-
-        return () => monted = false
-    }, [])
-
-    const modalForEditCompany = (
+    const modalForEditCompany = useMemo(() => (
         <div className={stylesCss.modalForEditCompany}>
             <Modal styleProps={{ width: "50%" }}>
                 <div className={stylesCss.contentModalForEditCompany}>
@@ -234,16 +224,13 @@ export default function EmpresasAdm() {
                         <div className={stylesCss.divButton}>
                             <div>
                                 <Button
-                                    bgColor={Colors.red.hexadecimal}
-                                    textColor={Colors.white.hexadecimal}
                                     text={"Alterador dados da empresa"}
                                     onClick={() => updateCompanyDataAPI()}
                                 />
                             </div>
                             <div>
                                 <Button
-                                    bgColor={Colors.matteBlack.hexadecimal}
-                                    textColor={Colors.white.hexadecimal}
+                                    bgColor={"black"}
                                     text={"Deletar empresa"}
                                     onClick={() => deleteCompanyAPI()}
                                 />
@@ -253,7 +240,7 @@ export default function EmpresasAdm() {
                 </div>
             </Modal>
         </div>
-    )
+    ), [changeDataCompany, deleteCompanyAPI, updateCompanyDataAPI])
 
     const modalDeleteJob = (
         <div className={stylesCss.modalDeleteJob}>
@@ -261,9 +248,8 @@ export default function EmpresasAdm() {
                 <div className={stylesCss.contentModalDeleteJob}>
                     <p onClick={() => setShowModalDeleteJobOrRegistrations(false)}>X</p>
                     <Button
-                        text={`Deletar ${typeDelete === "JOB" ? "job" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
-                        bgColor={Colors.matteBlack.hexadecimal}
-                        textColor={Colors.white.hexadecimal}
+                        text={`Deletar ${typeDelete === "JOB" ? "vaga" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
+                        bgColor={"black"}
                         onClick={() => {
                             typeDelete === "JOB" ? deleteJobAPI() : deleteRegistrationAPI()
                         }}
@@ -312,11 +298,7 @@ export default function EmpresasAdm() {
             </div>
             {showModalEditCompany && modalForEditCompany}
             {showModalDeleteJobOrRegistrations && modalDeleteJob}
-            <ReactToast
-                textToast={toastProps.text}
-                status={toastProps.status}
-                visible={toastProps.visible}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

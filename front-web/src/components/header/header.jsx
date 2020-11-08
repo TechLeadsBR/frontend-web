@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 
-
-export default function Header({ typeHeader = null, srcImgUser, callback }) {
+function Header({ typeHeader = null, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
     const history = useHistory()
@@ -52,8 +50,7 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
         <div className={stylesCss.notLogged}>
             <b><Link to={`/login/${typeRender === "student" ? "aluno" : "empresa"}`}>Login</Link></b>
             <Button
-                textColor={Colors.white.hexadecimal}
-                bgColor={typeRender === "student" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal}
+                bgColor={typeRender === "student" ? "red" : "black"}
                 text={"Cadastre-se"}
                 onClick={() => {
                     const toRegister = typeRender === "student" ? "aluno" : "empresa"
@@ -115,3 +112,5 @@ export default function Header({ typeHeader = null, srcImgUser, callback }) {
         </header>
     )
 }
+
+export default memo(Header)

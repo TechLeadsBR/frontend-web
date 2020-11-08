@@ -6,7 +6,7 @@ import linkedinIcon from './../../assets/images/socialMedia/linkedin.png'
 import youtubeIcon from './../../assets/images/socialMedia/youtube.png'
 import twitterIcon from './../../assets/images/socialMedia/twitter.png'
 
-export default function Footer(){
+function Footer(){
 
     const socialMedia = [
         { 
@@ -56,3 +56,5 @@ export default function Footer(){
         </footer>
     )
 }
+
+export default React.memo(Footer)

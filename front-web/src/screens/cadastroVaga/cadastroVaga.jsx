@@ -8,7 +8,6 @@ import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
 import { useHistory } from 'react-router-dom'
-import { Colors } from '../../services/constants/constants'
 import { formNewJob } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 import {
@@ -17,31 +16,26 @@ import {
     TypeContracts
 } from '../../services/constants/data'
 import { functionAfterTime } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 
 export default function CadastroVaga() {
 
     const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
-
-    const toastAfterRequest = (text, status) => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     const requestApiNewJob = async () => {
         try {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
             if (request.status === 201) {
-                toastAfterRequest("Vaga cadastrada com sucesso!", "success")
+                messageToast("Vaga cadastrada com sucesso!", "success")
                 functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
             }
 
         } catch (error) {
-            toastAfterRequest("Ocorreu um erro ao cadastrar a vaga!", "error")
+            messageToast("Ocorreu um erro ao cadastrar a vaga!", "error")
         }
     }
 
@@ -92,9 +86,7 @@ export default function CadastroVaga() {
                 </div>
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => requestApiNewJob()}
                     />
                 </div>
@@ -110,11 +102,7 @@ export default function CadastroVaga() {
             />
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
-            <ReactToast
-                visible={toastProps.visible}
-                textToast={toastProps.text}
-                status={toastProps.status}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

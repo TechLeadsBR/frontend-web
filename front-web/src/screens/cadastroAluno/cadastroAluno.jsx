@@ -13,10 +13,9 @@ import {
     BehavioralProfiles,
     SpecifyDisability
 } from '../../services/constants/data'
-import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
-import { functionAfterTime } from '../../services/functions'
+import { messageToast, getInSessionStorage } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
@@ -24,7 +23,6 @@ export default function CadastroAluno() {
     const history = useHistory()
     const [newStudent, setNewStudent] = useState(formNewStudent)
     const [newAddress, setNewAddress] = useState(formNewAddress)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [confirmPasswordState, setConfirmPassword] = useState("")
     const [isDeficient, setIsDeficient] = useState("nao")
     const [hasASocialName, setHasASocialName] = useState("nao")
@@ -47,16 +45,11 @@ export default function CadastroAluno() {
                     }
                 })
             } catch (error) {
-                toastFunction("Ocorreu um erro ao buscar os dados do endereço", "error")
+                messageToast("Ocorreu um erro ao buscar os dados do endereço", "error")
             }
         }
         if (newAddress.cep.length === 8) requestViacepAPI()
     }, [newAddress.cep])
-
-    const toastFunction = (text, status="error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
 
     //#region Validations
     const confirmPasswordValidation = newStudent.senha !== null && newStudent.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
@@ -64,20 +57,20 @@ export default function CadastroAluno() {
     const validationInputsNewStudent = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
         if (!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
-            toastFunction("Preencha os dados obrigatórios")
+            messageToast("Preencha os dados obrigatórios", "error")
             return false
         }
         else {
             if (cpf.length > 11 || cpf.length < 11) {
-                toastFunction("CPF Inválido")
+                messageToast("CPF Inválido", "error")
                 return false
             }
             if (rg.length > 9 || rg.length < 9) {
-                toastFunction("RG Inválido")
+                messageToast("RG Inválido", "error")
                 return false
             }
-            if(confirmPasswordState !== newStudent.senha) {
-                toastFunction("As senhas não são iguais!")
+            if (confirmPasswordState !== newStudent.senha) {
+                messageToast("As senhas não são iguais!", "error")
                 return false
             }
             else return true
@@ -87,7 +80,7 @@ export default function CadastroAluno() {
     const validationInputNewAddress = () => {
         const { bairro, cep, numero, logradouro, localidade } = newAddress
         if (!(bairro && cep && numero && logradouro && localidade)) {
-            toastFunction("Preencha o endereço corretamente", "error")
+            messageToast("Preencha o endereço corretamente", "error")
             return false
         }
         else return true
@@ -106,7 +99,7 @@ export default function CadastroAluno() {
                 await registerNewStudentAPI()
             }
         } catch (error) {
-            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
+            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
 
@@ -116,12 +109,12 @@ export default function CadastroAluno() {
             const request = await requestAPI("post", "/aluno", newStudent)
 
             if (request.status === 201) {
-                toastFunction("Usuario cadastrado com sucesso!", "success")
+                messageToast("Usuario cadastrado com sucesso!", "success")
                 history.push("/login")
             }
 
         } catch (error) {
-            toastFunction("Ocorreu um erro, verifique os dados digitados", "error")
+            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
     //#endregion
@@ -194,7 +187,7 @@ export default function CadastroAluno() {
                     labelText={"CPF*"}
                     name={"cpfAluno"}
                     type={"text"}
-                    currentValue={newStudent.cpf}
+                    currentValue={getInSessionStorage("CPF")}
                     onChange={event => setStateNewStudent("cpf", event.target.value)}
                 />
                 <Input
@@ -318,9 +311,7 @@ export default function CadastroAluno() {
                 />
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir Cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => saveNewAddressAPI()}
                     />
                 </div>
@@ -330,18 +321,11 @@ export default function CadastroAluno() {
 
     return (
         <div className={stylesCss.root}>
-            <Header
-                typeHeader={"student"}
-                srcImgUser={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS1bO20QxvJm-byxSQFSbUKbpXXl_G_y1YqqQ&usqp=CAU"}
-            />
+            <Header />
             <h1>Cadastro</h1>
             {formRegisterStudent}
             <SimpleFooter />
-            <ReactToast
-                textToast={toastProps.text}
-                visible={toastProps.visible}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }

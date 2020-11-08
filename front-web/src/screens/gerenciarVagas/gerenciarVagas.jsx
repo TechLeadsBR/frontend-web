@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import stylesCss from './gerenciarVagas.module.css'
 import Header from './../../components/header/header'
 import Modal from './../../components/modal/modal'
@@ -11,39 +11,30 @@ import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
 import { requestAPI } from '../../services/api'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
-import { Colors } from './../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
+import { messageToast } from './../../services/functions'
 
 export default function GerenciarVagas() {
 
     const history = useHistory()
     const [jobs, setJobs] = useState([])
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [showLoadingPage, setShowLoadingPage] = useState(true)
     const [showModalEditJob, setShowModalEditJob] = useState(false)
     const [jobEdit, setJobEdit] = useState({})
 
     const setJobEditState = (key, value) => setJobEdit({ ...jobEdit, [key]: value })
 
-    useEffect(() => {
-        let monted = true
-        if (monted) {
-            const getJobs = async () => {
-                const request = await requestAPI("get", "/vagaemprego/empresa")
+    const getJobs = useCallback(async () => {
+        const request = await requestAPI("get", "/vagaemprego/empresa")
 
-                if (request.status === 200) {
-                    setJobs(request.data)
-                }
-            }
-            getJobs()
+        if (request.status === 200) {
+            setJobs(request.data)
         }
-        return () => monted = false
     }, [])
 
-    const toastFunction = (text, status = "error") => {
-        setToastProps({ visible: true, text, status })
-        functionAfterTime(3000, () => setToastProps({ visible: false, text: null, status: null }))
-    }
+    useEffect(() => {
+        getJobs()
+    }, [getJobs])
 
     //#region Requests
     const updateJobAPI = async () => {
@@ -56,11 +47,11 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("put", `/vagaemprego/${jobEdit.idVagaEmprego}`, jobUpdated)
             if (request.status === 200) {
-                toastFunction("Vaga de emprego atualizada com sucesso", "success")
+                messageToast("Vaga de emprego atualizada com sucesso", "success")
                 setShowModalEditJob(false)
             }
         } catch (error) {
-            toastFunction("Erro ao atualizar vaga de emprego")
+            messageToast("Erro ao atualizar vaga de emprego", "error")
         }
     }
 
@@ -68,12 +59,12 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobEdit.idVagaEmprego}`)
             if (request.status === 200) {
-                toastFunction("Vaga de emprego deletada com sucesso", "success")
+                messageToast("Vaga excluida com sucesso", "success")
                 setShowModalEditJob(false)
             }
 
         } catch (error) {
-            toastFunction("Erro ao deletar vaga de emprego")
+            messageToast("Erro ao deletar vaga de emprego", "error")
         }
     }
     //#endregion
@@ -87,7 +78,6 @@ export default function GerenciarVagas() {
                     <CardJob
                         callbackJobInformation={job => {
                             setJobEdit(job)
-                            console.log(job)
                             functionAfterTime(1000, () => setShowModalEditJob(true))
                         }}
                         key={index}
@@ -106,8 +96,6 @@ export default function GerenciarVagas() {
             <div className={stylesCss.buttonContainer}>
                 <Button
                     text={"Cadastrar nova vaga"}
-                    bgColor={Colors.red.hexadecimal}
-                    textColor={Colors.white.hexadecimal}
                     onClick={() => history.push("/cadastro-vaga")}
                 />
             </div>
@@ -135,14 +123,11 @@ export default function GerenciarVagas() {
                         />
                         <div className={stylesCss.divButtonsEditJob}>
                             <Button
-                                bgColor={Colors.red.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
                                 text={"Atualizar vaga"}
                                 onClick={() => updateJobAPI()}
                             />
                             <Button
-                                bgColor={Colors.matteBlack.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
+                                bgColor={"black"}
                                 text={"Excluir vaga"}
                                 onClick={() => deleteJobAPI()}
                             />
@@ -170,11 +155,7 @@ export default function GerenciarVagas() {
             </div>
             {showModalEditJob && modalEditJob}
             <Footer />
-            <ReactToast
-                textToast={toastProps.text}
-                visible={toastProps.visible}
-                status={toastProps.status}
-            />
+            <ReactToast />
         </div>
     )
 }
