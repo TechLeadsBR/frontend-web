@@ -8,10 +8,15 @@ import Button from './../../components/button/button'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import CardJob from './../../components/cardJob/cardJob'
 import ReactToast from './../../components/reactToast/reactToast'
-import { functionAfterTime, formatUrlImage, getJtiUserInToken, formatedTodayInDate } from './../../services/functions'
+import { 
+    functionAfterTime, 
+    formatUrlImage, 
+    getJtiUserInToken, 
+    formatedTodayInDate,
+    messageToast
+} from './../../services/functions'
 import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
-import { toast } from 'react-toastify'
 
 export default function BuscarVagas() {
 
@@ -42,11 +47,11 @@ export default function BuscarVagas() {
         try {
             const request = await requestAPI("post", "/inscricaoemprego", bodyRequestSignUpJob)
             if (request.status === 201) {
-                toast("Inscrição concluida com sucesso!")
+                messageToast("Inscrição concluida com sucesso!", "success")
                 functionAfterTime(1500, () => setModalViewJobSelected(false))
             }
         } catch (error) {
-            toast("Parece que você ja se inscreveu nessa vaga!")
+            messageToast("Parece que você ja se inscreveu nessa vaga!", "error")
         }
     }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import stylesCss from './filmFrame.module.css'
 
-export default function FilmFrame({ 
+function FilmFrame({ 
         styleProps: { 
             bgColorRgba, 
             width, 
@@ -23,3 +23,5 @@ export default function FilmFrame({
         </div>
     )
 }
+
+export default React.memo(FilmFrame)

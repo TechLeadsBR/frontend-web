@@ -13,7 +13,7 @@ import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
 import { formNewAdministrator } from './../../services/constants/templates'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 
 const administratorColumnsTable = ["ID", "Nome", "Email", "CPF"]
 
@@ -55,10 +55,10 @@ export default function InicialAdm() {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
             if (request.status === 201) {
-                toast("Administrador cadastrado com sucesso!")
+                messageToast("Administrador cadastrado com sucesso!")
             }
         } catch (error) {
-            toast("Ocorreu um erro ao cadastrar o novo administrador")
+            messageToast("Ocorreu um erro ao cadastrar o novo administrador")
         }
     }
 
@@ -70,7 +70,7 @@ export default function InicialAdm() {
                 setDataGrafic(request.data)
             }
         } catch (error) {
-            toast("Ocorreu um erro em nossos servidores, aguarde um momento")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
     }
 
@@ -79,7 +79,7 @@ export default function InicialAdm() {
             const request = await requestAPI("get", "/administrador")
             if (request.status === 200) createObjectToDataTableAdministrators(request.data)
         } catch (error) {
-            toast("Ocorreu um erro em nossos servidores, aguarde um momento")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
     }
 
@@ -88,11 +88,11 @@ export default function InicialAdm() {
             const request = await requestAPI("delete", `/administrador/${idAdministratorToExclude}`)
 
             if (request.status === 200) {
-                toast("Administrador excluido com sucesso!")
+                messageToast("Administrador excluido com sucesso!")
                 setShowModalDeleteAdministrator(false)
             }
         } catch (error) {
-            toast("Ocorreu um erro ao excluir administrador, aguarde um momento")
+            messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento")
         }
     }
     //#endregion

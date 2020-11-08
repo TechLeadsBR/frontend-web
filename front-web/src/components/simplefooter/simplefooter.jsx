@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import stylesCss from './simplefooter.module.css'
 
-export default function SimpleFooter(){
+function SimpleFooter(){
 
     return (
         <footer className={stylesCss.root}>
@@ -11,3 +11,5 @@ export default function SimpleFooter(){
         </footer>
     )
 }
+
+export default memo(SimpleFooter)

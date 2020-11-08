@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import Button from './../../components/button/button'
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
-import functions from './../../services/functions/index'
+import { breakToken } from './../../services/functions'
 import { Colors } from '../../services/constants/constants'
 import { Link, useHistory } from 'react-router-dom'
 
-export default function Header({ typeHeader = null, callback }) {
+function Header({ typeHeader = null, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
     const history = useHistory()
@@ -42,7 +42,7 @@ export default function Header({ typeHeader = null, callback }) {
             <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
                 <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
                 {(type === "student" || type === "company") && <Link to={{ pathname: linkRedirect }} >Perfil</Link>}
-                <p onClick={() => functions.breakToken()}><Link to="/">sair</Link></p>
+                <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
             </div>
         )
     }
@@ -114,3 +114,5 @@ export default function Header({ typeHeader = null, callback }) {
         </header>
     )
 }
+
+export default memo(Header)

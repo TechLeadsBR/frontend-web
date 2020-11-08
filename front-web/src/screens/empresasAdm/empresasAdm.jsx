@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import stylesCss from './empresasAdm.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -11,7 +11,7 @@ import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
@@ -95,39 +95,39 @@ export default function EmpresasAdm() {
             }
             const request = await requestAPI("put", `/empresa/${changeDataCompany.idEmpresa}`, bodyRequestPut)
             if (request.status === 200) {
-                toast("Empresa atualizada com sucesso!")
+                messageToast("Empresa atualizada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
             console.log(error)
-            toast("Erro ao atualizar empresa!")
+            messageToast("Erro ao atualizar empresa!", "error")
         }
     }
 
-    const getCompanysAPI = async () => {
+    const getCompanysAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/empresa")
             if (request.status === 200) {
                 createObjectForCompanysArray(request.data)
             }
         } catch (error) {
-            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
     const deleteCompanyAPI = async () => {
         try {
             const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
             if (request.status === 200) {
-                toast("Empresa deletada com sucesso!")
+                messageToast("Empresa deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
             }
         } catch (error) {
-            toast("Parece que essa empresa tem vagas cadastradas!")
+            messageToast("Parece que essa empresa tem vagas cadastradas!", "error")
         }
     }
 
-    const getJobsAPI = async () => {
+    const getJobsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/vagaemprego")
             if (request.status === 200) {
@@ -135,24 +135,24 @@ export default function EmpresasAdm() {
             }
 
         } catch (error) {
-            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
     const deleteJobAPI = async () => {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
 
             if (request.status === 200) {
-                toast("Vaga de emprego deletada com sucesso!")
+                messageToast("Vaga de emprego deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error) {
-            toast("Parece que essa vaga tem inscrições!")
+            messageToast("Parece que essa vaga tem inscrições!", "error")
         }
     }
 
-    const getRegistrationsAPI = async () => {
+    const getRegistrationsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/inscricaoemprego")
 
@@ -160,34 +160,30 @@ export default function EmpresasAdm() {
                 createObjectRegistrationsToArrayState(request.data)
             }
         } catch (error) {
-            toast("Ocorreu algum erro em nossos servidores, aguarde um momento!")
+            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
         }
-    }
+    }, [])
 
     const deleteRegistrationAPI = async () => {
         try {
             const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
 
             if (request.status === 200) {
-                toast("Inscrição deletada com sucesso!")
+                messageToast("Inscrição deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
         } catch (error){
-            toast("Ocorreu um erro ao excluir essa inscrição!")
+            messageToast("Ocorreu um erro ao excluir essa inscrição!", "error")
         }
     }
     //#endregion
 
     // call requests api
     useEffect(() => {
-        let monted = true
-
-        if (monted && companysState.length === 0) getCompanysAPI()
-        if (monted && jobsState.length === 0) functionAfterTime(3000, () => getJobsAPI())
-        if (monted && registrationsState.length === 0) functionAfterTime(3000, () => getRegistrationsAPI())
-
-        return () => monted = false
-    }, [])
+        getCompanysAPI()
+        functionAfterTime(3000, () => getJobsAPI())
+        functionAfterTime(3000, () => getRegistrationsAPI())
+    }, [getCompanysAPI, getJobsAPI, getRegistrationsAPI])
 
     const modalForEditCompany = (
         <div className={stylesCss.modalForEditCompany}>

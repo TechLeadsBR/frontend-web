@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import stylesCss from './grayBackgroundProfile.module.css'
 import ReactToast from './../reactToast/reactToast'
 import { postImageAPI } from './../../services/api'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 
 export default function GrayBackgroundProfile({ srcImgUser, children }) {
 
@@ -17,10 +17,10 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
 
             if(request.status === 201) {
                 console.log('Executou')
-                toast("Foto atualizada com sucesso!", "success")
+                messageToast("Foto atualizada com sucesso!", "success")
             }
         } catch (error) {
-            toast("Erro ao atualizar foto, tenten novamente mais tarde")
+            messageToast("Erro ao atualizar foto, tenten novamente mais tarde", "error")
         }
     }
 

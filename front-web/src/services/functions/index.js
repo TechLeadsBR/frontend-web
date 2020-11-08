@@ -1,13 +1,32 @@
-import * as general from './general'
-import * as storage from './storage'
-import * as format from './format'
-import * as authentication from './authentication'
+import { breakToken, decryptPayloadJwtAndReturnObject, getJtiUserInToken, getRoleInToken, verifyAuthenticatedUser } from './authentication'
+import { formatData, formatUrlImage, formatedTodayInDate } from './format'
+import { functionAfterTime, messageToast } from './general'
+import { getInLocalStorage, getInSessionStorage, removeInLocalStorage, saveInLocalStorage, saveInSessionStorage, saveTokenInLocalStorage } from './storage'
 
-const functions = {
-    ...general,
-    ...storage,
-    ...format,
-    ...authentication
+export { 
+    breakToken, 
+    decryptPayloadJwtAndReturnObject, 
+    getJtiUserInToken, 
+    getRoleInToken, 
+    verifyAuthenticatedUser
 }
 
-export default functions
+export {
+    formatData, 
+    formatUrlImage, 
+    formatedTodayInDate
+}
+
+export {
+    functionAfterTime,
+    messageToast
+}
+
+export {
+    getInLocalStorage, 
+    getInSessionStorage, 
+    removeInLocalStorage, 
+    saveInLocalStorage, 
+    saveInSessionStorage, 
+    saveTokenInLocalStorage
+}

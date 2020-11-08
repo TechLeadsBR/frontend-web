@@ -19,9 +19,8 @@ export const getRoleInToken = () => {
     return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 }
 
-export const breakToken = () => {
-    removeInLocalStorage(KEY_USER_JWT)
-}
+export const breakToken = () => removeInLocalStorage(KEY_USER_JWT)
+
 
 export const getJtiUserInToken = () => {
     const token = getInLocalStorage(KEY_USER_JWT)

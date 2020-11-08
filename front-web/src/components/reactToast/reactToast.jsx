@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { Colors } from './../../services/constants/constants'
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ReactToast() {
+function ReactToast() {
     return (
         <ToastContainer
             autoClose={3000}
@@ -12,3 +12,5 @@ export default function ReactToast() {
         />
     )
 }
+
+export default memo(ReactToast)

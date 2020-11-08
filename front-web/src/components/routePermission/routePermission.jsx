@@ -5,8 +5,9 @@ import {
     getInLocalStorage,
     removeInLocalStorage,
     getRoleInToken
-}
-    from './../../services/functions'
+} from './../../services/functions'
+
+
 import { KEY_USER_JWT } from './../../services/constants/constants'
 import { Route, Redirect } from 'react-router-dom'
 

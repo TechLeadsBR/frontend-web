@@ -16,7 +16,7 @@ export default function Button({ text, bgColor, textColor, onClick, customStyles
 
     return (
         <button
-            className={stylesCss}
+            className={stylesCss.button}
             style={styleProps}
             onClick={(event) => onclick(event)}    
         >{text}</button>

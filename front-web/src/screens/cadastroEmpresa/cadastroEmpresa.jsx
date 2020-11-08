@@ -8,7 +8,7 @@ import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import { formNewCompany } from './../../services/constants/templates'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 import { requestAPI } from '../../services/api'
 import { useHistory } from 'react-router-dom'
 
@@ -27,16 +27,16 @@ export default function CadastroEmpresa() {
     const validateInputsNewCompany = () => {
         const { razaoSocial, email, senha, cnpj, atividadeEconomica, telefone, telefoneDois, descricaoEmpresa } = newCompany
         if(!(razaoSocial && email && senha && cnpj && atividadeEconomica && telefone && telefoneDois && descricaoEmpresa)) {
-            toast("Preencha os dados obrigatorios")
+            messageToast("Preencha os dados obrigatorios", "error")
             return false
         } 
         else {
             if (cnpj.length > 14 || cnpj.length < 14){
-                toast("CNPJ Inválido")
+                messageToast("CNPJ Inválido", "error")
                 return false
             }
             if (confirmPasswordState !== newCompany.senha) {
-                toast("As senhas não são iguais!")
+                messageToast("As senhas não são iguais!", "error")
                 return false
             }
             else return true
@@ -51,12 +51,12 @@ export default function CadastroEmpresa() {
             const request = await requestAPI("post", "/empresa", newCompany)
 
             if (request.status === 201) {
-                toast("Empresa cadastrada com sucesso!", "success")
+                messageToast("Empresa cadastrada com sucesso!", "success")
                 history.push("/login")
             }
 
         } catch (error) {
-            toast("Ocorreu um erro, verifique os dados digitados", "error")
+            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
 

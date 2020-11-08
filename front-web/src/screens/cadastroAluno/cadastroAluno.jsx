@@ -16,7 +16,7 @@ import {
 import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
@@ -46,7 +46,7 @@ export default function CadastroAluno() {
                     }
                 })
             } catch (error) {
-                toast("Ocorreu um erro ao buscar os dados do endereço", "error")
+                messageToast("Ocorreu um erro ao buscar os dados do endereço", "error")
             }
         }
         if (newAddress.cep.length === 8) requestViacepAPI()
@@ -58,20 +58,20 @@ export default function CadastroAluno() {
     const validationInputsNewStudent = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
         if (!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
-            toast("Preencha os dados obrigatórios")
+            messageToast("Preencha os dados obrigatórios", "error")
             return false
         }
         else {
             if (cpf.length > 11 || cpf.length < 11) {
-                toast("CPF Inválido")
+                messageToast("CPF Inválido", "error")
                 return false
             }
             if (rg.length > 9 || rg.length < 9) {
-                toast("RG Inválido")
+                messageToast("RG Inválido", "error")
                 return false
             }
-            if(confirmPasswordState !== newStudent.senha) {
-                toast("As senhas não são iguais!")
+            if (confirmPasswordState !== newStudent.senha) {
+                messageToast("As senhas não são iguais!", "error")
                 return false
             }
             else return true
@@ -81,7 +81,7 @@ export default function CadastroAluno() {
     const validationInputNewAddress = () => {
         const { bairro, cep, numero, logradouro, localidade } = newAddress
         if (!(bairro && cep && numero && logradouro && localidade)) {
-            toast("Preencha o endereço corretamente", "error")
+            messageToast("Preencha o endereço corretamente", "error")
             return false
         }
         else return true
@@ -100,7 +100,7 @@ export default function CadastroAluno() {
                 await registerNewStudentAPI()
             }
         } catch (error) {
-            toast("Ocorreu um erro, verifique os dados digitados", "error")
+            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
 
@@ -110,12 +110,12 @@ export default function CadastroAluno() {
             const request = await requestAPI("post", "/aluno", newStudent)
 
             if (request.status === 201) {
-                toast("Usuario cadastrado com sucesso!", "success")
+                messageToast("Usuario cadastrado com sucesso!", "success")
                 history.push("/login")
             }
 
         } catch (error) {
-            toast("Ocorreu um erro, verifique os dados digitados", "error")
+            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
         }
     }
     //#endregion
@@ -324,10 +324,7 @@ export default function CadastroAluno() {
 
     return (
         <div className={stylesCss.root}>
-            <Header
-                typeHeader={"student"}
-                srcImgUser={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS1bO20QxvJm-byxSQFSbUKbpXXl_G_y1YqqQ&usqp=CAU"}
-            />
+            <Header />
             <h1>Cadastro</h1>
             {formRegisterStudent}
             <SimpleFooter />

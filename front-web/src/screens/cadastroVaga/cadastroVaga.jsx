@@ -17,7 +17,7 @@ import {
     TypeContracts
 } from '../../services/constants/data'
 import { functionAfterTime } from './../../services/functions'
-import { toast } from 'react-toastify'
+import { messageToast } from './../../services/functions'
 
 export default function CadastroVaga() {
 
@@ -31,12 +31,12 @@ export default function CadastroVaga() {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
             if (request.status === 201) {
-                toast("Vaga cadastrada com sucesso!")
+                messageToast("Vaga cadastrada com sucesso!", "success")
                 functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
             }
 
         } catch (error) {
-            toast("Ocorreu um erro ao cadastrar a vaga!", "error")
+            messageToast("Ocorreu um erro ao cadastrar a vaga!", "er    ror")
         }
     }
 
