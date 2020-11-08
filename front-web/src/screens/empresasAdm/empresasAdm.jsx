@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import stylesCss from './empresasAdm.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -185,7 +185,7 @@ export default function EmpresasAdm() {
         functionAfterTime(3000, () => getRegistrationsAPI())
     }, [getCompanysAPI, getJobsAPI, getRegistrationsAPI])
 
-    const modalForEditCompany = (
+    const modalForEditCompany = useMemo(() => (
         <div className={stylesCss.modalForEditCompany}>
             <Modal styleProps={{ width: "50%" }}>
                 <div className={stylesCss.contentModalForEditCompany}>
@@ -244,7 +244,7 @@ export default function EmpresasAdm() {
                 </div>
             </Modal>
         </div>
-    )
+    ), [changeDataCompany, deleteCompanyAPI, updateCompanyDataAPI])
 
     const modalDeleteJob = (
         <div className={stylesCss.modalDeleteJob}>
