@@ -20,7 +20,7 @@ export default function TextAreaInput({
         
 
         console.log(lengthValue)
-        console.log(curr)
+        console.log("curr")
     }
 
     return (
