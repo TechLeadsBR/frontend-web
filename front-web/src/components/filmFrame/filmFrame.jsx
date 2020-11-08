@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import stylesCss from './filmFrame.module.css'
 
 function FilmFrame({ 
@@ -24,4 +24,4 @@ function FilmFrame({
     )
 }
 
-export default React.memo(FilmFrame)
+export default memo(FilmFrame)

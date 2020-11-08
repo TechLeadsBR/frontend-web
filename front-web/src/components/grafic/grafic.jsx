@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Chart } from 'react-google-charts'
 import Stylecss from './grafic.module.css'
 
@@ -17,4 +17,4 @@ function Grafic({ data }) {
   );
 }
 
-export default React.memo(Grafic)
+export default memo(Grafic)

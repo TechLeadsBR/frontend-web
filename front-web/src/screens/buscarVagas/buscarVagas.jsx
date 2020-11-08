@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useMemo, useEffect, memo } from 'react'
 import stylesCss from './buscarVagas.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -152,4 +152,4 @@ function BuscarVagas() {
     )
 }
 
-export default React.memo(BuscarVagas)
+export default memo(BuscarVagas)
