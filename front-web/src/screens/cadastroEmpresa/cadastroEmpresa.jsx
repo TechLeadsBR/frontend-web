@@ -8,7 +8,7 @@ import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { Colors } from './../../services/constants/constants'
 import { formNewCompany } from './../../services/constants/templates'
-import { messageToast } from './../../services/functions'
+import { messageToast, getInSessionStorage } from './../../services/functions'
 import { requestAPI } from '../../services/api'
 import { useHistory } from 'react-router-dom'
 
@@ -92,7 +92,7 @@ export default function CadastroEmpresa() {
                     labelText={"CNPJ*"}
                     name={"cnpj"}
                     type={"text"}
-                    currentValue={newCompany.cnpj}
+                    currentValue={getInSessionStorage("CNPJ")}
                     onChange={event => setStateNewCompany("cnpj", event.target.value)}
                 />
                 <Input

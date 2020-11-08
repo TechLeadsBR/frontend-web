@@ -85,7 +85,7 @@ export default function EmpresasAdm() {
     }
 
     //#region Request API
-    const updateCompanyDataAPI = async () => {
+    const updateCompanyDataAPI = useCallback(async () => {
         try {
             const { email, telefone, telefoneDois } = changeDataCompany
             const bodyRequestPut = {
@@ -102,7 +102,7 @@ export default function EmpresasAdm() {
             console.log(error)
             messageToast("Erro ao atualizar empresa!", "error")
         }
-    }
+    }, [changeDataCompany])
 
     const getCompanysAPI = useCallback(async () => {
         try {
@@ -115,7 +115,7 @@ export default function EmpresasAdm() {
         }
     }, [])
 
-    const deleteCompanyAPI = async () => {
+    const deleteCompanyAPI = useCallback(async () => {
         try {
             const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
             if (request.status === 200) {
@@ -125,7 +125,7 @@ export default function EmpresasAdm() {
         } catch (error) {
             messageToast("Parece que essa empresa tem vagas cadastradas!", "error")
         }
-    }
+    }, [changeDataCompany.idEmpresa])
 
     const getJobsAPI = useCallback(async () => {
         try {

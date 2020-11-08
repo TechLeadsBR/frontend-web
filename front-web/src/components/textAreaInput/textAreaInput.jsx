@@ -9,18 +9,16 @@ export default function TextAreaInput({
 }) {
 
     const [maxLength, setMaxLength] = useState(100)
-    const [previusLength, setPreviusLength] = useState(0)
     const [currentLength, setCurrentValeuInput] = useState(0)
 
     const counterValueInput = (value) => {
-        const lengthValue = String(value).length
-        
-        setCurrentValeuInput(c =>  c + (lengthValue - currentLength))
-        setPreviusLength(p => p + (lengthValue - currentLength))
-        
+        setCurrentValeuInput(String(value).length)
 
-        console.log(lengthValue)
-        console.log("curr")
+        const lengthValue = String(value).length
+
+        if (lengthValue > currentLength) setMaxLength(maxLength - 1)
+
+        if (lengthValue < currentLength) setMaxLength(maxLength + 1)
     }
 
     return (

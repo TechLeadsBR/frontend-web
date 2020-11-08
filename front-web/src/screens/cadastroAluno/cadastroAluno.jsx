@@ -16,7 +16,7 @@ import {
 import { Colors } from './../../services/constants/constants'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
-import { messageToast } from './../../services/functions'
+import { messageToast, getInSessionStorage } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
@@ -188,7 +188,7 @@ export default function CadastroAluno() {
                     labelText={"CPF*"}
                     name={"cpfAluno"}
                     type={"text"}
-                    currentValue={newStudent.cpf}
+                    currentValue={getInSessionStorage("CPF")}
                     onChange={event => setStateNewStudent("cpf", event.target.value)}
                 />
                 <Input

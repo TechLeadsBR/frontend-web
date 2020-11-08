@@ -20,6 +20,7 @@ function whichUser(){
         case "1": return "inicial-administrador"
         case "2": return "perfil-aluno"
         case "3": return "perfil-empresa"
+        default: return ""
     }
 }
 
