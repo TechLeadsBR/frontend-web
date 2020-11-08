@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import stylesCss from './gerenciarVagas.module.css'
 import Header from './../../components/header/header'
 import Modal from './../../components/modal/modal'
@@ -25,20 +25,17 @@ export default function GerenciarVagas() {
 
     const setJobEditState = (key, value) => setJobEdit({ ...jobEdit, [key]: value })
 
-    useEffect(() => {
-        let monted = true
-        if (monted) {
-            const getJobs = async () => {
-                const request = await requestAPI("get", "/vagaemprego/empresa")
+    const getJobs = useCallback(async () => {
+        const request = await requestAPI("get", "/vagaemprego/empresa")
 
-                if (request.status === 200) {
-                    setJobs(request.data)
-                }
-            }
-            getJobs()
+        if (request.status === 200) {
+            setJobs(request.data)
         }
-        return () => monted = false
     }, [])
+
+    useEffect(() => {
+        getJobs()
+    }, [getJobs])
 
     //#region Requests
     const updateJobAPI = async () => {

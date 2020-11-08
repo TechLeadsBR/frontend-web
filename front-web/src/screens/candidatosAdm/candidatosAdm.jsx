@@ -29,6 +29,7 @@ export default function CandidatosAdm() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     const createObjectForDataTable = (data) => {
+        console.log("createObjectForDataTable")
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -46,9 +47,11 @@ export default function CandidatosAdm() {
 
     //#region Requests API
     const getCandidatesInDataBase = useCallback(async () => {
-        const request = await requestAPI("get", "/aluno")
         try {
-            if (request === 200) {
+            const request = await requestAPI("get", "/aluno")
+            console.log(request)
+            if (request.status === 200) {
+                console.log('AQUI')
                 createObjectForDataTable(request.data)
             }
         } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Header from '../../components/header/header'
 import Grafic from '../../components/grafic/grafic'
 import LoadingPage from './../../components/loadingPage/loadingPage'
@@ -29,13 +29,6 @@ export default function InicialAdm() {
     const [showModalDeleteAdministrator, setShowModalDeleteAdministrator] = useState(false)
     const [idAdministratorToExclude, setIdAdministratorToExclude] = useState(0)
 
-    useEffect(() => {
-        let monted = true
-        if (monted && Object.keys(dataGrafic).length === 0) getInformationsGrafic()
-        if (monted) getAdministratorsAPI()
-        return () => monted = false
-    }, [])
-
     const createObjectToDataTableAdministrators = (data) => {
         const administrators = data.map((adm) => {
             const { idAdministrador, email, cpf, nome } = adm
@@ -62,7 +55,7 @@ export default function InicialAdm() {
         }
     }
 
-    const getInformationsGrafic = async () => {
+    const getInformationsGrafic = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/metrics")
 
@@ -72,16 +65,16 @@ export default function InicialAdm() {
         } catch (error) {
             messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
-    }
+    }, [])
 
-    const getAdministratorsAPI = async () => {
+    const getAdministratorsAPI = useCallback(async () => {
         try {
             const request = await requestAPI("get", "/administrador")
             if (request.status === 200) createObjectToDataTableAdministrators(request.data)
         } catch (error) {
             messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
         }
-    }
+    }, [])
 
     const deleteAdministratorAPI = async () => {
         try {
@@ -112,6 +105,11 @@ export default function InicialAdm() {
             <Grafic data={data} />
         )
     }
+
+    useEffect(() => {
+        getInformationsGrafic()
+        getAdministratorsAPI()
+    }, [getAdministratorsAPI, getInformationsGrafic])
 
     const formRegisterAdm = (
         <div className={styleCss.formRegisterAdm}>
