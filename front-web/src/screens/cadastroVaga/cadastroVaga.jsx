@@ -36,7 +36,7 @@ export default function CadastroVaga() {
             }
 
         } catch (error) {
-            messageToast("Ocorreu um erro ao cadastrar a vaga!", "er    ror")
+            messageToast("Ocorreu um erro ao cadastrar a vaga!", "error")
         }
     }
 

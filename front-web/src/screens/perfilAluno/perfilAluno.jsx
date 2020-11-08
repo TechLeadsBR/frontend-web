@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import Header from './../../components/header/header'
 import stylesCss from './perfilAluno.module.css'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
@@ -23,52 +23,44 @@ export default function PerfilAluno() {
     const [showModalAnimalUser, setShowModalAnimalUser] = useState(false)
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    useEffect(() => {
-        let monted = true
-        if (monted) {
-            if (userApplications.length === 0) {
-                const requestGetJobApplication = async () => {
-                    try {
-                        const request = await requestAPI("get", "/inscricaoemprego")
+    const requestGetJobApplication = useCallback(async () => {
+        try {
+            const request = await requestAPI("get", "/inscricaoemprego")
 
-                        if (request.status === 200) {
-                            setUserApplication(request.data)
-                        }
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-                requestGetJobApplication()
+            if (request.status === 200) {
+                setUserApplication(request.data)
             }
+        } catch (error) {
+            console.log(error)
         }
-
-        return () => monted = false
     }, [])
 
-    useEffect(() => {
-        let monted = true
+    const getInformationsUser = useCallback(async () => {
+        try {
+            const request = await requestAPI("get", "/aluno/id")
 
-        if (monted) {
-            if (Object.keys(dataStudent).length === 0) {
-                const getInformationsUser = async () => {
-                    try {
-                        const request = await requestAPI("get", "/aluno/id")
-
-                        if (request.status === 200) {
-                            setDataStudent(request.data)
-                        }
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-                getInformationsUser()
+            if (request.status === 200) {
+                setDataStudent(request.data)
             }
+        } catch (error) {
+            console.log(error)
         }
+    }, [])
 
-        return () => monted = false
-    },[dataStudent])
+    const setFalseLoadingPage = useCallback(() => {
+        if (Object.keys(dataStudent).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+    }, [dataStudent])
 
-    const getStudentAnimalProfile = (perfilComportamental) => {
+    useEffect(() => {
+        requestGetJobApplication()
+        getInformationsUser()
+    }, [getInformationsUser, requestGetJobApplication])
+
+    useEffect(() => {
+        setFalseLoadingPage()
+    }, [setFalseLoadingPage])
+
+    const getStudentAnimalProfile = useCallback((perfilComportamental) => {
         switch (perfilComportamental) {
             case "Aguia":
                 return BehavioralProfiles.Aguia
@@ -81,9 +73,9 @@ export default function PerfilAluno() {
             default:
                 return ""
         }
-    }
+    }, [])
 
-    const childUserInformations = () => {
+    const childUserInformations = useMemo(() => {
         const { nome, email, telefone, perfilComportamental } = dataStudent
         const animalPerfilUser = getStudentAnimalProfile(perfilComportamental)
 
@@ -122,10 +114,11 @@ export default function PerfilAluno() {
                 </div>
             </div>
         )
-    }
+    }, [dataStudent, getStudentAnimalProfile])
 
-    const cardsJobApplication = (
+    const cardsJobApplication = useMemo(() => (
         userApplications && userApplications.map((job, index) => {
+            console.log('cardsss')
             const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
             const { razaoSocial, nomeFoto } = job.idVagaEmpregoNavigation.idEmpresaNavigation
             const pathImage = formatUrlImage(nomeFoto)
@@ -143,7 +136,7 @@ export default function PerfilAluno() {
                 />
             )
         })
-    )
+    ), [userApplications])
 
     const modalWithJob = (
         showModalAnimalUser && (
@@ -172,15 +165,13 @@ export default function PerfilAluno() {
     )
 
     return (
-        <div onLoad={() => {
-            if (Object.keys(dataStudent).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
-        }}>
+        <div>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"student"}
             />
             <GrayBackgroundProfile srcImgUser={formatUrlImage(dataStudent.nomeFoto)}>
-                {childUserInformations()}
+                {childUserInformations}
             </GrayBackgroundProfile>
 
             <div className={stylesCss.cardsJobApplication}>

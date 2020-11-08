@@ -13,21 +13,13 @@ import { Colors } from '../../services/constants/constants'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { messageToast } from './../../services/functions'
 
-const columnsTable = ["ID", "Nome", "Email", "RG",
-    "Data Nascimento", "Telefone", "Genero"]
+const columnsTable = ["ID", "Nome", "Email", "RG", "Data Nascimento", "Telefone", "Genero"]
 
 export default function CandidatosAdm() {
 
-    // Decisão de visualização do modal
     const [showModal, setShowModal] = useState(false)
-
-    // Array de candidatos
     const [dataCandidatosArray, setCandidatosArray] = useState([])
-
-    // Linha selecionada que a tabela retorna para fazer as alterações
     const [rowSelectedForChanges, setRowSelectedForChanges] = useState({})
-
-    // Dados alterados
     const [changeData, setChangeData] = useState({
         email: null,
         telefone: null,
@@ -52,7 +44,7 @@ export default function CandidatosAdm() {
         setCandidatosArray(candidates)
     }
 
-    //#region Request API
+    //#region Requests API
     const getCandidatesInDataBase = useCallback(async () => {
         const request = await requestAPI("get", "/aluno")
         try {

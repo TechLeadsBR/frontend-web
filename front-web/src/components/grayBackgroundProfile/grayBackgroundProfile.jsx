@@ -6,7 +6,6 @@ import { messageToast } from './../../services/functions'
 
 export default function GrayBackgroundProfile({ srcImgUser, children }) {
 
-
     const setNewImage = async (value) => {
         const newFormData = new FormData()
         newFormData.set("image", value)

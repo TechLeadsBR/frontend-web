@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import stylesCss from './buscarVagas.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -8,23 +8,32 @@ import Button from './../../components/button/button'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import CardJob from './../../components/cardJob/cardJob'
 import ReactToast from './../../components/reactToast/reactToast'
-import { 
-    functionAfterTime, 
-    formatUrlImage, 
-    getJtiUserInToken, 
+import {
+    functionAfterTime,
+    formatUrlImage,
+    getJtiUserInToken,
     formatedTodayInDate,
     messageToast
 } from './../../services/functions'
 import { Colors } from './../../services/constants/constants'
 import { requestAPI } from './../../services/api'
 
-export default function BuscarVagas() {
+function BuscarVagas() {
 
     const [showIconLoagingPage, setShowIconLoadingPage] = useState(true)
     const [valueInput, setValueInput] = useState("")
     const [modalViewJobSelected, setModalViewJobSelected] = useState(false)
     const [jobSelectedForViewInModal, setJobSelectedForViewInModal] = useState({})
     const [jobsFiltered, setJobsFiltered] = useState([])
+
+    const setFalseLoadingPage = useCallback(() => {
+        functionAfterTime(2000, () => setShowIconLoadingPage(false))
+    }, [])
+
+    useEffect(() => {
+        setFalseLoadingPage()
+    }, [setFalseLoadingPage])
+
 
     const getJobsFiltered = async () => {
         try {
@@ -37,7 +46,7 @@ export default function BuscarVagas() {
         }
     }
 
-    const signUpForJob = async () => {
+    const signUpForJob = useCallback(async () => {
         const bodyRequestSignUpJob = {
             dataInscricao: formatedTodayInDate(),
             idAluno: getJtiUserInToken(),
@@ -53,9 +62,9 @@ export default function BuscarVagas() {
         } catch (error) {
             messageToast("Parece que você ja se inscreveu nessa vaga!", "error")
         }
-    }
+    }, [jobSelectedForViewInModal.idVagaEmprego])
 
-    const createCardJobsFiltered = (
+    const createCardJobsFiltered = useMemo(() => (
         jobsFiltered && jobsFiltered.map((job, index) => {
             const { idEmpresaNavigation, descricaoVaga, nivel, cidade, titulo, idVagaEmprego } = job
             const { nomeFoto, razaoSocial } = idEmpresaNavigation
@@ -77,11 +86,10 @@ export default function BuscarVagas() {
                 />
             )
         })
-    )
+    ), [jobsFiltered])
 
-    const modalWithJobSelected = () => {
+    const modalWithJobSelected = useMemo(() => {
         const { srcImgCompany, nameCompany, title, description, level } = jobSelectedForViewInModal
-
         return (
             modalViewJobSelected && (
                 <div className={stylesCss.backgroundModalWithJob}>
@@ -119,10 +127,10 @@ export default function BuscarVagas() {
                 </div>
             )
         )
-    }
+    }, [jobSelectedForViewInModal, modalViewJobSelected, signUpForJob])
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowIconLoadingPage(false))}>
+        <div>
             <LoadingPage visible={showIconLoagingPage} />
             <Header typeHeader={"student"} />
             <SearchJobs
@@ -139,9 +147,11 @@ export default function BuscarVagas() {
                     )}
                 </div>
             </div>
-            {modalWithJobSelected()}
+            {modalViewJobSelected && modalWithJobSelected}
             <ReactToast />
             <Footer />
         </div>
     )
-}   
+}
+
+export default React.memo(BuscarVagas)

@@ -1,5 +1,5 @@
 import { KEY_USER_JWT } from './../constants/constants'
-import { getInLocalStorage, removeInLocalStorage } from './storage'
+import { getInLocalStorage, removeInLocalStorage } from './index'
 
 export const verifyAuthenticatedUser = () => getInLocalStorage(KEY_USER_JWT) !== null
 
@@ -20,7 +20,6 @@ export const getRoleInToken = () => {
 }
 
 export const breakToken = () => removeInLocalStorage(KEY_USER_JWT)
-
 
 export const getJtiUserInToken = () => {
     const token = getInLocalStorage(KEY_USER_JWT)

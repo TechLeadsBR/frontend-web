@@ -2,7 +2,7 @@ import React from 'react'
 import { Chart } from 'react-google-charts'
 import Stylecss from './grafic.module.css'
 
-export default function Grafic({ data }) {
+function Grafic({ data }) {
 
   return (
     <div className={Stylecss.App}>
@@ -16,3 +16,5 @@ export default function Grafic({ data }) {
     </div>
   );
 }
+
+export default React.memo(Grafic)

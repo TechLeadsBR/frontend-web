@@ -8,7 +8,6 @@ export const functionAfterTime = (seconds, callback) => {
 
 export const messageToast = (message, status) => {
     if (!message || !status) throw new Error('Necessário passar mensagem e status')
-    console.log('Chamada')
     if (status === "success") return toast("✅ " + message)
     if (status === "error") return toast("❌ " + message)
     else throw new Error("Status mensagem não encontrado: " + status)
