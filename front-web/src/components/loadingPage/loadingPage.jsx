@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import stylesCss from './loadingPage.module.css'
 import iconLoading from './../../assets/images/icons/loading.png'
 
-export default function LoadinPage({ visible }){
+function LoadingPage({ visible }){
 
     return (
         visible && <div className={stylesCss.root}>
@@ -10,3 +10,5 @@ export default function LoadinPage({ visible }){
         </div>
     )
 }
+
+export default memo(LoadingPage)
