@@ -13,6 +13,9 @@ export default function PerfilEmpresa() {
     const [jobsCompany, setUserApplication] = useState([])
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
+    const setFalseLoadingPage = useCallback(() => {
+        if (Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
+    }, [dataCompany])
 
     const getInformationsUser = useCallback(async () => {
         try {
@@ -38,9 +41,10 @@ export default function PerfilEmpresa() {
         }
     }, [])
     useEffect(() => {
+        setFalseLoadingPage()
         getInformationsUser()
         requestGetJobApplication()
-    }, [getInformationsUser, requestGetJobApplication])
+    }, [getInformationsUser, requestGetJobApplication, setFalseLoadingPage])
 
     const childUserInformations = useMemo(() => {
         const { razaoSocial, email, telefone, descricaoEmpresa } = dataCompany
@@ -80,9 +84,7 @@ export default function PerfilEmpresa() {
     ), [dataCompany, jobsCompany])
 
     return (
-        <div onLoad={() => {
-            if (Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
-        }}>
+        <div>
             <LoadingPage visible={showLoadingIcon} />
             <Header
                 typeHeader={"company"}

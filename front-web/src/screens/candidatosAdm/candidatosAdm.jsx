@@ -55,7 +55,7 @@ export default function CandidatosAdm() {
                 createObjectForDataTable(request.data)
             }
         } catch (error) {
-            messageToast("Ocorreu um erro ao carregar os dados")
+            messageToast("Ocorreu um erro ao carregar os dados", "error")
         }
     }, [])
 
@@ -63,11 +63,11 @@ export default function CandidatosAdm() {
         try {
             const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
             if (request.status === 200) {
-                messageToast("Candidato alterado com sucesso")
+                messageToast("Dados do candidato alterado com sucesso", "success")
                 setShowModal(false)
             }
         } catch (error) {
-            messageToast("Ocorreu um erro ao atualizar os dados do candidato")
+            messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
         }
 
     }
@@ -76,12 +76,12 @@ export default function CandidatosAdm() {
         try {
             const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
             if (request.status === 200) {
-                messageToast("Usuário deletado com sucuesso!")
+                messageToast("Usuário deletado com sucuesso!", "success")
                 functionAfterTime(1500, () => setShowModal(false))
             }
 
         } catch (error) {
-            messageToast("Impossível excluir registro dependendente")
+            messageToast("Impossível excluir registro no momento", "error")
         }
     }
     //#endregion

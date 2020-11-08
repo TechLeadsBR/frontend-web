@@ -48,10 +48,10 @@ export default function InicialAdm() {
             const request = await requestAPI("post", "/administrador", newAdministrator)
 
             if (request.status === 201) {
-                messageToast("Administrador cadastrado com sucesso!")
+                messageToast("Administrador cadastrado com sucesso!", "success")
             }
         } catch (error) {
-            messageToast("Ocorreu um erro ao cadastrar o novo administrador")
+            messageToast("Ocorreu um erro ao cadastrar o novo administrador", "error")
         }
     }
 
@@ -63,7 +63,7 @@ export default function InicialAdm() {
                 setDataGrafic(request.data)
             }
         } catch (error) {
-            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
         }
     }, [])
 
@@ -72,7 +72,7 @@ export default function InicialAdm() {
             const request = await requestAPI("get", "/administrador")
             if (request.status === 200) createObjectToDataTableAdministrators(request.data)
         } catch (error) {
-            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento")
+            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
         }
     }, [])
 
@@ -81,11 +81,11 @@ export default function InicialAdm() {
             const request = await requestAPI("delete", `/administrador/${idAdministratorToExclude}`)
 
             if (request.status === 200) {
-                messageToast("Administrador excluido com sucesso!")
+                messageToast("Administrador excluido com sucesso!", "success")
                 setShowModalDeleteAdministrator(false)
             }
         } catch (error) {
-            messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento")
+            messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento", "error")
         }
     }
     //#endregion
@@ -113,7 +113,7 @@ export default function InicialAdm() {
 
     const formRegisterAdm = (
         <div className={styleCss.formRegisterAdm}>
-            <h1>Cadastro Administrador</h1>
+            <h1>Cadastrar novo administrador</h1>
             <form>
                 <Input
                     labelText={"Nome"}

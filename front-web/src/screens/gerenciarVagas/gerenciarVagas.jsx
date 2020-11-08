@@ -48,11 +48,11 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("put", `/vagaemprego/${jobEdit.idVagaEmprego}`, jobUpdated)
             if (request.status === 200) {
-                messageToast("Vaga de emprego atualizada com sucesso")
+                messageToast("Vaga de emprego atualizada com sucesso", "success")
                 setShowModalEditJob(false)
             }
         } catch (error) {
-            messageToast("Erro ao atualizar vaga de emprego")
+            messageToast("Erro ao atualizar vaga de emprego", "error")
         }
     }
 
@@ -60,12 +60,12 @@ export default function GerenciarVagas() {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobEdit.idVagaEmprego}`)
             if (request.status === 200) {
-                messageToast("Vaga excluida com sucesso")
+                messageToast("Vaga excluida com sucesso", "success")
                 setShowModalEditJob(false)
             }
 
         } catch (error) {
-            messageToast("Erro ao deletar vaga de emprego")
+            messageToast("Erro ao deletar vaga de emprego", "error")
         }
     }
     //#endregion

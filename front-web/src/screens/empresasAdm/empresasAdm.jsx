@@ -252,7 +252,7 @@ export default function EmpresasAdm() {
                 <div className={stylesCss.contentModalDeleteJob}>
                     <p onClick={() => setShowModalDeleteJobOrRegistrations(false)}>X</p>
                     <Button
-                        text={`Deletar ${typeDelete === "JOB" ? "job" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
+                        text={`Deletar ${typeDelete === "JOB" ? "vaga" : "inscrição"} id: ${typeDelete === "JOB" ? jobIdToDelete : registrationIdToDelete}`}
                         bgColor={Colors.matteBlack.hexadecimal}
                         textColor={Colors.white.hexadecimal}
                         onClick={() => {
