@@ -51,7 +51,7 @@ export default function CadastroEmpresa() {
 
             if (request.status === 201) {
                 messageToast("Empresa cadastrada com sucesso!", "success")
-                history.push("/login")
+                history.push("/login/empresa")
             }
 
         } catch (error) {

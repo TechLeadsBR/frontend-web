@@ -33,9 +33,9 @@ export default function InicialAdm() {
             const { idAdministrador, email, cpf, nome } = adm
             return {
                 idAdministrador,
+                nome,
                 email,
                 cpf,
-                nome
             }
         })
         setAdministratorsState(administrators)

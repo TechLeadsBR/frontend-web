@@ -21,7 +21,12 @@ export default function InicioCadastro() {
 
     useEffect(() => {
         if (user !== "aluno" && user !== "empresa") history.push("/")
-    })
+    }, [history, user])
+
+    const validateAndRedirect = (labelInput, redirectPage) => {
+        saveInSessionStorage(labelInput, data)
+        history.push(redirectPage)
+    }
 
     const registrationForm = () => {
         const labelInput = user === "aluno" ? "CPF" : "CNPJ"
@@ -43,10 +48,7 @@ export default function InicioCadastro() {
                         <Button
                             bgColor={bgColorButton}
                             text={"Prosseguir"}
-                            onClick={() => {
-                                saveInSessionStorage(labelInput, data)
-                                history.push(redirectPage)
-                            }}
+                            onClick={() => validateAndRedirect(labelInput, redirectPage)}
                         />
                     </form>
                 </div>

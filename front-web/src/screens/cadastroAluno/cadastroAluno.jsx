@@ -15,7 +15,7 @@ import {
 } from '../../services/constants/data'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
-import { messageToast, getInSessionStorage } from './../../services/functions'
+import { messageToast, getInSessionStorage, functionAfterTime } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
@@ -57,6 +57,9 @@ export default function CadastroAluno() {
     const validationInputsNewStudent = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
         if (!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
+            console.log({
+                nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone
+            })
             messageToast("Preencha os dados obrigatórios", "error")
             return false
         }
@@ -110,7 +113,7 @@ export default function CadastroAluno() {
 
             if (request.status === 201) {
                 messageToast("Usuario cadastrado com sucesso!", "success")
-                history.push("/login")
+                functionAfterTime(5000, () => history.push("/login/aluno"))                
             }
 
         } catch (error) {
@@ -188,7 +191,7 @@ export default function CadastroAluno() {
                     name={"cpfAluno"}
                     type={"text"}
                     currentValue={getInSessionStorage("CPF")}
-                    onChange={event => setStateNewStudent("cpf", event.target.value)}
+                    onChange={() => setStateNewStudent("cpf", getInSessionStorage("CPF"))}
                 />
                 <Input
                     labelText={"RG*"}
