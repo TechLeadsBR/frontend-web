@@ -86,7 +86,7 @@ export default function CandidatosAdm() {
     //#endregion
 
     useEffect(() => {
-        getCandidatesInDataBase()
+        // getCandidatesInDataBase()
     }, [getCandidatesInDataBase])
 
     const contentModalForChanges = (

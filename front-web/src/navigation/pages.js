@@ -54,7 +54,7 @@ const Pages = [
         name: "Candidatos administrador",
         path: "/candidatos-adm",
         component: CandidatosAdm,
-        role: "1"
+        role: "0"
     },
     {
         name: "Inicio cadastro",

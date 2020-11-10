@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import stylesCss from './table.module.css'
 import iconPenAction from './../../assets/images/icons/pen.png'
+import { useEffect } from 'react'
 
 export default function Table({
     columnsTable,
@@ -10,6 +11,12 @@ export default function Table({
     title,
     rowSelected
 }) {
+
+    const [initQuota, setInitQuota] = useState([0, 5])
+
+    useEffect(() => {
+        console.log(initQuota)
+    },[initQuota])
 
     const actionColumn = {
         element: action && <th>Ação</th>,
@@ -30,7 +37,7 @@ export default function Table({
 
     const headTable = (
         columnsTable && (
-            <thead className={stylesCss.theadTable}>
+            <thead className={stylesCss}>
                 <tr>
                     {actionColumn.element}
                     {columnsTable.map((column, index) => <th key={index}>{column}</th>)}
@@ -41,8 +48,8 @@ export default function Table({
 
     const bodyTable = (
         dataTable && (
-            <tbody className={stylesCss.tbodyTable}>
-                {dataTable.map((d, i) => {
+            <tbody className={stylesCss}>
+                {dataTable.slice(initQuota[0], initQuota[1]).map((d, i) => {
                     return (
                         <tr key={i}>
                             {actionColumn.imgIcon(d)}
@@ -54,12 +61,38 @@ export default function Table({
         )
     )
 
+    const footerTable = (
+        <tfoot className={stylesCss.tFootTable}>
+            <tr>
+                <td onClick={() => {
+                    setInitQuota(i => {
+                        return [
+                            i[0] = i[0] - 5,
+                            i[1] = i[1] - 5
+                        ]
+                    })
+                }}>Antetior</td>
+                <td onClick={() => {
+                    if(dataTable.length > 5){
+                        setInitQuota(i => {
+                            return [
+                                i[0] = i[0] + 5,
+                                i[1] = i[1] + 5
+                            ]
+                        })
+                    }
+                }}>Próximo</td>
+            </tr>
+        </tfoot>
+    )
+
     return (
         <div className={stylesCss.root}>
             <h2>{title}</h2>
             <table className={stylesCss.table}>
                 {headTable}
                 {bodyTable}
+                {footerTable}        
             </table>
         </div>
     )
