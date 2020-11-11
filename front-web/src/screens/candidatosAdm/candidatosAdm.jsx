@@ -14,6 +14,18 @@ import { messageToast } from './../../services/functions'
 
 const columnsTable = ["ID", "Nome", "Email", "RG", "Data Nascimento", "Telefone", "Genero"]
 
+// const fakeData = [
+//     { id: 1, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 2, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 3, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 4, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 5, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 6, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 7, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 8, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+//     { id: 9, Nome: "Carlos", email: "carlos@outlook.com", rg: "12345432", dataNascimento: 122322, telefone: 1221, genero: "Masculino" },
+// ]
+
 export default function CandidatosAdm() {
 
     const [showModal, setShowModal] = useState(false)

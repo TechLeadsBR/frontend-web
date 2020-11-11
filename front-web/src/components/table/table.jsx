@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import stylesCss from './table.module.css'
 import iconPenAction from './../../assets/images/icons/pen.png'
-import { useEffect } from 'react'
 
 export default function Table({
     columnsTable,
@@ -13,10 +12,6 @@ export default function Table({
 }) {
 
     const [initQuota, setInitQuota] = useState([0, 5])
-
-    useEffect(() => {
-        console.log(initQuota)
-    },[initQuota])
 
     const actionColumn = {
         element: action && <th>Ação</th>,
@@ -65,19 +60,21 @@ export default function Table({
         <tfoot className={stylesCss.tFootTable}>
             <tr>
                 <td onClick={() => {
-                    setInitQuota(i => {
-                        return [
-                            i[0] = i[0] - 5,
-                            i[1] = i[1] - 5
-                        ]
-                    })
+                    if(initQuota[1] > 5) {
+                        setInitQuota(i => {
+                            return [
+                                i[0] - 5,
+                                i[1] - 5
+                            ]
+                        })
+                    }
                 }}>Antetior</td>
                 <td onClick={() => {
                     if(dataTable.length > 5){
                         setInitQuota(i => {
                             return [
-                                i[0] = i[0] + 5,
-                                i[1] = i[1] + 5
+                                i[0] + 5,
+                                i[1] + 5
                             ]
                         })
                     }
