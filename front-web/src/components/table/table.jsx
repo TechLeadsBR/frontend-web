@@ -13,6 +13,10 @@ export default function Table({
 
     const [initQuota, setInitQuota] = useState([0, 5])
 
+    React.useEffect(() => {
+        console.log(initQuota)
+    }, [initQuota])
+
     const actionColumn = {
         element: action && <th>Ação</th>,
         imgIcon: (dataRow) => action && (
@@ -40,7 +44,7 @@ export default function Table({
             </thead>
         )
     )
-
+    
     const bodyTable = (
         dataTable && (
             <tbody className={stylesCss}>
@@ -60,21 +64,21 @@ export default function Table({
         <tfoot className={stylesCss.tFootTable}>
             <tr>
                 <td onClick={() => {
-                    if(initQuota[1] > 5) {
+                    if (initQuota[1] > 5) {
                         setInitQuota(i => {
                             return [
-                                i[0] - 5,
-                                i[1] - 5
+                                i[0],
+                                i[1] - 1
                             ]
                         })
                     }
                 }}>Antetior</td>
                 <td onClick={() => {
-                    if(dataTable.length > 5){
+                    if (dataTable.length > 5) {
                         setInitQuota(i => {
                             return [
-                                i[0] + 5,
-                                i[1] + 5
+                                i[0],
+                                i[1] + 1
                             ]
                         })
                     }
