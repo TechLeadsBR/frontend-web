@@ -11,6 +11,7 @@ import { requestAPI } from './../../services/api'
 import { formatData, functionAfterTime } from './../../services/functions'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { messageToast } from './../../services/functions'
+import { studentActions } from './../../actions'
 
 const columnsTable = ["ID", "Nome", "Email", "RG", "Data Nascimento", "Telefone", "Genero"]
 
@@ -28,7 +29,6 @@ export default function CandidatosAdm() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     const createObjectForDataTable = (data) => {
-        console.log("createObjectForDataTable")
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -46,29 +46,23 @@ export default function CandidatosAdm() {
 
     //#region Requests API
     const getCandidatesInDataBase = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/aluno")
-            console.log(request)
-            if (request.status === 200) {
-                console.log('AQUI')
-                createObjectForDataTable(request.data)
+        studentActions.getAllStudents(request => {
+            createObjectForDataTable(request.data)
+        }, error => {
+            if (error) {
+                messageToast("Ocorreu um erro ao carregar os dados", "error")
             }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao carregar os dados", "error")
-        }
+        })
     }, [])
 
     const changeCandidateData = async () => {
-        try {
-            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
-            if (request.status === 200) {
-                messageToast("Dados do candidato alterado com sucesso", "success")
-                setShowModal(false)
-            }
-        } catch (error) {
+        studentActions.putStudent(request => {
+            messageToast("Dados do candidato alterado com sucesso", "success")
+            setShowModal(false)
+        },
+        () => {
             messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
-        }
-
+        }, { data: changeData, id: rowSelectedForChanges.idAluno })
     }
 
     const deleteCandidate = async () => {

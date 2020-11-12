@@ -10,12 +10,10 @@ export default function GrayBackgroundProfile({ srcImgUser, children }) {
         const newFormData = new FormData()
         newFormData.set("image", value)
 
-        console.log(newFormData)
         try {
             const request = await postImageAPI("/upload", newFormData)
 
             if(request.status === 201) {
-                console.log('Executou')
                 messageToast("Foto atualizada com sucesso!", "success")
             }
         } catch (error) {

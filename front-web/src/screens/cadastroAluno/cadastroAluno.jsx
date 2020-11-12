@@ -57,9 +57,6 @@ export default function CadastroAluno() {
     const validationInputsNewStudent = () => {
         const { nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone } = newStudent
         if (!(nome && email && senha && rg && cpf && dataNascimento && genero && cursoSenai && dataFormacao && telefone)) {
-            console.log({
-                nome, email, senha, rg, cpf, dataNascimento, genero, cursoSenai, dataFormacao, telefone
-            })
             messageToast("Preencha os dados obrigatórios", "error")
             return false
         }
