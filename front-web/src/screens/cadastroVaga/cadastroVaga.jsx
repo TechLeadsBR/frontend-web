@@ -8,7 +8,6 @@ import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
 import { useHistory } from 'react-router-dom'
-import { Colors } from '../../services/constants/constants'
 import { formNewJob } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
 import {
@@ -16,12 +15,13 @@ import {
     UF,
     TypeContracts
 } from '../../services/constants/data'
+import { functionAfterTime } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 
 export default function CadastroVaga() {
 
     const history = useHistory()
     const [newJob, setNewJob] = useState(formNewJob)
-    const [toastProps, setToastProps] = useState({text: null, visible: false, status: null})
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
 
@@ -29,18 +29,13 @@ export default function CadastroVaga() {
         try {
             const request = await requestAPI("post", "/vagaemprego", newJob)
 
-            if(request.status === 201){
-                setToastProps({status: "success", text: "Vaga cadastrada", visible: true})
-                
-                setTimeout(() => {
-                    history.push("/gerenciar-vagas")
-                }, 2000)
-            }else {
-                setToastProps({ status: "error", text: "Ocorreu um erro ao cadastrar vaga", visible: true})
+            if (request.status === 201) {
+                messageToast("Vaga cadastrada com sucesso!", "success")
+                functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
             }
-            
+
         } catch (error) {
-            setToastProps({status: "error", text: "Ocorreu um erro", visible: true})
+            messageToast("Ocorreu um erro ao cadastrar a vaga!", "error")
         }
     }
 
@@ -91,16 +86,14 @@ export default function CadastroVaga() {
                 </div>
                 <div className={stylesCss.divButton}>
                     <Button
-                        bgColor={Colors.red.hexadecimal}
                         text={"Concluir cadastro"}
-                        textColor={Colors.white.hexadecimal}
                         onClick={() => requestApiNewJob()}
                     />
                 </div>
             </form>
         </div>
     )
-    
+
     return (
         <div className={stylesCss.root}>
             <Header
@@ -109,11 +102,7 @@ export default function CadastroVaga() {
             />
             <h2>Cadastro de Vaga</h2>
             {formJobRegister}
-            <ReactToast
-                visible={toastProps.visible}
-                textToast={toastProps.text}
-                status={toastProps.status}
-            />
+            <ReactToast />
             <Footer />
         </div>
     )

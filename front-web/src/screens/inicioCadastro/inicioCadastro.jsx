@@ -21,12 +21,18 @@ export default function InicioCadastro() {
 
     useEffect(() => {
         if (user !== "aluno" && user !== "empresa") history.push("/")
-    })
+    }, [history, user])
+
+    const validateAndRedirect = (labelInput, redirectPage) => {
+        saveInSessionStorage(labelInput, data)
+        history.push(redirectPage)
+    }
 
     const registrationForm = () => {
         const labelInput = user === "aluno" ? "CPF" : "CNPJ"
         const nameInput = user === "aluno" ? "cpfInput" : "cnpjInput"
-        const bgColorButton = user === "aluno" ? Colors.red.hexadecimal : Colors.matteBlack.hexadecimal
+        const bgColorButton = user === "aluno" ? "red" : "black"
+        const redirectPage = user === "aluno" ? "/cadastro-aluno" : "/cadastro-empresa"
 
         return (
             <div className={stylesCss.registrationForm}>
@@ -42,16 +48,9 @@ export default function InicioCadastro() {
                         <Button
                             bgColor={bgColorButton}
                             text={"Prosseguir"}
-                            textColor={Colors.white.hexadecimal}
-                            onClick={() => {
-                                saveInSessionStorage(labelInput, data)
-                                history.push("/cadastro-aluno")
-                            }}
+                            onClick={() => validateAndRedirect(labelInput, redirectPage)}
                         />
                     </form>
-                    <div>
-
-                    </div>
                 </div>
             </div>
         )

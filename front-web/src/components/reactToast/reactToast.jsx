@@ -1,14 +1,9 @@
-import React from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import React, { memo } from 'react'
+import { ToastContainer } from 'react-toastify'
 import { Colors } from './../../services/constants/constants'
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ReactToast({ visible = false, textToast, status=null }) {
-
-    const text = status === "success" ? "✅ " + textToast : "❌ " + textToast
-
-    if (visible) toast(text)
-    
+function ReactToast() {
     return (
         <ToastContainer
             autoClose={3000}
@@ -17,3 +12,5 @@ export default function ReactToast({ visible = false, textToast, status=null }) 
         />
     )
 }
+
+export default memo(ReactToast)

@@ -1,13 +1,7 @@
 import React from 'react'
 import stylesCss from './button.module.css'
 
-export default function Button({ text, bgColor, textColor, onClick, customStyles}){
-    
-    const styleProps = {
-        ...customStyles,
-        backgroundColor: bgColor,
-        color: textColor
-    }
+export default function Button({ text, bgColor="red", onClick}){
 
     const onclick = (event) => {
         event.preventDefault()
@@ -16,8 +10,7 @@ export default function Button({ text, bgColor, textColor, onClick, customStyles
 
     return (
         <button
-            className={stylesCss}
-            style={styleProps}
+            className={stylesCss.button + " " + stylesCss[bgColor]}
             onClick={(event) => onclick(event)}    
         >{text}</button>
     )

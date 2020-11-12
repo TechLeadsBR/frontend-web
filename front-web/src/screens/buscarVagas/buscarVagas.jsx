@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo, useEffect, memo } from 'react'
 import stylesCss from './buscarVagas.module.css'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
@@ -8,18 +8,31 @@ import Button from './../../components/button/button'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import CardJob from './../../components/cardJob/cardJob'
 import ReactToast from './../../components/reactToast/reactToast'
-import { functionAfterTime, formatUrlImage, getJtiUserInToken, formatedTodayInDate } from './../../services/functions'
-import { Colors } from './../../services/constants/constants'
+import {
+    functionAfterTime,
+    formatUrlImage,
+    getJtiUserInToken,
+    formatedTodayInDate,
+    messageToast
+} from './../../services/functions'
 import { requestAPI } from './../../services/api'
 
-export default function BuscarVagas() {
+function BuscarVagas() {
 
     const [showIconLoagingPage, setShowIconLoadingPage] = useState(true)
     const [valueInput, setValueInput] = useState("")
     const [modalViewJobSelected, setModalViewJobSelected] = useState(false)
-    const [toastProps, setToastProps] = useState({ text: null, visible: false, status: null })
     const [jobSelectedForViewInModal, setJobSelectedForViewInModal] = useState({})
     const [jobsFiltered, setJobsFiltered] = useState([])
+
+    const setFalseLoadingPage = useCallback(() => {
+        functionAfterTime(2000, () => setShowIconLoadingPage(false))
+    }, [])
+
+    useEffect(() => {
+        setFalseLoadingPage()
+    }, [setFalseLoadingPage])
+
 
     const getJobsFiltered = async () => {
         try {
@@ -32,7 +45,7 @@ export default function BuscarVagas() {
         }
     }
 
-    const signUpForJob = async () => {
+    const signUpForJob = useCallback(async () => {
         const bodyRequestSignUpJob = {
             dataInscricao: formatedTodayInDate(),
             idAluno: getJtiUserInToken(),
@@ -41,21 +54,16 @@ export default function BuscarVagas() {
 
         try {
             const request = await requestAPI("post", "/inscricaoemprego", bodyRequestSignUpJob)
-
             if (request.status === 201) {
-                setToastProps({ visible: true, status: "success", text: "Inscrição concluida com sucesso!" })
-
+                messageToast("Inscrição concluida com sucesso!", "success")
                 functionAfterTime(1500, () => setModalViewJobSelected(false))
             }
-
         } catch (error) {
-            setToastProps({ visible: true, status: "error", text: "Parece que você ja se inscreveu nessa vaga!" })
+            messageToast("Parece que você ja se inscreveu nessa vaga!", "error")
         }
+    }, [jobSelectedForViewInModal.idVagaEmprego])
 
-        setToastProps({ visible: false })
-    }
-
-    const createCardJobsFiltered = (
+    const createCardJobsFiltered = useMemo(() => (
         jobsFiltered && jobsFiltered.map((job, index) => {
             const { idEmpresaNavigation, descricaoVaga, nivel, cidade, titulo, idVagaEmprego } = job
             const { nomeFoto, razaoSocial } = idEmpresaNavigation
@@ -77,11 +85,10 @@ export default function BuscarVagas() {
                 />
             )
         })
-    )
+    ), [jobsFiltered])
 
-    const modalWithJobSelected = () => {
+    const modalWithJobSelected = useMemo(() => {
         const { srcImgCompany, nameCompany, title, description, level } = jobSelectedForViewInModal
-
         return (
             modalViewJobSelected && (
                 <div className={stylesCss.backgroundModalWithJob}>
@@ -110,8 +117,7 @@ export default function BuscarVagas() {
                         <div className={stylesCss.buttonContent}>
                             <Button
                                 text={"Candidatar-se"}
-                                bgColor={Colors.red.hexadecimal}
-                                textColor={Colors.white.hexadecimal}
+                                bgColor={"red"}
                                 onClick={() => signUpForJob()}
                             />
                         </div>
@@ -119,10 +125,10 @@ export default function BuscarVagas() {
                 </div>
             )
         )
-    }
+    }, [jobSelectedForViewInModal, modalViewJobSelected, signUpForJob])
 
     return (
-        <div onLoad={() => functionAfterTime(2000, () => setShowIconLoadingPage(false))}>
+        <div>
             <LoadingPage visible={showIconLoagingPage} />
             <Header typeHeader={"student"} />
             <SearchJobs
@@ -139,13 +145,11 @@ export default function BuscarVagas() {
                     )}
                 </div>
             </div>
-            {modalWithJobSelected()}
-            <ReactToast
-                visible={toastProps.visible}
-                status={toastProps.status}
-                textToast={toastProps.text}
-            />
+            {modalViewJobSelected && modalWithJobSelected}
+            <ReactToast />
             <Footer />
         </div>
     )
-}   
+}
+
+export default memo(BuscarVagas)

@@ -1,0 +1,62 @@
+ h1{
+    text-align: center;
+}
+.constForms{
+    display: flex;
+    justify-content: center;
+}
+
+.formRegisterAdm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    margin-bottom: 200px;
+}
+
+.divButton {
+    width: 50%;
+    margin-top: 15px;
+    align-self: center;
+}
+.divButton {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.divTable {
+    width: 70%;
+    align-self: center;
+    margin: 70px 0;
+}
+
+.backgroundModalDeleteAdministrator {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contentModalExcludeAdministrator {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contentModalExcludeAdministrator > p:nth-child(1) {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 30px;
+    margin-bottom: 10px;
+}

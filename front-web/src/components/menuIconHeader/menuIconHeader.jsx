@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import stylesCss from './menuIconHeader.module.css'
 import iconUser from './../../assets/images/icons/user.png'
 import { Link } from 'react-router-dom'
 
-export default function MenuIconHeader({ typeHeader }) {
-
+ export default function MenuIconHeader({ typeHeader }) {
+    
     const [stateNavigationLinksList, setStateNavigationLinksList] = useState(false)
-
-    const listLinks = () => {
+    
+    const listLinks = useMemo(() => {
         switch (typeHeader) {
             case "student": return <li><Link to="/">Vagas</Link></li>
             case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
@@ -29,16 +29,18 @@ export default function MenuIconHeader({ typeHeader }) {
                 ) 
             default: return <></>
         }
-    }
+    }, [typeHeader])
 
-    const navigationLinksList = (
-        <div className={stylesCss.rootNavigationLinksList}>
-            <ul>
-                <li onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}>X</li>
-                {listLinks()}
-            </ul>
-        </div>
-    )
+    const navigationLinksList = useMemo(() => {
+        return (
+            <div className={stylesCss.rootNavigationLinksList}>
+                <ul>
+                    <li onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}>X</li>
+                    {listLinks}
+                </ul>
+            </div>
+        )
+    }, [listLinks, stateNavigationLinksList])
 
     return (
         <div

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import logoBranca from './../../assets/images/logos/logo-branca-talentos-senai.png'
 import stylesCss from './footer.module.css'
 import facebookIcon from './../../assets/images/socialMedia/facebook.png'
@@ -6,7 +6,7 @@ import linkedinIcon from './../../assets/images/socialMedia/linkedin.png'
 import youtubeIcon from './../../assets/images/socialMedia/youtube.png'
 import twitterIcon from './../../assets/images/socialMedia/twitter.png'
 
-export default function Footer(){
+function Footer(){
 
     const socialMedia = [
         { 
@@ -56,3 +56,5 @@ export default function Footer(){
         </footer>
     )
 }
+
+export default memo(Footer)
