@@ -15,7 +15,7 @@ import {
 } from '../../services/constants/data'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
 import { requestAPI } from './../../services/api'
-import { messageToast, getInSessionStorage, functionAfterTime } from './../../services/functions'
+import { messageToast, functionAfterTime } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroAluno() {
@@ -92,6 +92,7 @@ export default function CadastroAluno() {
 
     //#region Requests API
     const saveNewAddressAPI = async () => {
+        console.log(newStudent)
         if (!validationInputNewAddress()) return
         try {
             const request = await requestAPI("post", "/endereco", newAddress)
@@ -190,8 +191,7 @@ export default function CadastroAluno() {
                     labelText={"CPF*"}
                     name={"cpfAluno"}
                     type={"text"}
-                    currentValue={getInSessionStorage("CPF")}
-                    onChange={() => setStateNewStudent("cpf", getInSessionStorage("CPF"))}
+                    currentValue={newStudent.cpf}
                 />
                 <Input
                     labelText={"RG*"}

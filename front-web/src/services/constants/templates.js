@@ -1,4 +1,4 @@
-import { getJtiUserInToken } from './../functions'
+import { getJtiUserInToken, getInSessionStorage } from './../functions'
 
 export const formNewJob = {
     titulo: null,
@@ -17,7 +17,7 @@ export const formNewStudent = {
 	senha: null,
 	nomeSocial: null,
 	rg: null,
-	cpf: null,
+	cpf: getInSessionStorage("CPF"),
 	dataNascimento: null,
 	genero: null,
 	cursoSenai: null,
@@ -47,7 +47,7 @@ export const formNewCompany = {
     razaoSocial: null,
 	email: null,
 	senha:null,
-	cnpj: null, 
+	cnpj: getInSessionStorage("CNPJ"), 
 	atividadeEconomica: null,
 	telefone: null,
 	telefoneDois: null,

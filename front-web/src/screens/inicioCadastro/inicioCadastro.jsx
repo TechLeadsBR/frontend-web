@@ -4,10 +4,12 @@ import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
+import ReactToast from './../../components/reactToast/reactToast'
 import FilmFrame from './../../components/filmFrame/filmFrame'
 import { useParams, useHistory } from 'react-router-dom'
 import { Colors } from '../../services/constants/constants'
 import { saveInSessionStorage } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 
 import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import imgAmbienteDeTrabalho from './../../assets/images/universal/ambiente-de-trabalho-4.jpg'
@@ -24,6 +26,15 @@ export default function InicioCadastro() {
     }, [history, user])
 
     const validateAndRedirect = (labelInput, redirectPage) => {
+        if (labelInput === "CPF") {
+            if (!data || data.length < 11 || data.length > 11) {
+                return messageToast("Preencha os dados corretamente", "error")
+            }
+        } else if (labelInput === "CNPJ") {
+            if (!data || data.length < 14 || data.length > 14) {
+                return messageToast("Preencha os dados corretamente", "error")
+            }
+        }
         saveInSessionStorage(labelInput, data)
         history.push(redirectPage)
     }
@@ -88,6 +99,7 @@ export default function InicioCadastro() {
                 {registrationForm()}
             </div>
             <Footer />
+            <ReactToast />
         </div>
     )
 }

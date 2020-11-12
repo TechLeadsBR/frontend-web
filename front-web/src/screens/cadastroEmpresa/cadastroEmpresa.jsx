@@ -7,7 +7,7 @@ import TextArea from './../../components/textAreaInput/textAreaInput'
 import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { formNewCompany } from './../../services/constants/templates'
-import { messageToast, getInSessionStorage } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 import { requestAPI } from '../../services/api'
 import { useHistory } from 'react-router-dom'
 
@@ -22,15 +22,15 @@ export default function CadastroEmpresa() {
 
     //#region Validations
     const confirmPasswordValidation = newCompany.senha !== null && newCompany.senha !== confirmPasswordState ? { border: "1px solid #BE0024" } : {}
-    
+
     const validateInputsNewCompany = () => {
         const { razaoSocial, email, senha, cnpj, atividadeEconomica, telefone, telefoneDois, descricaoEmpresa } = newCompany
-        if(!(razaoSocial && email && senha && cnpj && atividadeEconomica && telefone && telefoneDois && descricaoEmpresa)) {
+        if (!(razaoSocial && email && senha && cnpj && atividadeEconomica && telefone && telefoneDois && descricaoEmpresa)) {
             messageToast("Preencha os dados obrigatorios", "error")
             return false
-        } 
+        }
         else {
-            if (cnpj.length > 14 || cnpj.length < 14){
+            if (cnpj.length > 14 || cnpj.length < 14) {
                 messageToast("CNPJ Inválido", "error")
                 return false
             }
@@ -91,8 +91,7 @@ export default function CadastroEmpresa() {
                     labelText={"CNPJ*"}
                     name={"cnpj"}
                     type={"text"}
-                    currentValue={getInSessionStorage("CNPJ")}
-                    onChange={event => setStateNewCompany("cnpj", event.target.value)}
+                    currentValue={newCompany.cnpj}
                 />
                 <Input
                     labelText={"Atividade econômica (Nr CNAE)*"}

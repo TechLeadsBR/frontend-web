@@ -56,7 +56,7 @@ export default function EmpresasAdm() {
 
     const createObjectJobToArrayState = (data) => {
         const jobs = data.map(job => {
-            const { idVagaEmprego, titulo, nivel, cidade, tipoContrato, remuneracaoBeneficio} = job
+            const { idVagaEmprego, titulo, nivel, cidade, tipoContrato, remuneracaoBeneficio } = job
             return {
                 idVagaEmprego,
                 titulo,
@@ -72,7 +72,7 @@ export default function EmpresasAdm() {
 
     const createObjectRegistrationsToArrayState = (data) => {
         const registrations = data.map(registration => {
-            const { idInscricaoEmprego, dataInscricao, idAluno, idVagaEmprego }  = registration
+            const { idInscricaoEmprego, dataInscricao, idAluno, idVagaEmprego } = registration
             return {
                 idInscricaoEmprego,
                 dataInscricao,
@@ -138,7 +138,7 @@ export default function EmpresasAdm() {
         }
     }, [])
 
-    const deleteJobAPI = async () => {
+    const deleteJobAPI = useCallback(async () => {
         try {
             const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
 
@@ -149,7 +149,7 @@ export default function EmpresasAdm() {
         } catch (error) {
             messageToast("Parece que essa vaga tem inscrições!", "error")
         }
-    }
+    }, [jobIdToDelete])
 
     const getRegistrationsAPI = useCallback(async () => {
         try {
@@ -163,7 +163,7 @@ export default function EmpresasAdm() {
         }
     }, [])
 
-    const deleteRegistrationAPI = async () => {
+    const deleteRegistrationAPI = useCallback(async () => {
         try {
             const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
 
@@ -171,10 +171,10 @@ export default function EmpresasAdm() {
                 messageToast("Inscrição deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
-        } catch (error){
+        } catch (error) {
             messageToast("Ocorreu um erro ao excluir essa inscrição!", "error")
         }
-    }
+    }, [registrationIdToDelete])
     //#endregion
 
     // call requests api
@@ -283,7 +283,7 @@ export default function EmpresasAdm() {
                         functionAfterTime(1000, () => setShowModalDeleteJobOrRegistrations(value))
                     }}
                     rowSelected={(row) => setJobIdToDelete(row.idVagaEmprego)}
-                    />
+                />
                 <Table
                     action={true}
                     title={"Inscrições abertas"}
