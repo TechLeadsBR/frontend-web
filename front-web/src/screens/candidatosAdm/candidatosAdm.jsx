@@ -7,7 +7,6 @@ import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
-import { requestAPI } from './../../services/api'
 import { formatData, functionAfterTime } from './../../services/functions'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { messageToast } from './../../services/functions'
@@ -46,37 +45,32 @@ export default function CandidatosAdm() {
 
     //#region Requests API
     const getCandidatesInDataBase = useCallback(async () => {
-        studentActions.getAllStudents(request => {
-            createObjectForDataTable(request.data)
-        }, error => {
-            if (error) {
-                messageToast("Ocorreu um erro ao carregar os dados", "error")
-            }
-        })
+        studentActions.getAllStudents()
+            .then((request) => createObjectForDataTable(request.data))
+            .catch(() => messageToast("Ocorreu um erro ao carregar os dados", "error"))
     }, [])
 
-    const changeCandidateData = async () => {
-        studentActions.putStudent(request => {
+    const changeCandidateData = useCallback(async () => {
+        studentActions.putStudent(() => {
             messageToast("Dados do candidato alterado com sucesso", "success")
             setShowModal(false)
-        },
-        () => {
-            messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
-        }, { data: changeData, id: rowSelectedForChanges.idAluno })
-    }
-
-    const deleteCandidate = async () => {
-        try {
-            const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
-            if (request.status === 200) {
-                messageToast("Usuário deletado com sucuesso!", "success")
-                functionAfterTime(1500, () => setShowModal(false))
+        }, error => {
+            if (error){
+                messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
             }
+        }, { data: changeData, id: rowSelectedForChanges.idAluno })
+    }, [changeData, rowSelectedForChanges.idAluno])
 
-        } catch (error) {
-            messageToast("Impossível excluir registro no momento", "error")
-        }
-    }
+    const deleteCandidate = useCallback(async () => {
+        studentActions.deleteStudent(() => {
+            messageToast("Usuário deletado com sucuesso!", "success")
+            functionAfterTime(1500, () => setShowModal(false))
+        }, error => {
+            if (error) {
+                messageToast("Impossível excluir registro no momento", "error") 
+            }
+        }, { id: changeData.idAluno })
+    }, [changeData.idAluno])
     //#endregion
 
     useEffect(() => {

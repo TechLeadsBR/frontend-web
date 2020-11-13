@@ -12,10 +12,9 @@ import {
     functionAfterTime,
     formatUrlImage,
     getJtiUserInToken,
-    formatedTodayInDate,
     messageToast
 } from './../../services/functions'
-import { requestAPI } from './../../services/api'
+import { jobActions, jobApplicationActions } from './../../actions'
 
 function BuscarVagas() {
 
@@ -35,32 +34,24 @@ function BuscarVagas() {
 
 
     const getJobsFiltered = async () => {
-        try {
-            const request = await requestAPI("get", `/vagaemprego/${valueInput}`)
-            if (request.status === 200) {
+
+        jobActions.filterJobs(valueInput)
+            .then((request) => {
                 if (jobsFiltered.length === 0) setJobsFiltered(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+            })
+            .catch(() => messageToast("Ocorreu um erro ao buscar as vagas, aguarde um momento", "error"))
     }
 
-    const signUpForJob = useCallback(async () => {
-        const bodyRequestSignUpJob = {
-            dataInscricao: formatedTodayInDate(),
-            idAluno: getJtiUserInToken(),
-            idVagaEmprego: jobSelectedForViewInModal.idVagaEmprego
-        }
+    const signUpForJob = useCallback(() => {
+        const idAluno = getJtiUserInToken()
+        const idVagaEmprego = jobSelectedForViewInModal.idVagaEmprego
 
-        try {
-            const request = await requestAPI("post", "/inscricaoemprego", bodyRequestSignUpJob)
-            if (request.status === 201) {
+        jobApplicationActions.registerNewJobApplication(idAluno, idVagaEmprego)
+            .then(() => {
                 messageToast("Inscrição concluida com sucesso!", "success")
                 functionAfterTime(1500, () => setModalViewJobSelected(false))
-            }
-        } catch (error) {
-            messageToast("Parece que você ja se inscreveu nessa vaga!", "error")
-        }
+            })
+            .catch(() => messageToast("Parece que você ja se inscreveu nessa vaga!", "error"))
     }, [jobSelectedForViewInModal.idVagaEmprego])
 
     const createCardJobsFiltered = useMemo(() => (

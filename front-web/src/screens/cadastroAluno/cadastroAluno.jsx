@@ -14,9 +14,9 @@ import {
     SpecifyDisability
 } from '../../services/constants/data'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
-import { requestAPI } from './../../services/api'
 import { messageToast, getInSessionStorage, functionAfterTime } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
+import { studentActions, addressActions } from './../../actions'
 
 export default function CadastroAluno() {
 
@@ -88,34 +88,27 @@ export default function CadastroAluno() {
     //#endregion
 
     //#region Requests API
-    const saveNewAddressAPI = async () => {
+    const saveNewAddressAPI = () => {
         if (!validationInputNewAddress()) return
-        try {
-            const request = await requestAPI("post", "/endereco", newAddress)
 
-            if (request.status === 201) {
+        addressActions.registerNewAddress(newAddress)
+            .then((request) => {
                 const idAddress = request.data.message.split(" ")[5]
                 setStateNewStudent("idEndereco", idAddress)
-                await registerNewStudentAPI()
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
-        }
+                registerNewStudentAPI()
+            })
+            .catch(() => messageToast("Ocorreu um erro, verifique os dados digitados", "error"))
     }
 
-    const registerNewStudentAPI = async () => {
+    const registerNewStudentAPI = () => {
         if (!validationInputsNewStudent()) return
-        try {
-            const request = await requestAPI("post", "/aluno", newStudent)
 
-            if (request.status === 201) {
+        studentActions.registerNewStudent(newStudent)
+            .then(() => {
                 messageToast("Usuario cadastrado com sucesso!", "success")
-                functionAfterTime(5000, () => history.push("/login/aluno"))                
-            }
-
-        } catch (error) {
-            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
-        }
+                functionAfterTime(5000, () => history.push("/login/aluno"))
+            })
+            .catch(() => messageToast("Ocorreu um erro, verifique os dados digitados", "error"))
     }
     //#endregion
 

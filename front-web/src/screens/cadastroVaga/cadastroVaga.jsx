@@ -9,7 +9,6 @@ import ReactToast from './../../components/reactToast/reactToast'
 import Button from './../../components/button/button'
 import { useHistory } from 'react-router-dom'
 import { formNewJob } from './../../services/constants/templates'
-import { requestAPI } from './../../services/api'
 import {
     Levels,
     UF,
@@ -17,6 +16,7 @@ import {
 } from '../../services/constants/data'
 import { functionAfterTime } from './../../services/functions'
 import { messageToast } from './../../services/functions'
+import { jobActions } from './../../actions'
 
 export default function CadastroVaga() {
 
@@ -25,18 +25,13 @@ export default function CadastroVaga() {
 
     const internSetStateForm = (key, value) => setNewJob({ ...newJob, [key]: value })
 
-    const requestApiNewJob = async () => {
-        try {
-            const request = await requestAPI("post", "/vagaemprego", newJob)
-
-            if (request.status === 201) {
+    const requestApiNewJob = () => {
+        jobActions.registerNewJob(newJob)
+            .then(() => {
                 messageToast("Vaga cadastrada com sucesso!", "success")
                 functionAfterTime(5000, () => history.push("/gerenciar-vagas"))
-            }
-
-        } catch (error) {
-            messageToast("Ocorreu um erro ao cadastrar a vaga!", "error")
-        }
+            })
+            .catch(() => messageToast("Ocorreu um erro ao cadastrar a vaga!", "error"))
     }
 
     const formJobRegister = (
