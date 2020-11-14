@@ -12,14 +12,14 @@ import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../.
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { requestAPI } from './../../services/api'
 
-export default function Login() {
+function Login() {
 
     const history = useHistory()
     const { user } = useParams()
     const [login, setLogin] = useState({ email: null, senha: null })
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const verifyUser =  useCallback(() => {
+    const verifyUser = useCallback(() => {
         if (user !== undefined
             && user !== "administrador"
             && user !== "aluno"
@@ -100,3 +100,6 @@ export default function Login() {
         </div>
     )
 }
+
+
+export default React.memo(Login)

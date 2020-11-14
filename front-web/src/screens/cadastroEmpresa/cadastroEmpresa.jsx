@@ -86,8 +86,7 @@ export default function CadastroEmpresa() {
                     labelText={"CNPJ*"}
                     name={"cnpj"}
                     type={"text"}
-                    currentValue={getInSessionStorage("CNPJ")}
-                    onChange={event => setStateNewCompany("cnpj", event.target.value)}
+                    currentValue={newCompany.cnpj}
                 />
                 <Input
                     labelText={"Atividade econômica (Nr CNAE)*"}

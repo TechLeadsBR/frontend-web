@@ -11,7 +11,7 @@ import ReactToast from './../../components/reactToast/reactToast'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
 import { messageToast } from './../../services/functions'
-import { companyActions, jobActions } from './../../actions'
+import { companyActions, jobActions, jobApplicationActions } from './../../actions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
@@ -131,29 +131,19 @@ export default function EmpresasAdm() {
     }
 
     const getRegistrationsAPI = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/inscricaoemprego")
-
-            if (request.status === 200) {
-                createObjectRegistrationsToArrayState(request.data)
-            }
-        } catch (error) {
-            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
-        }
+        jobApplicationActions.getAllJobApplications()
+            .then(() => createObjectRegistrationsToArrayState(request.data))
+            .catch(() => messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error"))
     }, [])
 
-    const deleteRegistrationAPI = async () => {
-        try {
-            const request = await requestAPI("delete", `/inscricaoemprego/${registrationIdToDelete}`)
-
-            if (request.status === 200) {
+    const deleteRegistrationAPI = useCallback(async () => {
+        jobApplicationActions.deleteJobApplication(registrationIdToDelete)
+            .then(() => {
                 messageToast("Inscrição deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao excluir essa inscrição!", "error")
-        }
-    }
+            })
+            .catch(() => messageToast("Ocorreu um erro ao excluir essa inscrição!", "error"))
+    }, [registrationIdToDelete])
     //#endregion
 
     // call requests api
