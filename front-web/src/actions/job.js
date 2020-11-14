@@ -1,5 +1,16 @@
 import { requestAPI } from './../services/api'
 
+export const getAllJob = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const request = await requestAPI("get", "/vagaemprego")
+            if (request.status === 200) resolve(request)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 export const filterJobs = (value) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -20,6 +31,17 @@ export const registerNewJob = (newJob) => {
             if (request.status === 201) resolve(request)
         } catch (error) {
             reject(error)
+        }
+    })
+}
+
+export const deleteJob = (idJob) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const request = await requestAPI("delete", `/vagaemprego/${idJob}`)
+            if (request.status === 200) resolve(request)
+        } catch (error) {
+            reject (error)
         }
     })
 }

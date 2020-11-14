@@ -11,6 +11,7 @@ import ReactToast from './../../components/reactToast/reactToast'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
 import { messageToast } from './../../services/functions'
+import { companyActions, jobActions } from './../../actions'
 
 const companyColumnsTable = ["ID", "RazaoSocial", "Email", "Cnpj", "Telefone", "Telefone 2"]
 const jobsColumnsTable = ["ID", "Titulo", "Nivel", "Cidade", "Tipo Contrato", "Remuneracao/ Beneficio"]
@@ -56,7 +57,7 @@ export default function EmpresasAdm() {
 
     const createObjectJobToArrayState = (data) => {
         const jobs = data.map(job => {
-            const { idVagaEmprego, titulo, nivel, cidade, tipoContrato, remuneracaoBeneficio} = job
+            const { idVagaEmprego, titulo, nivel, cidade, tipoContrato, remuneracaoBeneficio } = job
             return {
                 idVagaEmprego,
                 titulo,
@@ -72,7 +73,7 @@ export default function EmpresasAdm() {
 
     const createObjectRegistrationsToArrayState = (data) => {
         const registrations = data.map(registration => {
-            const { idInscricaoEmprego, dataInscricao, idAluno, idVagaEmprego }  = registration
+            const { idInscricaoEmprego, dataInscricao, idAluno, idVagaEmprego } = registration
             return {
                 idInscricaoEmprego,
                 dataInscricao,
@@ -85,70 +86,48 @@ export default function EmpresasAdm() {
 
     //#region Request API
     const updateCompanyDataAPI = useCallback(async () => {
-        try {
-            const { email, telefone, telefoneDois } = changeDataCompany
-            const bodyRequestPut = {
-                email,
-                telefone,
-                telefoneDois
-            }
-            const request = await requestAPI("put", `/empresa/${changeDataCompany.idEmpresa}`, bodyRequestPut)
-            if (request.status === 200) {
+        const { email, telefone, telefoneDois } = changeDataCompany
+        const bodyRequestPut = {
+            email,
+            telefone,
+            telefoneDois
+        }
+        companyActions.alterCompany(changeDataCompany.idEmpresa, bodyRequestPut)
+            .then(() => {
                 messageToast("Empresa atualizada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
-            }
-        } catch (error) {
-            console.log(error)
-            messageToast("Erro ao atualizar empresa!", "error")
-        }
+            })
+            .catch(() => messageToast("Erro ao atualizar empresa!", "error"))
     }, [changeDataCompany])
 
     const getCompanysAPI = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/empresa")
-            if (request.status === 200) {
-                createObjectForCompanysArray(request.data)
-            }
-        } catch (error) {
-            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
-        }
+        companyActions.getAllCompanys()
+            .then(request => createObjectForCompanysArray(request.data))
+            .catch(() => messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error"))
     }, [])
 
     const deleteCompanyAPI = useCallback(async () => {
-        try {
-            const request = await requestAPI("delete", `/empresa/${changeDataCompany.idEmpresa}`)
-            if (request.status === 200) {
+        companyActions.deleteCompany(changeDataCompany.idEmpresa)
+            .then(() => {
                 messageToast("Empresa deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))
-            }
-        } catch (error) {
-            messageToast("Parece que essa empresa tem vagas cadastradas!", "error")
-        }
+            })
+            .catch(() => messageToast("Parece que essa empresa tem vagas cadastradas!", "error"))
     }, [changeDataCompany.idEmpresa])
 
     const getJobsAPI = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/vagaemprego")
-            if (request.status === 200) {
-                createObjectJobToArrayState(request.data)
-            }
-
-        } catch (error) {
-            messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error")
-        }
+        jobActions.getAllJob()
+            .then(request => createObjectJobToArrayState(request.data))
+            .catch(() => messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error"))
     }, [])
 
     const deleteJobAPI = async () => {
-        try {
-            const request = await requestAPI("delete", `/vagaemprego/${jobIdToDelete}`)
-
-            if (request.status === 200) {
+        jobActions.deleteJob(jobIdToDelete)
+            .then(() => {
                 messageToast("Vaga de emprego deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
-            }
-        } catch (error) {
-            messageToast("Parece que essa vaga tem inscrições!", "error")
-        }
+            })
+            .catch(() => messageToast("Parece que essa vaga tem inscrições!", "error"))
     }
 
     const getRegistrationsAPI = useCallback(async () => {
@@ -171,7 +150,7 @@ export default function EmpresasAdm() {
                 messageToast("Inscrição deletada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalDeleteJobOrRegistrations(false))
             }
-        } catch (error){
+        } catch (error) {
             messageToast("Ocorreu um erro ao excluir essa inscrição!", "error")
         }
     }
@@ -283,7 +262,7 @@ export default function EmpresasAdm() {
                         functionAfterTime(1000, () => setShowModalDeleteJobOrRegistrations(value))
                     }}
                     rowSelected={(row) => setJobIdToDelete(row.idVagaEmprego)}
-                    />
+                />
                 <Table
                     action={true}
                     title={"Inscrições abertas"}

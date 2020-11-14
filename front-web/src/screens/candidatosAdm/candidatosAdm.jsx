@@ -51,25 +51,21 @@ export default function CandidatosAdm() {
     }, [])
 
     const changeCandidateData = useCallback(async () => {
-        studentActions.putStudent(() => {
-            messageToast("Dados do candidato alterado com sucesso", "success")
-            setShowModal(false)
-        }, error => {
-            if (error){
-                messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
-            }
-        }, { data: changeData, id: rowSelectedForChanges.idAluno })
+        studentActions.alterStudent(rowSelectedForChanges.idAluno, changeData)
+            .then(() => {
+                messageToast("Dados do candidato alterado com sucesso", "success")
+                setShowModal(false)
+            })
+            .catch(() => messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error"))
     }, [changeData, rowSelectedForChanges.idAluno])
 
     const deleteCandidate = useCallback(async () => {
-        studentActions.deleteStudent(() => {
-            messageToast("Usuário deletado com sucuesso!", "success")
-            functionAfterTime(1500, () => setShowModal(false))
-        }, error => {
-            if (error) {
-                messageToast("Impossível excluir registro no momento", "error") 
-            }
-        }, { id: changeData.idAluno })
+        studentActions.deleteStudent(changeData.idAluno)
+            .then(() => {
+                messageToast("Usuário deletado com sucuesso!", "success")
+                functionAfterTime(1500, () => setShowModal(false))
+            })
+            .catch(() => messageToast("Impossível excluir registro no momento", "error") )
     }, [changeData.idAluno])
     //#endregion
 
