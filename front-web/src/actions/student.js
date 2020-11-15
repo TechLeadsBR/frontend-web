@@ -46,3 +46,15 @@ export const deleteStudent = async (id) => {
         }
     })
 }
+
+export const getInformationByStudentId = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const request = await requestAPI("get", "/aluno/id")
+
+            if (request.status === 200) resolve(request)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}

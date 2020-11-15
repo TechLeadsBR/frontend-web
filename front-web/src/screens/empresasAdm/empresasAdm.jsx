@@ -130,7 +130,7 @@ export default function EmpresasAdm() {
     }
 
     const getRegistrationsAPI = useCallback(async () => {
-        jobApplicationActions.getAllJobApplications()
+        jobApplicationActions.getJobApplications()
             .then(request => createObjectRegistrationsToArrayState(request.data))
             .catch(() => messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error"))
     }, [])

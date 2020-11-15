@@ -7,7 +7,7 @@ import TextArea from './../../components/textAreaInput/textAreaInput'
 import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { formNewCompany } from './../../services/constants/templates'
-import { messageToast, getInSessionStorage } from './../../services/functions'
+import { messageToast } from './../../services/functions'
 import { companyActions } from './../../actions'
 import { useHistory } from 'react-router-dom'
 

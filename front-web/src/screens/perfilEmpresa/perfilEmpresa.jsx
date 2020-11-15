@@ -5,8 +5,8 @@ import CardJob from './../../components/cardJob/cardJob'
 import stylesCss from './perfilEmpresa.module.css'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
-import { requestAPI } from './../../services/api'
-import { formatUrlImage, functionAfterTime } from './../../services/functions'
+import { formatUrlImage, functionAfterTime, messageToast } from './../../services/functions'
+import { companyActions, jobActions } from './../../actions'
 
 export default function PerfilEmpresa() {
     const [dataCompany, setDataCompany] = useState({})
@@ -18,27 +18,15 @@ export default function PerfilEmpresa() {
     }, [dataCompany])
 
     const getInformationsUser = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/empresa/id")
-
-            if (request.status === 200) {
-                setDataCompany(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        companyActions.getInformationByCompanyId()
+            .then(request => setDataCompany(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
 
     const requestGetJobApplication = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/vagaemprego/empresa")
-
-            if (request.status === 200) {
-                setUserApplication(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        jobActions.getJobOpeningsByCompany()
+            .then(request => setUserApplication(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
     useEffect(() => {
         setFalseLoadingPage()

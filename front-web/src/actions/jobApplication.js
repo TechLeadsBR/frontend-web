@@ -17,7 +17,7 @@ export const registerNewJobApplication = (idAluno, idVagaEmprego) => {
     })
 }
 
-export const getAllJobApplications = () => {
+export const getJobApplications = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const request = await requestAPI("get", "/inscricaoemprego")

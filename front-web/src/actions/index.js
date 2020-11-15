@@ -6,6 +6,7 @@ import * as jobApplicationActions from './jobApplication'
 import * as metricActions from './metrics'
 import * as administratorActions from './administrator'
 import * as loginActions from './login'
+import * as uploadActions from './upload'
 
 export {
     studentActions,
@@ -15,5 +16,6 @@ export {
     jobApplicationActions,
     metricActions,
     administratorActions,
-    loginActions
+    loginActions,
+    uploadActions
 }

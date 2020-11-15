@@ -14,7 +14,6 @@ import {
     SpecifyDisability
 } from '../../services/constants/data'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
-import { messageToast, getInSessionStorage, functionAfterTime } from './../../services/functions'
 import { messageToast, functionAfterTime } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 import { studentActions, addressActions } from './../../actions'

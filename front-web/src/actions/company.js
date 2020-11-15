@@ -45,3 +45,14 @@ export const deleteCompany = (idCompany) => {
         }
     })
 }
+
+export const getInformationByCompanyId = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const request = await requestAPI("get", "/empresa/id")
+            if (request.status === 200) resolve(request)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
