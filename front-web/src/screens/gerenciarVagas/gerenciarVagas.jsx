@@ -9,10 +9,10 @@ import Input from './../../components/input/input'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import TextAreaInput from './../../components/textAreaInput/textAreaInput'
 import ReactToast from './../../components/reactToast/reactToast'
-import { requestAPI } from '../../services/api'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
 import { Link, useHistory } from 'react-router-dom'
 import { messageToast } from './../../services/functions'
+import { jobActions } from './../../actions'
 
 export default function GerenciarVagas() {
 
@@ -25,11 +25,9 @@ export default function GerenciarVagas() {
     const setJobEditState = (key, value) => setJobEdit({ ...jobEdit, [key]: value })
 
     const getJobs = useCallback(async () => {
-        const request = await requestAPI("get", "/vagaemprego/empresa")
-
-        if (request.status === 200) {
-            setJobs(request.data)
-        }
+        jobActions.getJobOpeningsByCompany()
+            .then(request => setJobs(request.data))
+            .catch(() => messageToast("Ocorreu um erro ao carregar os dados", "error"))
     }, [])
 
     useEffect(() => {
@@ -44,28 +42,21 @@ export default function GerenciarVagas() {
             titulo: title
         }
 
-        try {
-            const request = await requestAPI("put", `/vagaemprego/${jobEdit.idVagaEmprego}`, jobUpdated)
-            if (request.status === 200) {
+        jobActions.alterJob(jobEdit.idVagaEmprego, jobUpdated)
+            .then(() => {
                 messageToast("Vaga de emprego atualizada com sucesso", "success")
                 setShowModalEditJob(false)
-            }
-        } catch (error) {
-            messageToast("Erro ao atualizar vaga de emprego", "error")
-        }
+            })
+            .catch(() => messageToast("Erro ao atualizar vaga de emprego", "error"))
     }
 
     const deleteJobAPI = async () => {
-        try {
-            const request = await requestAPI("delete", `/vagaemprego/${jobEdit.idVagaEmprego}`)
-            if (request.status === 200) {
+        jobActions.deleteJob(jobEdit.idVagaEmprego)
+            .then(() => {
                 messageToast("Vaga excluida com sucesso", "success")
                 setShowModalEditJob(false)
-            }
-
-        } catch (error) {
-            messageToast("Erro ao deletar vaga de emprego", "error")
-        }
+            })
+            .catch(() => messageToast("Erro ao deletar vaga de emprego", "error"))
     }
     //#endregion
 

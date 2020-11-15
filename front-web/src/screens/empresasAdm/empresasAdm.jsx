@@ -6,7 +6,6 @@ import Table from './../../components/table/table'
 import Modal from './../../components/modal/modal'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
-import { requestAPI } from './../../services/api'
 import ReactToast from './../../components/reactToast/reactToast'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime } from './../../services/functions'
@@ -132,7 +131,7 @@ export default function EmpresasAdm() {
 
     const getRegistrationsAPI = useCallback(async () => {
         jobApplicationActions.getAllJobApplications()
-            .then(() => createObjectRegistrationsToArrayState(request.data))
+            .then(request => createObjectRegistrationsToArrayState(request.data))
             .catch(() => messageToast("Ocorreu algum erro em nossos servidores, aguarde um momento!", "error"))
     }, [])
 

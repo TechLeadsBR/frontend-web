@@ -10,7 +10,7 @@ import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-sen
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../../services/functions'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { requestAPI } from './../../services/api'
+import { loginActions } from './../../actions'
 
 function Login() {
 
@@ -38,19 +38,14 @@ function Login() {
     }, [user])
 
     const requestApiLogin = async () => {
-        try {
-            const request = await requestAPI("post", `/login/${user}`, login)
-
-            if (request.status === 200) {
+        loginActions.loginUser(user, login)
+            .then(request => {
                 messageToast("Login realizado com sucesso!", "success")
                 saveTokenInLocalStorage(request.data.message)
-
                 const pushUser = user === "aluno" ? "/perfil-aluno" : user === "empresa" ? "/perfil-empresa" : "/inicial-administrador"
                 functionAfterTime(5000, () => history.push(pushUser))
-            }
-        } catch (error) {
-            messageToast("Usuario não encontrado!", "error")
-        }
+            })
+            .catch(() => messageToast("Usuario não encontrado!", "error"))
     }
 
     const childModalFormLogin = (
