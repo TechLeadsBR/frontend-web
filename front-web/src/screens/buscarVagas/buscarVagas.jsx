@@ -19,7 +19,6 @@ import { jobActions, jobApplicationActions } from './../../actions'
 function BuscarVagas() {
 
     const [showIconLoagingPage, setShowIconLoadingPage] = useState(true)
-    const [valueInput, setValueInput] = useState("")
     const [modalViewJobSelected, setModalViewJobSelected] = useState(false)
     const [jobSelectedForViewInModal, setJobSelectedForViewInModal] = useState({})
     const [jobsFiltered, setJobsFiltered] = useState([])
@@ -33,11 +32,12 @@ function BuscarVagas() {
     }, [setFalseLoadingPage])
 
 
-    const getJobsFiltered = async () => {
-
-        jobActions.filterJobs(valueInput)
-            .then((request) => {
-                if (jobsFiltered.length === 0) setJobsFiltered(request.data)
+    const getJobsFiltered = (value) => {
+        jobActions.filterJobs(value)
+            .then((request) => request.data)
+            .then(data => {
+                if(data.length === 0) return messageToast("Nenhuma vaga encontrada", "error")
+                setJobsFiltered(data)
             })
             .catch(() => messageToast("Ocorreu um erro ao buscar as vagas, aguarde um momento", "error"))
     }
@@ -55,25 +55,26 @@ function BuscarVagas() {
     }, [jobSelectedForViewInModal.idVagaEmprego])
 
     const createCardJobsFiltered = useMemo(() => (
-        jobsFiltered && jobsFiltered.map((job, index) => {
+        jobsFiltered.length !== 0 && jobsFiltered.map((job, index) => {
             const { idEmpresaNavigation, descricaoVaga, nivel, cidade, titulo, idVagaEmprego } = job
             const { nomeFoto, razaoSocial } = idEmpresaNavigation
             return (
-                <CardJob
-                    callbackJobInformation={job => {
-                        setJobSelectedForViewInModal({ ...job, idVagaEmprego })
-                        setModalViewJobSelected(true)
-                    }}
-                    key={index}
-                    job={{
-                        title: titulo,
-                        srcImgCompany: formatUrlImage(nomeFoto),
-                        description: descricaoVaga,
-                        level: nivel,
-                        local: cidade,
-                        nameCompany: razaoSocial,
-                    }}
-                />
+                <React.Fragment key={index}>
+                    <CardJob
+                        callbackJobInformation={job => {
+                            setJobSelectedForViewInModal({ ...job, idVagaEmprego })
+                            setModalViewJobSelected(true)
+                        }}
+                        job={{
+                            title: titulo,
+                            srcImgCompany: formatUrlImage(nomeFoto),
+                            description: descricaoVaga,
+                            level: nivel,
+                            local: cidade,
+                            nameCompany: razaoSocial,
+                        }}
+                    />
+                </React.Fragment>
             )
         })
     ), [jobsFiltered])
@@ -124,8 +125,7 @@ function BuscarVagas() {
             <Header typeHeader={"student"} />
             <SearchJobs
                 callbackValue={value => {
-                    setValueInput(value)
-                    functionAfterTime(1000, () => getJobsFiltered())
+                    functionAfterTime(1000, () => getJobsFiltered(value))
                 }}
             />
             <div className={stylesCss.jobsFiltered}>

@@ -85,13 +85,13 @@ export default function EmpresasAdm() {
 
     //#region Request API
     const updateCompanyDataAPI = useCallback(async () => {
-        const { email, telefone, telefoneDois } = changeDataCompany
+        const { email, telefone, telefoneDois, idEmpresa } = changeDataCompany
         const bodyRequestPut = {
             email,
             telefone,
             telefoneDois
         }
-        companyActions.alterCompany(changeDataCompany.idEmpresa, bodyRequestPut)
+        companyActions.alterCompany(idEmpresa, bodyRequestPut)
             .then(() => {
                 messageToast("Empresa atualizada com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModalEditCompany(false))

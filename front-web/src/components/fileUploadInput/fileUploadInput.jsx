@@ -28,6 +28,7 @@ export default function FileUploadInput({ callbackWithFile }) {
                 type="file"
                 onChange={event => setNewFile(event.target.value)}
                 ref={file}
+                accept={"image/*"}
             />
         </div>
     )

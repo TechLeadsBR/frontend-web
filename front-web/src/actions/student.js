@@ -15,7 +15,7 @@ export const registerNewStudent = (newStudent) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!newStudent) throw new Error("Parametros obrigatorios não identificados")
-            const request = await requestAPI("post", "/aluno")
+            const request = await requestAPI("post", "/aluno", newStudent)
             if (request.status === 201) resolve(request)
         } catch (error) {
             reject(error)

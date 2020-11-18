@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import CardJob from './../../components/cardJob/cardJob'
@@ -13,26 +13,28 @@ export default function PerfilEmpresa() {
     const [jobsCompany, setUserApplication] = useState([])
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const setFalseLoadingPage = useCallback(() => {
-        if (Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
-    }, [dataCompany])
+    const setFalseLoadingPage = () => {
+        functionAfterTime(2000, () => setShowLoadingIcon(false))
+    }
 
-    const getInformationsUser = useCallback(async () => {
+    const getInformationsUser = () => {
         companyActions.getInformationByCompanyId()
-            .then(request => setDataCompany(request.data))
+            .then(request => request.data)
+            .then(data => setDataCompany(data))
             .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
-    }, [])
+    }
 
-    const requestGetJobApplication = useCallback(async () => {
+    const requestGetJobApplication =  () => {
         jobActions.getJobOpeningsByCompany()
             .then(request => setUserApplication(request.data))
             .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
-    }, [])
+    }
+
     useEffect(() => {
         setFalseLoadingPage()
         getInformationsUser()
         requestGetJobApplication()
-    }, [getInformationsUser, requestGetJobApplication, setFalseLoadingPage])
+    }, [])
 
     const childUserInformations = useMemo(() => {
         const { razaoSocial, email, telefone, descricaoEmpresa } = dataCompany
