@@ -6,8 +6,9 @@ import CardJob from './../../components/cardJob/cardJob'
 import Modal from './../../components/modal/modal'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { formatUrlImage, functionAfterTime } from './../../services/functions'
-import { requestAPI } from './../../services/api'
 import { BehavioralProfiles } from './../../services/constants/data'
+import { studentActions, jobApplicationActions } from './../../actions'
+import { messageToast } from './../../services/functions'
 
 export default function PerfilAluno() {
 
@@ -24,27 +25,15 @@ export default function PerfilAluno() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     const requestGetJobApplication = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/inscricaoemprego")
-
-            if (request.status === 200) {
-                setUserApplication(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        jobApplicationActions.getJobApplications()
+            .then(request => setUserApplication(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
 
     const getInformationsUser = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/aluno/id")
-
-            if (request.status === 200) {
-                setDataStudent(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        studentActions.getInformationByStudentId()
+            .then(request => setDataStudent(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
 
     const setFalseLoadingPage = useCallback(() => {
@@ -118,7 +107,6 @@ export default function PerfilAluno() {
 
     const cardsJobApplication = useMemo(() => (
         userApplications && userApplications.map((job, index) => {
-            console.log('cardsss')
             const { descricaoVaga, cidade, nivel, titulo } = job.idVagaEmpregoNavigation
             const { razaoSocial, nomeFoto } = job.idVagaEmpregoNavigation.idEmpresaNavigation
             const pathImage = formatUrlImage(nomeFoto)

@@ -7,10 +7,10 @@ import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import ReactToast from './../../components/reactToast/reactToast'
 import stylesCss from './candidatosAdm.module.css'
-import { requestAPI } from './../../services/api'
 import { formatData, functionAfterTime } from './../../services/functions'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { messageToast } from './../../services/functions'
+import { studentActions } from './../../actions'
 
 const columnsTable = ["ID", "Nome", "Email", "RG", "Data Nascimento", "Telefone", "Genero"]
 
@@ -28,7 +28,6 @@ export default function CandidatosAdm() {
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
     const createObjectForDataTable = (data) => {
-        console.log("createObjectForDataTable")
         const candidates = data.map(item => {
             return {
                 idAluno: item.idAluno,
@@ -46,43 +45,28 @@ export default function CandidatosAdm() {
 
     //#region Requests API
     const getCandidatesInDataBase = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/aluno")
-            console.log(request)
-            if (request.status === 200) {
-                console.log('AQUI')
-                createObjectForDataTable(request.data)
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao carregar os dados", "error")
-        }
+        studentActions.getAllStudents()
+            .then((request) => createObjectForDataTable(request.data))
+            .catch(() => messageToast("Ocorreu um erro ao carregar os dados", "error"))
     }, [])
 
-    const changeCandidateData = async () => {
-        try {
-            const request = await requestAPI(`put`, `/aluno/${rowSelectedForChanges.idAluno}`, changeData)
-            if (request.status === 200) {
+    const changeCandidateData = useCallback(async () => {
+        studentActions.alterStudent(rowSelectedForChanges.idAluno, changeData)
+            .then(() => {
                 messageToast("Dados do candidato alterado com sucesso", "success")
                 setShowModal(false)
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error")
-        }
+            })
+            .catch(() => messageToast("Ocorreu um erro ao atualizar os dados do candidato", "error"))
+    }, [changeData, rowSelectedForChanges.idAluno])
 
-    }
-
-    const deleteCandidate = async () => {
-        try {
-            const request = await requestAPI("delete", `/aluno/${changeData.idAluno}`)
-            if (request.status === 200) {
+    const deleteCandidate = useCallback(async () => {
+        studentActions.deleteStudent(changeData.idAluno)
+            .then(() => {
                 messageToast("Usuário deletado com sucuesso!", "success")
                 functionAfterTime(1500, () => setShowModal(false))
-            }
-
-        } catch (error) {
-            messageToast("Impossível excluir registro no momento", "error")
-        }
-    }
+            })
+            .catch(() => messageToast("Impossível excluir registro no momento", "error") )
+    }, [changeData.idAluno])
     //#endregion
 
     useEffect(() => {

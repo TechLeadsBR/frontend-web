@@ -1,50 +1,40 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import CardJob from './../../components/cardJob/cardJob'
 import stylesCss from './perfilEmpresa.module.css'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import GrayBackgroundProfile from './../../components/grayBackgroundProfile/grayBackgroundProfile'
-import { requestAPI } from './../../services/api'
-import { formatUrlImage, functionAfterTime } from './../../services/functions'
+import { formatUrlImage, functionAfterTime, messageToast } from './../../services/functions'
+import { companyActions, jobActions } from './../../actions'
 
 export default function PerfilEmpresa() {
     const [dataCompany, setDataCompany] = useState({})
     const [jobsCompany, setUserApplication] = useState([])
     const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const setFalseLoadingPage = useCallback(() => {
-        if (Object.keys(dataCompany).length !== 0) functionAfterTime(2000, () => setShowLoadingIcon(false))
-    }, [dataCompany])
+    const setFalseLoadingPage = () => {
+        functionAfterTime(2000, () => setShowLoadingIcon(false))
+    }
 
-    const getInformationsUser = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/empresa/id")
+    const getInformationsUser = () => {
+        companyActions.getInformationByCompanyId()
+            .then(request => request.data)
+            .then(data => setDataCompany(data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
+    }
 
-            if (request.status === 200) {
-                setDataCompany(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }, [])
+    const requestGetJobApplication =  () => {
+        jobActions.getJobOpeningsByCompany()
+            .then(request => setUserApplication(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
+    }
 
-    const requestGetJobApplication = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/vagaemprego/empresa")
-
-            if (request.status === 200) {
-                setUserApplication(request.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }, [])
     useEffect(() => {
         setFalseLoadingPage()
         getInformationsUser()
         requestGetJobApplication()
-    }, [getInformationsUser, requestGetJobApplication, setFalseLoadingPage])
+    }, [])
 
     const childUserInformations = useMemo(() => {
         const { razaoSocial, email, telefone, descricaoEmpresa } = dataCompany

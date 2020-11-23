@@ -8,7 +8,7 @@ import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { formNewCompany } from './../../services/constants/templates'
 import { messageToast } from './../../services/functions'
-import { requestAPI } from '../../services/api'
+import { companyActions } from './../../actions'
 import { useHistory } from 'react-router-dom'
 
 export default function CadastroEmpresa() {
@@ -43,20 +43,15 @@ export default function CadastroEmpresa() {
     }
     //#endregion
 
-    const registerNewCompanyAPI = async () => {
+    const registerNewCompanyAPI = () => {
         if (!validateInputsNewCompany()) return
 
-        try {
-            const request = await requestAPI("post", "/empresa", newCompany)
-
-            if (request.status === 201) {
+        companyActions.registerNewCompany(newCompany)
+            .then(() => {
                 messageToast("Empresa cadastrada com sucesso!", "success")
                 history.push("/login/empresa")
-            }
-
-        } catch (error) {
-            messageToast("Ocorreu um erro, verifique os dados digitados", "error")
-        }
+            })
+            .catch(() => messageToast("Ocorreu um erro, verifique os dados digitados", "error"))
     }
 
     const formRegisterCompany = (

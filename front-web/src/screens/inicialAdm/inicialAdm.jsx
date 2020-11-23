@@ -9,10 +9,10 @@ import Footer from './../../components/footer/footer'
 import ReactToast from './../../components/reactToast/reactToast'
 import Table from './../../components/table/table'
 import Modal from './../../components/modal/modal'
-import { requestAPI } from './../../services/api'
 import { functionAfterTime } from './../../services/functions'
 import { formNewAdministrator } from './../../services/constants/templates'
 import { messageToast } from './../../services/functions'
+import { metricActions, administratorActions } from './../../actions'
 
 const administratorColumnsTable = ["ID", "Nome", "Email", "CPF"]
 
@@ -43,49 +43,30 @@ export default function InicialAdm() {
 
     //#region Requests
     const requestNewAdmAPI = async () => {
-        try {
-            const request = await requestAPI("post", "/administrador", newAdministrator)
-
-            if (request.status === 201) {
-                messageToast("Administrador cadastrado com sucesso!", "success")
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao cadastrar o novo administrador", "error")
-        }
+        administratorActions.registerNewAdministrator(newAdministrator)
+            .then(() => messageToast("Administrador cadastrado com sucesso!", "success"))
+            .catch(() => messageToast("Ocorreu um erro ao cadastrar o novo administrador", "error"))
     }
 
     const getInformationsGrafic = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/metrics")
-
-            if (request.status === 200) {
-                setDataGrafic(request.data)
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
-        }
+        metricActions.getMetrics()
+            .then(request => setDataGrafic(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
 
     const getAdministratorsAPI = useCallback(async () => {
-        try {
-            const request = await requestAPI("get", "/administrador")
-            if (request.status === 200) createObjectToDataTableAdministrators(request.data)
-        } catch (error) {
-            messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error")
-        }
+        administratorActions.getAllAdministrators()
+            .then(request => createObjectToDataTableAdministrators(request.data))
+            .catch(() => messageToast("Ocorreu um erro em nossos servidores, aguarde um momento", "error"))
     }, [])
 
     const deleteAdministratorAPI = async () => {
-        try {
-            const request = await requestAPI("delete", `/administrador/${idAdministratorToExclude}`)
-
-            if (request.status === 200) {
+        administratorActions.deleteAdministrator(idAdministratorToExclude)
+            .then(() => {
                 messageToast("Administrador excluido com sucesso!", "success")
                 setShowModalDeleteAdministrator(false)
-            }
-        } catch (error) {
-            messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento", "error")
-        }
+            })
+            .catch(() => messageToast("Ocorreu um erro ao excluir administrador, aguarde um momento", "error"))
     }
     //#endregion
 
