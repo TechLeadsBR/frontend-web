@@ -9,6 +9,7 @@
 }
 
 .jobsFiltered{
+    min-height: 45vh;
     width: 100%;
     display: flex;
     flex-direction: column;
