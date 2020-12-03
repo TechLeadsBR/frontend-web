@@ -1,6 +1,6 @@
 import React from 'react'
 import stylesCss from './fileUploadInput.module.css'
-import iconUploadFile from './../../assets/images/icons/files.png'
+import { iconUploadFile } from './../../assets/images'
 import { useState } from 'react'
 import { useRef } from 'react'
 

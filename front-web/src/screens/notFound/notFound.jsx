@@ -1,7 +1,6 @@
 import React from 'react'
-import imgNotFound from './../../assets/images/universal/error_404.png'
 import stylesCss from './notFound.module.css'
-
+import { imgNotFound } from './../../assets/images'
 
 export default function NotFound() {
     return (

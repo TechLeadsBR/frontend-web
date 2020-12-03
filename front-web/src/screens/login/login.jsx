@@ -6,11 +6,11 @@ import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
 import ReactToast from './../../components/reactToast/reactToast'
-import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../../services/functions'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { loginActions } from './../../actions'
+import { logoVermelha } from './../../assets/images'
 
 function Login() {
 

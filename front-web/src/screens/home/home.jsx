@@ -6,18 +6,20 @@ import Footer from './../../components/footer/footer'
 import CardTechnologiesHome from '../../components/cardTechnologiesHome/cardTechnologiesHome'
 import { Colors } from '../../services/constants/constants'
 
-import imgAmbienteTrabalho from './../../assets/images/universal/ambiente-de-trabalho-1.png'
-import imgAmbienteTrabalhoCompanyRender from './../../assets/images/universal/ambiente-de-trabalho-produtividade.jpg'
-import imgLogoBrq from './../../assets/images/partnerCompanies/logo-brq-digital-solutions.png'
-import imgLogoSpaceNeedle from './../../assets/images/partnerCompanies/logo-space-needle.png'
-import imgLogoInteliTrader from './../../assets/images/partnerCompanies/logo-inteli-trader.png'
-import imgNotebookWithLogo from './../../assets/images/universal/notebook-with-talentos-logo.png'
-import imgFullStack from './../../assets/images/universal/full-stack.png'
-import imgBackEnd from './../../assets/images/universal/back-end.jpeg'
-import imgFrontEnd from './../../assets/images/universal/front-end.jpg'
-import imgDesignUx from './../../assets/images/universal/design-ux.png'
-import imgGroupIcon from './../../assets/images/icons/group.png'
-import imgCurriculoIcon from './../../assets/images/icons/curriculo.png'
+import { 
+    imgAmbienteTrabalho,
+    imgAmbienteTrabalhoCompanyRender,
+    imgBackEnd,
+    imgCurriculoIcon,
+    imgDesignUx,
+    imgFrontEnd,
+    imgFullStack,
+    imgGroupIcon,
+    imgLogoBrq,
+    imgLogoInteliTrader,
+    imgLogoSpaceNeedle,
+    imgNotebookWithLogo
+} from './../../assets/images'
 
 import studentStylesCss from './homeStudent.module.css'
 import companyStylesCss from './homeCompany.module.css'
@@ -154,7 +156,7 @@ export default function Home() {
             />
             <div className={stylesCss.divFilmFrame}>
                 <FilmFrame
-                    styleProps={{ bgColorRgba: backgroundFilmFrame, height: "55vh", width: "100%" }}
+                    styleProps={{ bgColorRgba: backgroundFilmFrame, type: "full" }}
                     srcImg={srcImageFilmFrame}
                 >
                     {childFilmFrame}

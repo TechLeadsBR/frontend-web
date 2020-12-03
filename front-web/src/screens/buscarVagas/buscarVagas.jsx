@@ -84,7 +84,7 @@ function BuscarVagas() {
         return (
             modalViewJobSelected && (
                 <div className={stylesCss.backgroundModalWithJob}>
-                    <Modal styleProps={{ width: "60vh" }}>
+                    <Modal>
                         <div className={stylesCss.contentModalWithJob}>
                             <p onClick={() => setModalViewJobSelected(false)}>X</p>
                             <div>

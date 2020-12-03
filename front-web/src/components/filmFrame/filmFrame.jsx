@@ -4,8 +4,7 @@ import stylesCss from './filmFrame.module.css'
 function FilmFrame({ 
         styleProps: { 
             bgColorRgba, 
-            width, 
-            height 
+            type
         }, 
         srcImg, 
         children 
@@ -13,12 +12,10 @@ function FilmFrame({
     
     const stylePropsLeftAndFrame = {
         'backgroundImage': `linear-gradient(rgba(${bgColorRgba}), rgba(${bgColorRgba})), url(${srcImg})`,
-        'width': width ? width : "100%",
-        'height': height
     }
 
     return (
-        <div className={stylesCss.root} style={stylePropsLeftAndFrame}>
+        <div className={`${stylesCss.root} ${stylesCss[type]}`} style={stylePropsLeftAndFrame}>
             {children}
         </div>
     )

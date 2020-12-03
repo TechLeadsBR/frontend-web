@@ -1,6 +1,6 @@
 import React from 'react'
 import stylesCss from './table.module.css'
-import iconPenAction from './../../assets/images/icons/pen.png'
+import { iconPenAction } from './../../assets/images'
 
 export default function Table({
     columnsTable,

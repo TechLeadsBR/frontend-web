@@ -1,7 +1,9 @@
-import iconSharkProfile from './../../assets/images/icons/sharkProfile.png'
-import iconCatProfile from './../../assets/images/icons/catProfile.png'
-import iconEagleProfile from './../../assets/images/icons/eagleProfile.png'
-import iconWolfProfile from './../../assets/images/icons/wolfProfile.png'
+import {
+    iconSharkProfile,
+    iconCatProfile,
+    iconEagleProfile,
+    iconWolfProfile
+} from './../../assets/images'
 
 export const Positions = [
     "Desenvolvedor Front-end",

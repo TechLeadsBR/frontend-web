@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import stylesCss from './loadingPage.module.css'
-import iconLoading from './../../assets/images/icons/loading.png'
+import { iconLoading } from './../../assets/images'
 
 function LoadingPage({ visible }){
 

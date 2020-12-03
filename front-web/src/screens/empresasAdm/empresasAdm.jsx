@@ -154,7 +154,7 @@ export default function EmpresasAdm() {
 
     const modalForEditCompany = useMemo(() => (
         <div className={stylesCss.modalForEditCompany}>
-            <Modal styleProps={{ width: "50%" }}>
+            <Modal>
                 <div className={stylesCss.contentModalForEditCompany}>
                     <p onClick={() => setShowModalEditCompany(false)}>X</p>
                     <h2>Editar: {changeDataCompany.razaoSocial}</h2>
@@ -212,7 +212,7 @@ export default function EmpresasAdm() {
 
     const modalDeleteJob = (
         <div className={stylesCss.modalDeleteJob}>
-            <Modal styleProps={{ height: "20vh" }}>
+            <Modal styleProps={{ height: "small_height" }}>
                 <div className={stylesCss.contentModalDeleteJob}>
                     <p onClick={() => setShowModalDeleteJobOrRegistrations(false)}>X</p>
                     <Button

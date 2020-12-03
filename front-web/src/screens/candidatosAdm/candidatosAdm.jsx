@@ -75,7 +75,7 @@ export default function CandidatosAdm() {
 
     const contentModalForChanges = (
         <div className={stylesCss.modalEditData}>
-            <Modal styleProps={{ width: "50%" }}>
+            <Modal styleProps={{ height: "medium_height" }}>
                 <div className={stylesCss.contentModalEditData}>
                     <p onClick={() => setShowModal(false)}>X</p>
                     <h2>Editar: {rowSelectedForChanges.Nome}</h2>

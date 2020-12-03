@@ -95,7 +95,7 @@ export default function GerenciarVagas() {
 
     const modalEditJob = (
         <div className={stylesCss.backgroundModalEditJob}>
-            <Modal styleProps={{ width: "40%" }}>
+            <Modal>
                 <div className={stylesCss.contentModalEditJob}>
                     <p onClick={() => setShowModalEditJob(false)}>X</p>
                     <h2>Editar vaga de emprego</h2>

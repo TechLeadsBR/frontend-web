@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import stylesCss from './menuIconHeader.module.css'
-import iconUser from './../../assets/images/icons/user.png'
 import { Link } from 'react-router-dom'
+import { iconUser } from './../../assets/images'
 
  export default function MenuIconHeader({ typeHeader }) {
     

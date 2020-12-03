@@ -1,10 +1,10 @@
 import React, { useState, memo } from 'react'
 import Button from './../../components/button/button'
-import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
 import { Link, useHistory } from 'react-router-dom'
+import { logoVermelha } from './../../assets/images'
 
 function Header({ typeHeader = null, callback }) {
 

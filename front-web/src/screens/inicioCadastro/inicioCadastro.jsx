@@ -10,10 +10,12 @@ import { useParams, useHistory } from 'react-router-dom'
 import { Colors } from '../../services/constants/constants'
 import { saveInSessionStorage } from './../../services/functions'
 import { messageToast, functionAfterTime } from './../../services/functions'
+import { 
+    logoVermelha, 
+    imgAmbienteDeTrabalho, 
+    imgAmbienteDeTrabalhoCompanyRender 
+} from './../../assets/images'
 
-import logoVermelha from './../../assets/images/logos/logo-vermelha-talentos-senai.png'
-import imgAmbienteDeTrabalho from './../../assets/images/universal/ambiente-de-trabalho-4.jpg'
-import imgAmbienteDeTrabalhoCompanyRender from './../../assets/images/universal/ambiente-de-trabalho-5.jpg'
 
 export default function InicioCadastro() {
 
@@ -92,7 +94,7 @@ export default function InicioCadastro() {
             <div className={stylesCss.contentPage}>
                 <FilmFrame
                     srcImg={imgFilmFrame}
-                    styleProps={{ width: "45%", height: "75vh", bgColorRgba: rgbaFilmFrame }}
+                    styleProps={{ type: "side", bgColorRgba: rgbaFilmFrame }}
                 >
                     {childFilmFrame}
                 </FilmFrame>

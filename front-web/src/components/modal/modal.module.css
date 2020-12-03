@@ -10,6 +10,22 @@
     padding: 40px 50px;
 }
 
+.small_height {
+    height: 20vh;
+}
+
+.medium {
+    width: 60%;
+}
+
+.medium_height {
+    height: 70vh;
+}
+
+.large {
+    width: 90%;
+}
+
 @media (max-width: 1250px){
     .root {
         width: 50%;

@@ -131,7 +131,7 @@ export default function InicialAdm() {
 
     const modalDeleteAdministrator = (
         <div className={styleCss.backgroundModalDeleteAdministrator}>
-            <Modal styleProps={{ height: "20vh" }}>
+            <Modal styleProps={{ height: "small_height" }}>
                 <div className={styleCss.contentModalExcludeAdministrator}>
                     <p onClick={() => setShowModalDeleteAdministrator(false)}>X</p>
                     <Button
