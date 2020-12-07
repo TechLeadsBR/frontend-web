@@ -91,3 +91,9 @@ export const SpecifyDisability = [
     "Deficiência mental",
     "Deficiência intelectual",
 ]
+
+export const LanguageLevel = [
+    "Básico",
+    "Intermediário",
+    "Avançado",
+]

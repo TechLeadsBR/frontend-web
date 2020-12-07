@@ -14,6 +14,7 @@ import {
     SpecifyDisability
 } from '../../services/constants/data'
 import { formNewStudent, formNewAddress } from './../../services/constants/templates'
+// import { LanguageLevel } from '../../services/constants/data'
 import { messageToast, functionAfterTime } from './../../services/functions'
 import { useHistory } from 'react-router-dom'
 import { studentActions, addressActions } from './../../actions'
@@ -301,6 +302,52 @@ export default function CadastroAluno() {
                     options={Object.keys(BehavioralProfiles).map(p => p)}
                     callbackChangedValue={(value) => setStateNewStudent("perfilComportamental", value)}
                 />
+    {/*  
+                <h2>Experiencia Profissional</h2>
+                <Input
+                    labelText={"Empresa"}
+                    name={"company"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("empresa", event.target.value)}
+                />
+                <Input
+                    labelText={"Cargo"}
+                    name={"occupation"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("cargo", event.target.value)}
+                />
+
+                <Input
+                    labelText={"Data Inicio"}
+                    name={"datestart"}
+                    type={"date"}
+                    onChange={event => internSetStateForm("DataInico", event.target.value)}
+                />
+
+                <Input
+                    labelText={"Data Fim"}
+                    name={"dateEnd"}
+                    type={"date"}
+                    onChange={event => internSetStateForm("DataFim", event.target.value)}
+                />
+
+                <TextArea
+                    labelText={"Descrição"}
+                />
+                
+                <Input
+                    labelText={"Idioma:"}
+                    name={"language"}
+                    type={"text"}
+                    onChange={event => internSetStateForm("idioma", event.target.value)}
+                />
+                <Select
+                    labelText={"Nível:"}
+                    name={"languageLevel"}
+                    options={LanguageLevel}
+                    callbackChangedValue={(value) => internSetStateForm("nivel", value)}
+                />
+*/}
                 <div className={stylesCss.divButton}>
                     <Button
                         text={"Concluir Cadastro"}
