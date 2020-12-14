@@ -27,14 +27,14 @@ export default function CardJob({
             <img src={srcImgCompany} alt={`Logo empresa ${nameCompany}`}/>
             <div className={stylesCss.jobInformations}>
                 <div>
-                    <p>{title}</p>
-                    <p>Empresa: {nameCompany}</p>
-                    <p>Nível: {level}</p>
-                    <p>Local: {local}</p>
+                    <p><b>{title}</b></p>
+                    <p><b>Empresa: </b>{nameCompany}</p>
+                    <p><b>Nível: </b>{level}</p>
+                    <p><b>Local: </b>{local}</p>
                 </div>
                 <div></div>
                 <div>
-                    <p>Descrição</p>
+                    <b><p>Descrição: </p></b>
                     <p>{description}</p>
                 </div>
             </div>

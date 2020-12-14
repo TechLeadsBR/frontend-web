@@ -47,7 +47,7 @@ export default function PerfilEmpresa() {
                     <p><b>Telefone:</b> {telefone}</p>
                 </div>
                 <div className={stylesCss.behavioralProfile}>
-                    <p>Descrição: {descricaoEmpresa} </p>
+                    <p><b>Descrição: </b>{descricaoEmpresa} </p>
                 </div>
             </div>
         )

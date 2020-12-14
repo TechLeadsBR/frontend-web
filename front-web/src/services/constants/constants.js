@@ -1,4 +1,4 @@
-export const BASE_URL_API = "http://225a4719f9e0.ngrok.io"
+export const BASE_URL_API = "http://localhost:5000"
 
 export const KEY_USER_JWT = "user-talentos-senai-jwt"
 
