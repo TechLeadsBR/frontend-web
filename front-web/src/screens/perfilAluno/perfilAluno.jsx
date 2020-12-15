@@ -81,9 +81,9 @@ export default function PerfilAluno() {
             }}>
                 <div className={stylesCss.userData}>
                     <p>Dados Pessoais</p>
-                    <p>Nome: {nome}</p>
-                    <p>E-mail: {email}</p>
-                    <p>Telefone: {telefone}</p>
+                    <p><b>Nome: </b>{nome}</p>
+                    <p><b>E-mail: </b>{email}</p>
+                    <p><b>Telefone: </b>{telefone}</p>
                 </div>
 
                 <div className={stylesCss.behavioralProfile}>
@@ -97,8 +97,8 @@ export default function PerfilAluno() {
                     </div>
                     <div>
                         <p>Perfil Comportamental</p>
-                        <p>Visualizar |</p>
-                        <p>Editar</p>
+                        <p><b>Visualizar </b>|</p>
+                        <p><b>Editar</b></p>
                     </div>
                 </div>
             </div>
