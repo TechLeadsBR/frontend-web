@@ -52,13 +52,13 @@ export default function PerfilAluno() {
     const getStudentAnimalProfile = useCallback((perfilComportamental) => {
         switch (perfilComportamental) {
             case "Aguia":
-                return BehavioralProfiles.Aguia
+                return BehavioralProfiles.Eagle
             case "Tubarao":
-                return BehavioralProfiles.Tubarao
+                return BehavioralProfiles.Shark
             case "Lobo":
-                return BehavioralProfiles.Lobo
+                return BehavioralProfiles.Wolf
             case "Gato":
-                return BehavioralProfiles.Gato
+                return BehavioralProfiles.Cat
             default:
                 return ""
         }

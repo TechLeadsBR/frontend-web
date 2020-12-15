@@ -4,7 +4,7 @@ import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
 import { Link, useHistory } from 'react-router-dom'
-import { logoVermelha } from './../../assets/images'
+import { Images } from './../../assets/images'
 
 function Header({ typeHeader = null, callback }) {
 
@@ -103,7 +103,7 @@ function Header({ typeHeader = null, callback }) {
             <nav className={stylesCss.navBar}>
                 <div>
                     <Link to={linkRedirectLogoHeader(typeHeader)}>
-                        <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
+                        <img src={Images.logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
                 {typeHeader && <MenuIconHeader typeHeader={typeHeader} />}

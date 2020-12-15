@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import stylesCss from './menuIconHeader.module.css'
 import { Link } from 'react-router-dom'
-import { iconUser } from './../../assets/images'
+import { Images } from './../../assets/images'
 
- export default function MenuIconHeader({ typeHeader }) {
-    
+export default function MenuIconHeader({ typeHeader }) {
+
     const [stateNavigationLinksList, setStateNavigationLinksList] = useState(false)
-    
+
     const listLinks = useMemo(() => {
         switch (typeHeader) {
             case "student": return <li><Link to="/">Vagas</Link></li>
@@ -20,13 +20,13 @@ import { iconUser } from './../../assets/images'
                     </>
                 )
             }
-            case "home": 
+            case "home":
                 return (
                     <>
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/cadastro">Cadastre-se</Link></li>
                     </>
-                ) 
+                )
             default: return <></>
         }
     }, [typeHeader])
@@ -48,11 +48,11 @@ import { iconUser } from './../../assets/images'
             onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}
         >
             <nav>
-                {stateNavigationLinksList && navigationLinksList} 
+                {stateNavigationLinksList && navigationLinksList}
                 <img
-                    src={iconUser}
+                    src={Images.iconUser}
                     alt={"Icone representando um usuario"}
-                 />
+                />
             </nav>
         </div>
     )

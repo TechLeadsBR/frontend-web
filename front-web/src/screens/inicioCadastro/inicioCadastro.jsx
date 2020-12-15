@@ -10,11 +10,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { Colors } from '../../services/constants/constants'
 import { saveInSessionStorage } from './../../services/functions'
 import { messageToast, functionAfterTime } from './../../services/functions'
-import { 
-    logoVermelha, 
-    imgAmbienteDeTrabalho, 
-    imgAmbienteDeTrabalhoCompanyRender 
-} from './../../assets/images'
+import { Images } from './../../assets/images'
 
 
 export default function InicioCadastro() {
@@ -50,7 +46,7 @@ export default function InicioCadastro() {
         return (
             <div className={stylesCss.registrationForm}>
                 <div>
-                    <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
+                    <img src={Images.logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     <form>
                         <Input
                             type={"number"}
@@ -84,7 +80,7 @@ export default function InicioCadastro() {
     const childFilmFrameCompany = generateContentChildFilmFrame("Encontre seu talento")
 
     // decisions
-    const imgFilmFrame = user === "aluno" ? imgAmbienteDeTrabalho : imgAmbienteDeTrabalhoCompanyRender
+    const imgFilmFrame = user === "aluno" ? Images.imgAmbienteDeTrabalho : Images.imgAmbienteDeTrabalhoCompanyRender
     const rgbaFilmFrame = user === "aluno" ? Colors.red.rgb + ", 0.6" : Colors.matteBlack.rgb + ", 0.6"
     const childFilmFrame = user === "aluno" ? childFilmFrameStudent : childFilmFrameCompany
 

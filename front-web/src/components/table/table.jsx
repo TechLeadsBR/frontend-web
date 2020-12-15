@@ -1,6 +1,6 @@
 import React from 'react'
 import stylesCss from './table.module.css'
-import { iconPenAction } from './../../assets/images'
+import { Images } from './../../assets/images'
 
 export default function Table({
     columnsTable,
@@ -17,7 +17,7 @@ export default function Table({
             <td>
                 <img
                     className={stylesCss.iconPenActionStyle}
-                    src={iconPenAction}
+                    src={Images.iconPenAction}
                     alt={"Icon pen action"}
                     onClick={() => {
                         if (callbackAction) callbackAction(true)

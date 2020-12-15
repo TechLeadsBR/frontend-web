@@ -62,7 +62,7 @@ export default function CandidatosAdm() {
     const deleteCandidate = useCallback(async () => {
         studentActions.deleteStudent(changeData.idAluno)
             .then(() => {
-                messageToast("Usuário deletado com sucuesso!", "success")
+                messageToast("Usuário deletado com sucesso!", "success")
                 functionAfterTime(1500, () => setShowModal(false))
             })
             .catch(() => messageToast("Impossível excluir registro no momento", "error") )

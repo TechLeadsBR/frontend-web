@@ -1,33 +1,27 @@
 import React, { memo } from 'react'
 import stylesCss from './footer.module.css'
-import {
-    logoBranca,
-    facebookIcon,
-    linkedinIcon,
-    youtubeIcon,
-    twitterIcon
-} from './../../assets/images'
+import { Images } from './../../assets/images'
 
 function Footer(){
 
     const socialMedia = [
         { 
-            icon: facebookIcon, 
+            icon: Images.facebookIcon, 
             alt: "Midia social Facebook", 
             link: "https://pt-br.facebook.com/senaiinformatica/" 
         },
         { 
-            icon: linkedinIcon, 
+            icon: Images.linkedinIcon, 
             alt: "Midia social Linkedin", 
             link: "https://www.linkedin.com/school/senaiinfo/?originalSubdomain=br"
         },
         { 
-            icon: youtubeIcon, 
+            icon: Images.youtubeIcon, 
             alt: "Midia social YouTube", 
             link: "https://www.youtube.com/channel/UCIrKFzk1K-eOQ70NOsm587A"
         },
         { 
-            icon: twitterIcon, 
+            icon: Images.twitterIcon, 
             alt: "Midia social Twitter", 
             link: "https://twitter.com/senaiinfo"
         },
@@ -37,7 +31,7 @@ function Footer(){
         <footer className={stylesCss.root}>
             <div>
                 <div>
-                    <img src={logoBranca} alt={'Logo branca do projeto'} />
+                    <img src={Images.logoBranca} alt={'Logo branca do projeto'} />
                 </div>
                 <div>
                     <b>ESCOLA SENAI DE INFORMÁTICA</b>

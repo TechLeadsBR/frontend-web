@@ -10,7 +10,7 @@ import LoadingPage from './../../components/loadingPage/loadingPage'
 import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../../services/functions'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { loginActions } from './../../actions'
-import { logoVermelha } from './../../assets/images'
+import { Images } from './../../assets/images'
 
 function Login() {
 
@@ -50,7 +50,7 @@ function Login() {
 
     const childModalFormLogin = (
         <div className={stylesCss.childModalFormLogin}>
-            <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
+            <img src={Images.logoVermelha} alt={"Logo Talentos SENAI"} />
             <b>{titleModal}</b>
             <form>
                 <Input

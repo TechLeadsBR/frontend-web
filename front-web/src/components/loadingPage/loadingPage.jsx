@@ -1,12 +1,12 @@
 import React, { memo } from 'react'
 import stylesCss from './loadingPage.module.css'
-import { iconLoading } from './../../assets/images'
+import { Images } from './../../assets/images'
 
-function LoadingPage({ visible }){
+function LoadingPage({ visible }) {
 
     return (
         visible && <div className={stylesCss.root}>
-            <img src={iconLoading} alt={"Rotate icon"} />
+            <img src={Images.iconLoading} alt={"Rotate icon"} />
         </div>
     )
 }

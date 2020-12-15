@@ -1,6 +1,6 @@
 import React from 'react'
 import stylesCss from './fileUploadInput.module.css'
-import { iconUploadFile } from './../../assets/images'
+import { Images } from './../../assets/images'
 import { useState } from 'react'
 import { useRef } from 'react'
 
@@ -17,7 +17,7 @@ export default function FileUploadInput({ callbackWithFile }) {
     return (
         <div className={stylesCss.root}>
             <label htmlFor={"img"}>
-                <img src={iconUploadFile} alt={"Icone upload file"} />
+                <img src={Images.iconUploadFile} alt={"Icone upload file"} />
             </label>
             <div>
                 {!nameFile ? <label htmlFor={"img"}>Carregue sua imagem...</label> :

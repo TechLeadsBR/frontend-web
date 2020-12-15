@@ -28,7 +28,7 @@ import iconCatProfile from './icons/catProfile.png'
 import iconEagleProfile from './icons/eagleProfile.png'
 import iconWolfProfile from './icons/wolfProfile.png'
 
-export {
+export const Images = {
     imgAmbienteTrabalho,
     imgAmbienteTrabalhoCompanyRender,
     imgLogoBrq,
