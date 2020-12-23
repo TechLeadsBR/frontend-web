@@ -4,7 +4,8 @@ import {
     decryptPayloadJwtAndReturnObject as decrypt,
     getInLocalStorage,
     removeInLocalStorage,
-    getRoleInToken
+    getRoleInToken,
+    breakToken
 } from './../../services/functions'
 import { KEY_USER_JWT } from './../../services/constants/constants'
 import { Route, Redirect } from 'react-router-dom'
@@ -18,16 +19,9 @@ export default function RoutePermission({ path, role, component: Component }) {
     const verificationUserToRoute = (props) => {
         if (authenticated()) {
 
-            const nowTime = new Date()
-            const timestampNow = new Date(nowTime).getTime()
+            const timestampNow = new Date().valueOf()
             const expToken = token()["exp"]
-
-            console.log("aquii")
-            console.log(token()["exp"])
-            console.log(timestampNow)
-
-            if (expToken < timestampNow) console.log("Não expirou")
-            if (expToken > timestampNow) console.log("Expirou")
+            if (expToken < timestampNow) breakToken()
 
             return roleUser() === role ? <Component {...props} /> : <Redirect to="/" />
         } else {

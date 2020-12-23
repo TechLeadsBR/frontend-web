@@ -7,7 +7,7 @@ import TextArea from './../../components/textAreaInput/textAreaInput'
 import SimpleFooter from './../../components/simplefooter/simplefooter'
 import ReactToast from './../../components/reactToast/reactToast'
 import { formNewCompany } from './../../services/constants/templates'
-import { messageToast } from './../../services/functions'
+import { messageToast, functionAfterTime } from './../../services/functions'
 import { companyActions } from './../../actions'
 import { useHistory } from 'react-router-dom'
 
@@ -49,7 +49,7 @@ export default function CadastroEmpresa() {
         companyActions.registerNewCompany(newCompany)
             .then(() => {
                 messageToast("Empresa cadastrada com sucesso!", "success")
-                history.push("/login/empresa")
+                functionAfterTime(5000, () => history.push("/login/empresa"))                 
             })
             .catch(() => messageToast("Ocorreu um erro, verifique os dados digitados", "error"))
     }
