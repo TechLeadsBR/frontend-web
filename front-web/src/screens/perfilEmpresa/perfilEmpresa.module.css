@@ -1,0 +1,43 @@
+.childUserInformations {
+    width: 70%;
+    height: 40%;
+    display: flex;
+    justify-content: space-around;
+    
+}
+.userData {
+    height: 100%;
+    line-height: 1.8em;
+}
+.userData > p:nth-child(1) {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.behavioralProfile{
+    display: flex;
+    justify-content: center;
+}
+
+.cardsJobApplication {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardsJobApplication > h1:nth-child(1) {
+    margin: 40px 0;
+    border-bottom: 2px solid #000000;
+}
+
+.cardsJobApplication > div:nth-child(2) {
+    width: 60%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardsJobApplication > div:nth-child(2) > small {
+    text-align: center;
+}

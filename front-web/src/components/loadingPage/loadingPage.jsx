@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { memo } from 'react'
 import stylesCss from './loadingPage.module.css'
-import iconLoading from './../../assets/images/icons/loading.png'
+import { Images } from './../../assets/images'
 
-export default function LoadinPage(){
+function LoadingPage({ visible }) {
 
     return (
-        <div className={stylesCss.root}>
-            <img src={iconLoading} alt={"Rotate icon"} />
+        visible && <div className={stylesCss.root}>
+            <img src={Images.iconLoading} alt={"Rotate icon"} />
         </div>
     )
 }
+
+export default memo(LoadingPage)

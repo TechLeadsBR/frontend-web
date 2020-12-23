@@ -1,36 +1,57 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import stylesCss from './login.module.css'
 import Input from './../../components/input/input'
 import Button from './../../components/button/button'
 import Header from './../../components/header/header'
 import Footer from './../../components/footer/footer'
 import Modal from './../../components/modal/modal'
-import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
-import { Colors } from '../../services/constants/constants'
+import ReactToast from './../../components/reactToast/reactToast'
+import LoadingPage from './../../components/loadingPage/loadingPage'
+import { functionAfterTime, saveTokenInLocalStorage, messageToast } from './../../services/functions'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { requestAPI } from './../../services/api'
+import { loginActions } from './../../actions'
+import { Images } from './../../assets/images'
 
-export default function Login() {
+function Login() {
 
     const history = useHistory()
-    const { administrator } = useParams()
-    const [login, setLogin] = useState({ email: null, password: null })
-    
-    useEffect(() => {
-        if(administrator !== undefined && administrator !== "administrator") history.push("/")
-    })
+    const { user } = useParams()
+    const [login, setLogin] = useState({ email: null, senha: null })
+    const [showLoadingIcon, setShowLoadingIcon] = useState(true)
 
-    const isAdministrator = administrator === "administrator"
+    const verifyUser = useCallback(() => {
+        if (user !== undefined
+            && user !== "administrador"
+            && user !== "aluno"
+            && user !== "empresa"
+        ) history.push("/")
+    }, [history, user])
+
+    useEffect(() => {
+        verifyUser()
+    }, [verifyUser])
+
+    const titleModal = useMemo(() => {
+        if (user === "aluno") return "Acesse sua conta como Aluno"
+        if (user === "empresa") return "Acesse sua conta como Empresa"
+        if (user === "administrador") return "Acesse sua conta como Administrador"
+    }, [user])
 
     const requestApiLogin = async () => {
-        await requestAPI("/login")
-        
+        loginActions.loginUser(user, login)
+            .then(request => {
+                messageToast("Login realizado com sucesso!", "success")
+                saveTokenInLocalStorage(request.data.message)
+                const pushUser = user === "aluno" ? "/perfil-aluno" : user === "empresa" ? "/perfil-empresa" : "/inicial-administrador"
+                functionAfterTime(5000, () => history.push(pushUser))
+            })
+            .catch(() => messageToast("Usuario não encontrado!", "error"))
     }
 
     const childModalFormLogin = (
         <div className={stylesCss.childModalFormLogin}>
-            <img src={logoVermelha} alt={"Logo Talentos SENAI"} />
-            <b>Acesse sua conta</b>
+            <img src={Images.logoVermelha} alt={"Logo Talentos SENAI"} />
+            <b>{titleModal}</b>
             <form>
                 <Input
                     labelText={"E-mail"}
@@ -40,31 +61,40 @@ export default function Login() {
                 <Input
                     labelText={"Senha"}
                     type={"password"}
-                    onChange={(event) => setLogin({ ...login, password: event.target.value })}
+                    onChange={(event) => setLogin({ ...login, senha: event.target.value })}
                 />
                 <Button
-                    bgColor={Colors.red.hexadecimal}
                     text={"Entrar"}
-                    textColor={Colors.white.hexadecimal}
                     onClick={() => requestApiLogin()}
                 />
             </form>
             <div className={stylesCss.hasNoRegistration}>
-                <p>Não tem cadastro?</p><Link to="/">Registre-se</Link>
+                {user !== "administrador" && <><p>Não tem cadastro?</p><Link to={user === "aluno" ? 
+                "/inicio-cadastro/aluno" : "/inicio-cadastro/empresa"}>Registre-se</Link></>}
             </div>
         </div>
     )
 
+    const setIdToBackground = useMemo(() => {
+        if (user === "administrador") return stylesCss.administrator
+        if (user === "aluno") return stylesCss.student
+        if (user === "empresa") return stylesCss.company
+    }, [user])
 
     return (
-        <div>
+        <div onLoad={() => functionAfterTime(1600, () => setShowLoadingIcon(false))}>
+            <LoadingPage visible={showLoadingIcon} />
             <Header />
-            <div className={stylesCss.root} id={isAdministrator ? stylesCss.administrator : null}>
+            <div className={stylesCss.root} id={setIdToBackground}>
                 <Modal>
                     {childModalFormLogin}
                 </Modal>
             </div>
             <Footer />
+            <ReactToast />
         </div>
     )
 }
+
+
+export default React.memo(Login)

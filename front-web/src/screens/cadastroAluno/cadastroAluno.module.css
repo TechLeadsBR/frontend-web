@@ -19,18 +19,17 @@
 }
 
 .divButton {
-    width: 50%;
-    margin-top: 15px;
+    width: 35%;
+    margin-top: 30px;
     align-self: center;
 }
 
-.divFileInput {
-    margin: 30px 0px;
-    display: flex;
-    justify-content: flex-start;
+.divRadioInput {
+    width: 30%;
 }
 
-.divButton {
-    width: 100%;
-    margin-top: 30px;
+@media (max-width: 1024px) {
+    .formRegisterStudent {
+        width: 80%;
+    }
 }

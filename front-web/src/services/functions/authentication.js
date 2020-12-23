@@ -1,14 +1,7 @@
-import { KEY_USER_JWT } from './constants/constants'
-
-// função para salvar no localStorage
-export const saveInLocalStorage = (key, value) => localStorage.setItem(key, value)
-
-// função para pegar um valor no localStorage
-export const getInLocalStorage = (key) => localStorage.getItem(key)
+import { KEY_USER_JWT } from './../constants/constants'
+import { getInLocalStorage, removeInLocalStorage } from './index'
 
 export const verifyAuthenticatedUser = () => getInLocalStorage(KEY_USER_JWT) !== null
-
-export const removeInLocalStorage = (key) => localStorage.removeItem(key)
 
 export const decryptPayloadJwtAndReturnObject = (token) => {
     try {
@@ -26,9 +19,7 @@ export const getRoleInToken = () => {
     return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 }
 
-export const breakToken = () => {
-    removeInLocalStorage(KEY_USER_JWT)
-}
+export const breakToken = () => removeInLocalStorage(KEY_USER_JWT)
 
 export const getJtiUserInToken = () => {
     const token = getInLocalStorage(KEY_USER_JWT)

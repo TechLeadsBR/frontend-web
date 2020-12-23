@@ -1,27 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import Button from './../../components/button/button'
-import logoVermelha from './../../assets/images/logos/logo-vermelha.png'
 import stylesCss from './header.module.css'
 import MenuIconHeader from '../menuIconHeader/menuIconHeader'
 import { breakToken } from './../../services/functions'
-import { Colors } from '../../services/constants/constants'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { Images } from './../../assets/images'
 
-
-export default function Header({ typeHeader = false, srcImgUser, callback }) {
+function Header({ typeHeader = null, callback }) {
 
     const [typeRender, setTypeRender] = useState("student")
+    const history = useHistory()
 
     const listLinks = (type) => {
         switch (type) {
-            case "student": return <li><Link to="/">Vagas</Link></li>
-            case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
+            case "student": return <li><Link to="/buscar-vagas">Vagas</Link></li>
+            case "company": return <li><Link to="/gerenciar-vagas">Gerenciar Vagas</Link></li>
             case "administrator": {
                 return (
                     <>
-                        <li><Link to="/">Início</Link></li>
-                        <li><Link to="/">Candidatos</Link></li>
-                        <li><Link to="/">Empresas</Link></li>
+                        <li><Link to="/inicial-administrador">Início</Link></li>
+                        <li><Link to="/candidatos-adm">Candidatos</Link></li>
+                        <li><Link to="/empresas-adm">Empresas</Link></li>
                     </>
                 )
             }
@@ -36,31 +35,36 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
         }
     }
 
-    const userLogged = (type) => (
-        <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
-            <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
-            <img src={srcImgUser} alt={"Foto usuario x"} />
-            <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
-        </div>
-    )
+    const userLogged = (type) => {
+        const linkRedirect = type === "student" ? "/perfil-aluno" : "/perfil-empresa"
+        return (
+            <div className={stylesCss.userLogged} id={stylesCss[typeHeader + "Style"]}>
+                <ul className={stylesCss[typeHeader]}>{(listLinks(type))}</ul>
+                {(type === "student" || type === "company") && <Link to={{ pathname: linkRedirect }} >Perfil</Link>}
+                <p onClick={() => breakToken()}><Link to="/">sair</Link></p>
+            </div>
+        )
+    }
 
     const notLogged = (
         <div className={stylesCss.notLogged}>
-            <b><Link to="/login">Login</Link></b>
+            <b><Link to={`/login/${typeRender === "student" ? "aluno" : "empresa"}`}>Login</Link></b>
             <Button
-                textColor={Colors.white.hexadecimal}
-                bgColor={Colors.red.hexadecimal}
+                bgColor={typeRender === "student" ? "red" : "black"}
                 text={"Cadastre-se"}
-                onClick={() => console.log('Cadastre-se')}
+                onClick={() => {
+                    const toRegister = typeRender === "student" ? "aluno" : "empresa"
+                    history.push(`/inicio-cadastro/${toRegister}`)
+                }}
             />
         </div>
     )
 
     const linkRedirectLogoHeader = (type) => {
         switch (type) {
-            case "student": return "/vagas"
+            case "student": return "/buscar-vagas"
             case "company": return "/gerenciar-vagas"
-            case "administrator": return "/home-adm"
+            case "administrator": return "/inicial-administrador"
             case "home": return "/"
             default: return "/"
         }
@@ -76,7 +80,7 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
     //#region Relacionado ao tipo de renderização na home
     const alternatedRender = (type) => {
         setTypeRender(type)
-        if(callback) callback(type)
+        if (callback) callback(type)
     }
 
     const classBolded = (type) => typeRender === type ? stylesCss.linkBolded : null
@@ -99,7 +103,7 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
             <nav className={stylesCss.navBar}>
                 <div>
                     <Link to={linkRedirectLogoHeader(typeHeader)}>
-                        <img src={logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
+                        <img src={Images.logoVermelha} alt={"Logo vermelho Talentos SENAI"} />
                     </Link>
                 </div>
                 {typeHeader && <MenuIconHeader typeHeader={typeHeader} />}
@@ -108,3 +112,5 @@ export default function Header({ typeHeader = false, srcImgUser, callback }) {
         </header>
     )
 }
+
+export default memo(Header)

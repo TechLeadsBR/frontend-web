@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import stylesCss from './menuIconHeader.module.css'
-import iconUser from './../../assets/images/icons/user.png'
 import { Link } from 'react-router-dom'
+import { Images } from './../../assets/images'
 
 export default function MenuIconHeader({ typeHeader }) {
 
     const [stateNavigationLinksList, setStateNavigationLinksList] = useState(false)
 
-    const listLinks = () => {
+    const listLinks = useMemo(() => {
         switch (typeHeader) {
             case "student": return <li><Link to="/">Vagas</Link></li>
             case "company": return <li><Link to="/">Gerenciar Vagas</Link></li>
@@ -20,25 +20,27 @@ export default function MenuIconHeader({ typeHeader }) {
                     </>
                 )
             }
-            case "home": 
+            case "home":
                 return (
                     <>
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/cadastro">Cadastre-se</Link></li>
                     </>
-                ) 
+                )
             default: return <></>
         }
-    }
+    }, [typeHeader])
 
-    const navigationLinksList = (
-        <div className={stylesCss.rootNavigationLinksList}>
-            <ul>
-                <li onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}>X</li>
-                {listLinks()}
-            </ul>
-        </div>
-    )
+    const navigationLinksList = useMemo(() => {
+        return (
+            <div className={stylesCss.rootNavigationLinksList}>
+                <ul>
+                    <li onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}>X</li>
+                    {listLinks}
+                </ul>
+            </div>
+        )
+    }, [listLinks, stateNavigationLinksList])
 
     return (
         <div
@@ -46,11 +48,11 @@ export default function MenuIconHeader({ typeHeader }) {
             onClick={() => setStateNavigationLinksList(!stateNavigationLinksList)}
         >
             <nav>
-                {stateNavigationLinksList ? navigationLinksList : 
+                {stateNavigationLinksList && navigationLinksList}
                 <img
-                    src={iconUser}
+                    src={Images.iconUser}
                     alt={"Icone representando um usuario"}
-                 />}
+                />
             </nav>
         </div>
     )

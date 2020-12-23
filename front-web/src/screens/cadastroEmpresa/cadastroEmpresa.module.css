@@ -16,3 +16,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+.divButton{
+    width: 35%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    align-self: center;
+}
